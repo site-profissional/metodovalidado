@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agentes GPT Sniper — Crie Seu Assistente de IA Personalizado</title>
+
+  <style>
+    :root {
+      --bg:      #08090d;
+      --surf:    #0e0f16;
+      --surf2:   #13141e;
+      --border:  rgba(255,255,255,0.07);
+      --border2: rgba(255,255,255,0.13);
+      --cyan:    #00e5ff;
+      --lime:    #b6f542;
+      --purple:  #a78bfa;
+      --warm:    #ffcc48;
+      --red:     #ff6060;
+      --text:    #f0f0f8;
+      --muted:   #8486a0;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    /* NOISE */
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* LAYOUT */
+    .wrap   { max-width: 840px;  margin: 0 auto; padding: 0 20px; position: relative; z-index: 1; }
+    .wrap-w { max-width: 1080px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 1; }
+    section { position: relative; overflow: hidden; }
+    hr.div  { border: none; border-top: 1px solid var(--border); max-width: 860px; margin: 0 auto; }
+
+    /* TYPE */
+    .display {
+      font-size: clamp(2rem, 7vw, 3.6rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -1px;
+    }
+    .h2 {
+      font-size: clamp(1.55rem, 4vw, 2.3rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.4px;
+      margin-bottom: 12px;
+    }
+    .lead { color: var(--muted); font-size: clamp(.95rem, 2.2vw, 1.05rem); max-width: 580px; }
+
+    /* EYEBROW */
+    .eye {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: 11px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--cyan);
+      background: rgba(0,229,255,.07); border: 1px solid rgba(0,229,255,.2);
+      padding: 5px 14px; border-radius: 100px; margin-bottom: 18px;
+    }
+
+    /* CTA */
+    .cta {
+      display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+      background: var(--cyan); color: #000;
+      font-weight: 800; font-size: clamp(.95rem, 2vw, 1.05rem);
+      padding: 18px 36px; border-radius: 12px;
+      text-decoration: none; border: none; cursor: pointer;
+      transition: transform .2s, box-shadow .2s;
+      box-shadow: 0 10px 36px rgba(0,229,255,.28);
+      width: 100%; max-width: 500px;
+      text-align: center; line-height: 1.3;
+    }
+    .cta:hover  { transform: translateY(-3px); box-shadow: 0 18px 52px rgba(0,229,255,.42); }
+    .cta:active { transform: translateY(0); }
+
+    .cta-wrap { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+    .cta-safe { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+    .cta-safe svg { color: var(--lime); flex-shrink: 0; }
+
+    /* NAV */
+    header {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(8,9,13,.92);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav { max-width: 1080px; margin: 0 auto; padding: 14px 20px;
+      display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-weight: 800; font-size: 16px; color: var(--text); }
+    .logo span { color: var(--cyan); }
+    .nav-btn {
+      display: flex; align-items: center; gap: 7px;
+      background: var(--cyan); color: #000;
+      font-weight: 800; font-size: 13px;
+      padding: 10px 20px; border-radius: 100px;
+      text-decoration: none;
+      transition: opacity .2s, transform .2s;
+    }
+    .nav-btn:hover { opacity: .88; transform: translateY(-1px); }
+
+    /* HERO */
+    .hero { padding: 80px 0 70px; text-align: center; }
+    .hero-glow1 {
+      position: absolute; width: 800px; height: 800px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,229,255,.08) 0%, transparent 68%);
+      top: -260px; left: 50%; transform: translateX(-50%);
+      pointer-events: none;
+    }
+    .hero-glow2 {
+      position: absolute; width: 500px; height: 500px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(124,58,237,.1) 0%, transparent 70%);
+      bottom: -80px; right: -120px;
+      pointer-events: none;
+    }
+    .grid-bg {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(0,229,255,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,229,255,.035) 1px, transparent 1px);
+      background-size: 56px 56px;
+      pointer-events: none;
+    }
+
+    .badge-lime {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--lime);
+      background: rgba(182,245,66,.08); border: 1px solid rgba(182,245,66,.22);
+      padding: 6px 16px; border-radius: 100px;
+      margin-bottom: 28px;
+      animation: fd .6s ease both;
+    }
+
+    .display { animation: fd .7s .1s ease both; margin-bottom: 22px; }
+    .display .c { color: var(--cyan); }
+    .display .g { color: var(--lime); }
+    .display em { font-style: normal; position: relative; display: inline-block; }
+    .display em::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 3px; background: var(--cyan); border-radius: 2px;
+      transform: scaleX(0);
+      animation: ul .5s .9s ease forwards;
+    }
+    @keyframes ul { to { transform: scaleX(1); } }
+
+    .hero-sub {
+      font-size: clamp(.95rem, 2.4vw, 1.1rem);
+      color: var(--muted); max-width: 600px; margin: 0 auto 40px;
+      animation: fd .7s .2s ease both;
+    }
+    .hero-sub strong { color: var(--text); font-weight: 600; }
+
+    .vid-wrap {
+      max-width: 700px; margin: 0 auto 44px;
+      border-radius: 18px; overflow: hidden;
+      border: 1px solid rgba(0,229,255,.14);
+      box-shadow: 0 0 0 1px var(--border), 0 50px 100px rgba(0,0,0,.65), 0 0 60px rgba(0,229,255,.05);
+      animation: fu .8s .3s ease both;
+    }
+    .vid-ph {
+      aspect-ratio: 16/9;
+      background: linear-gradient(135deg, #0e0f16 0%, #12132a 100%);
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px;
+      position: relative; cursor: pointer;
+    }
+    .vid-ph::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(0,229,255,.03) 1px,transparent 1px),
+                        linear-gradient(90deg,rgba(0,229,255,.03) 1px,transparent 1px);
+      background-size: 38px 38px;
+    }
+    .play {
+      width: 80px; height: 80px; background: var(--cyan); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 0 14px rgba(0,229,255,.07), 0 0 50px rgba(0,229,255,.38);
+      transition: transform .22s, box-shadow .22s;
+      position: relative; z-index: 1;
+    }
+    .play:hover { transform: scale(1.1); box-shadow: 0 0 0 18px rgba(0,229,255,.1), 0 0 70px rgba(0,229,255,.5); }
+    .play svg { margin-left: 5px; }
+    .vid-lbl { color: var(--muted); font-size: 13px; position: relative; z-index: 1; }
+
+    .hero-cta { animation: fu .8s .42s ease both; }
+
+    /* STRIP */
+    .strip { background: var(--surf); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 18px 0; }
+    .strip-in {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+      gap: 10px 28px; font-size: 13px; color: var(--muted);
+    }
+    .strip-item { display: flex; align-items: center; gap: 7px; }
+    .strip-item strong { color: var(--text); font-weight: 700; }
+    .pip { width: 4px; height: 4px; border-radius: 50%; background: var(--border2); }
+    @media(max-width:480px){ .pip { display: none; } }
+
+    /* SECTIONS */
+    .sec { padding: 90px 0; }
+    @media(max-width:640px){ .sec { padding: 64px 0; } }
+
+    /* PROBLEMA */
+    .prob-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 44px; }
+    @media(max-width:580px){ .prob-grid { grid-template-columns: 1fr; } }
+    .prob-card {
+      background: var(--surf); border: 1px solid var(--border); border-radius: 14px;
+      padding: 22px; display: flex; gap: 14px; align-items: flex-start;
+      transition: border-color .2s;
+    }
+    .prob-card:hover { border-color: rgba(255,96,96,.25); }
+    .prob-ico {
+      width: 40px; height: 40px; min-width: 40px;
+      background: rgba(255,96,96,.1); border: 1px solid rgba(255,96,96,.2);
+      border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px;
+    }
+    .prob-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 5px; }
+    .prob-card p  { font-size: 13px; color: var(--muted); line-height: 1.55; }
+
+    /* VS */
+    .vs-wrap {
+      background: var(--surf); border: 1px solid var(--border); border-radius: 18px;
+      padding: 36px; margin-top: 44px; position: relative; overflow: hidden;
+    }
+    .vs-wrap::after {
+      content: '';
+      position: absolute; top: 0; right: 0;
+      width: 280px; height: 280px;
+      background: radial-gradient(circle, rgba(182,245,66,.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .vs-grid { display: grid; grid-template-columns: 1fr 48px 1fr; gap: 24px; align-items: center; }
+    @media(max-width:600px){ .vs-grid { grid-template-columns: 1fr; } .vs-sep { display: none; } }
+    .vs-side h3 { font-size: 16px; font-weight: 700; margin-bottom: 14px; }
+    .vs-side.bad h3  { color: var(--red); }
+    .vs-side.good h3 { color: var(--lime); }
+    .vs-row { display: flex; align-items: flex-start; gap: 9px; font-size: 13px; color: var(--muted); margin-bottom: 10px; line-height: 1.5; }
+    .vs-sep { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; }
+    .vs-line { flex: 1; width: 1px; background: var(--border2); }
+    .vs-pill {
+      background: var(--bg); border: 1px solid var(--border2); color: var(--muted);
+      font-size: 12px; font-weight: 700; padding: 6px 11px; border-radius: 100px;
+    }
+
+    /* SOLUTION */
+    .sol-box {
+      background: var(--surf); border: 1px solid var(--border); border-left: 3px solid var(--cyan);
+      border-radius: 14px; padding: 28px; margin-top: 36px;
+      font-size: 15px; line-height: 1.78;
+    }
+    .sol-box strong { color: var(--cyan); font-weight: 600; }
+    .author {
+      display: flex; align-items: center; gap: 16px;
+      background: var(--surf); border: 1px solid var(--border2);
+      border-radius: 14px; padding: 20px 22px; margin-top: 20px;
+    }
+    .av {
+      width: 54px; height: 54px; min-width: 54px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--cyan), #7c3aed);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 20px; color: #000;
+    }
+    .av-info h4 { font-size: 14px; font-weight: 700; }
+    .av-info p  { font-size: 13px; color: var(--muted); }
+
+    /* MÓDULOS */
+    .mod-list { margin-top: 44px; display: flex; flex-direction: column; gap: 12px; }
+    .mod {
+      background: var(--surf); border: 1px solid var(--border); border-radius: 14px;
+      padding: 22px; display: flex; gap: 18px; align-items: flex-start;
+      transition: border-color .2s, transform .22s;
+    }
+    .mod:hover { border-color: rgba(0,229,255,.28); transform: translateX(3px); }
+    .mod-n {
+      min-width: 38px; height: 38px;
+      background: var(--surf2); border: 1px solid var(--border2); border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 800; color: var(--cyan);
+    }
+    .mod h3 { font-size: 15px; font-weight: 700; margin-bottom: 5px; }
+    .mod p  { font-size: 13px; color: var(--muted); line-height: 1.58; }
+    .tag {
+      display: inline-block; font-size: 10px; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 3px 10px; border-radius: 100px; margin-top: 8px;
+    }
+    .t-cyan   { background: rgba(0,229,255,.09);   color: var(--cyan);   border: 1px solid rgba(0,229,255,.2); }
+    .t-lime   { background: rgba(182,245,66,.09);  color: var(--lime);   border: 1px solid rgba(182,245,66,.2); }
+    .t-purple { background: rgba(167,139,250,.1);  color: var(--purple); border: 1px solid rgba(167,139,250,.22); }
+
+    /* USE CASES */
+    .cases-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 44px; }
+    @media(max-width:680px){ .cases-grid { grid-template-columns: 1fr 1fr; } }
+    @media(max-width:420px){ .cases-grid { grid-template-columns: 1fr; } }
+    .case {
+      background: var(--surf); border: 1px solid var(--border); border-radius: 14px;
+      padding: 22px 18px; transition: border-color .2s, transform .22s;
+    }
+    .case:hover { border-color: rgba(0,229,255,.22); transform: translateY(-3px); }
+    .case-ico { font-size: 26px; margin-bottom: 12px; display: block; }
+    .case h3 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+    .case p  { font-size: 13px; color: var(--muted); line-height: 1.52; }
+
+    /* BULLETS */
+    .bul-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; margin-top: 44px; }
+    @media(max-width:560px){ .bul-grid { grid-template-columns: 1fr; } }
+    .bul {
+      background: var(--surf); border: 1px solid var(--border); border-radius: 13px;
+      padding: 20px; display: flex; gap: 12px; align-items: flex-start;
+    }
+    .bul-chk { color: var(--lime); font-size: 16px; min-width: 18px; margin-top: 1px; }
+    .bul p { font-size: 13px; line-height: 1.55; }
+    .bul p strong { color: var(--text); font-weight: 600; }
+    .bul p span   { color: var(--muted); }
+
+    /* BONUS */
+    .bonus {
+      background: linear-gradient(135deg, rgba(255,204,72,.07) 0%, rgba(255,204,72,.02) 100%);
+      border: 1.5px solid rgba(255,204,72,.24); border-radius: 20px;
+      padding: 38px; display: flex; gap: 28px; align-items: center; margin-top: 40px;
+    }
+    @media(max-width:600px){ .bonus { flex-direction: column; padding: 26px 22px; } }
+    .bonus-ico {
+      min-width: 78px; height: 78px;
+      background: rgba(255,204,72,.1); border: 1px solid rgba(255,204,72,.24);
+      border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 36px;
+    }
+    .bonus-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: var(--warm); color: #1a1200;
+      font-size: 10px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;
+      padding: 4px 12px; border-radius: 100px; margin-bottom: 12px;
+    }
+    .bonus h3 { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
+    .bonus p  { color: var(--muted); font-size: 14px; line-height: 1.62; }
+    .bonus-tag {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: rgba(182,245,66,.07); border: 1px solid rgba(182,245,66,.2);
+      color: var(--lime); font-size: 13px; font-weight: 700;
+      padding: 9px 16px; border-radius: 10px; margin-top: 16px;
+    }
+
+    /* PREÇO */
+    .price-sec {
+      padding: 90px 0;
+      background: linear-gradient(180deg, transparent 0%, rgba(0,229,255,.025) 50%, transparent 100%);
+    }
+    @media(max-width:640px){ .price-sec { padding: 64px 0; } }
+    .price-card {
+      background: var(--surf);
+      border: 1.5px solid rgba(0,229,255,.18);
+      border-radius: 22px;
+      padding: 44px 38px;
+      max-width: 580px; margin: 44px auto 0;
+      text-align: center;
+      position: relative; overflow: hidden;
+      box-shadow: 0 0 90px rgba(0,229,255,.055), 0 40px 80px rgba(0,0,0,.45);
+    }
+    @media(max-width:500px){ .price-card { padding: 30px 18px; } }
+    .price-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+    }
+    .price-label {
+      display: inline-block;
+      background: rgba(0,229,255,.09); border: 1px solid rgba(0,229,255,.2);
+      color: var(--cyan); font-size: 11px; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase;
+      padding: 6px 18px; border-radius: 100px; margin-bottom: 26px;
+    }
+    .price-inc { text-align: left; margin-bottom: 28px; }
+    .price-inc-h { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+    .price-row { display: flex; align-items: center; gap: 10px; padding: 9px 0; font-size: 14px; border-bottom: 1px solid var(--border); }
+    .price-row:last-child { border-bottom: none; }
+    .price-row .chk { color: var(--lime); font-size: 14px; flex-shrink: 0; }
+    .price-old { color: var(--muted); font-size: 14px; text-decoration: line-through; margin-bottom: 4px; }
+    .price-big {
+      font-size: clamp(3.4rem, 14vw, 5.8rem);
+      font-weight: 800; line-height: 1; letter-spacing: -3px;
+      color: var(--text); margin-bottom: 8px;
+    }
+    .price-big sup { font-size: 32%; letter-spacing: 0; color: var(--muted); vertical-align: super; }
+    .price-note { font-size: 13px; color: var(--muted); margin-bottom: 32px; }
+
+    .guar {
+      display: flex; align-items: center; gap: 14px;
+      background: rgba(182,245,66,.055); border: 1px solid rgba(182,245,66,.17);
+      border-radius: 13px; padding: 16px 18px; margin-top: 20px; text-align: left;
+    }
+    .guar-ico { font-size: 30px; min-width: 36px; }
+    .guar h4  { font-size: 13px; font-weight: 700; color: var(--lime); margin-bottom: 3px; }
+    .guar p   { font-size: 12px; color: var(--muted); line-height: 1.4; }
+
+    /* FAQ */
+    .faq-list { margin-top: 44px; display: flex; flex-direction: column; gap: 9px; }
+    .faq {
+      background: var(--surf); border: 1px solid var(--border);
+      border-radius: 13px; overflow: hidden; transition: border-color .2s;
+    }
+    .faq[open] { border-color: rgba(0,229,255,.2); }
+    .faq summary {
+      padding: 18px 22px;
+      font-size: 15px; font-weight: 700;
+      cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center; gap: 10px;
+      list-style: none; user-select: none;
+    }
+    .faq summary::-webkit-details-marker { display: none; }
+    .faq-arr { font-size: 20px; color: var(--cyan); transition: transform .28s; line-height: 1; flex-shrink: 0; }
+    .faq[open] .faq-arr { transform: rotate(45deg); }
+    .faq-body {
+      padding: 14px 22px 20px;
+      font-size: 14px; color: var(--muted); line-height: 1.7;
+      border-top: 1px solid var(--border);
+    }
+
+    /* URGÊNCIA */
+    .urg-card {
+      background: linear-gradient(135deg, rgba(0,229,255,.05) 0%, rgba(124,58,237,.055) 100%);
+      border: 1px solid rgba(0,229,255,.14);
+      border-radius: 20px; padding: 60px 40px;
+      max-width: 700px; margin: 0 auto;
+      text-align: center; position: relative; overflow: hidden;
+    }
+    @media(max-width:600px){ .urg-card { padding: 40px 22px; } }
+    .urg-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+    }
+    .urg-card h2 { font-size: clamp(1.55rem, 4vw, 2.2rem); font-weight: 800; margin-bottom: 14px; letter-spacing: -0.4px; }
+    .urg-card p  { color: var(--muted); margin-bottom: 36px; font-size: 15px; }
+
+    /* PS */
+    .ps-wrap { max-width: 700px; margin: 0 auto; padding: 40px 20px 90px; }
+    .ps {
+      background: var(--surf); border: 1px solid var(--border);
+      border-left: 3px solid var(--cyan); border-radius: 13px;
+      padding: 26px 28px; font-size: 14px; line-height: 1.75; color: var(--muted);
+    }
+    .ps strong { color: var(--text); font-weight: 600; }
+    .ps a { color: var(--cyan); font-weight: 700; text-decoration: none; }
+    .ps a:hover { text-decoration: underline; }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 20px; text-align: center;
+      font-size: 12px; color: var(--muted);
+    }
+
+    /* STICKY MOBILE */
+    .sticky {
+      display: none;
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background: rgba(8,9,13,.96); backdrop-filter: blur(20px);
+      border-top: 1px solid var(--border);
+      padding: 10px 18px; z-index: 98;
+      align-items: center; justify-content: space-between; gap: 12px;
+    }
+    @media(max-width:620px){ .sticky { display: flex; } }
+    .sticky-price { font-size: 22px; font-weight: 800; }
+    .sticky-btn {
+      background: var(--cyan); color: #000;
+      font-weight: 800; font-size: 14px;
+      padding: 12px 22px; border-radius: 10px; text-decoration: none; white-space: nowrap;
+    }
+
+    /* ANIMATIONS */
+    @keyframes fd { from { opacity:0; transform:translateY(-20px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes fu { from { opacity:0; transform:translateY(28px); }  to { opacity:1; transform:translateY(0); } }
+
+    .rev { opacity:0; transform:translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+    .rev.in { opacity:1; transform:translateY(0); }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<header>
+  <div class="nav">
+    <div class="logo">Agentes<span>GPT</span></div>
+    <a href="#comprar" class="nav-btn">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+      Quero Meu Agente
+    </a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="grid-bg"></div>
+  <div class="hero-glow1"></div>
+  <div class="hero-glow2"></div>
+  <div class="wrap">
+
+    <div><span class="badge-lime">⚡ Exclusivo — Alunos do Diego &amp; Empreendedores Digitais</span></div>
+
+    <h1 class="display" style="margin-top:4px;">
+      Pare de Usar IA Genérica.<br>
+      Crie um Agente GPT <span class="g">Sniper</span><br>
+      que Resolve <em class="c">Qualquer Problema</em>
+    </h1>
+
+    <p class="hero-sub">
+      O ChatGPT já é poderoso. Mas um agente <strong>treinado, personalizado e focado no seu problema específico</strong> é como ter um especialista sênior disponível 24h — para vendas, conteúdo, suporte, tecnologia ou o que você quiser.
+    </p>
+
+    <div class="vid-wrap">
+      <!--
+        PARA ADICIONAR SEU VÍDEO:
+        Substitua o div.vid-ph por:
+        <div style="position:relative;padding-top:56.25%;">
+          <iframe src="https://www.youtube.com/embed/SEU_VIDEO_ID"
+            style="position:absolute;inset:0;width:100%;height:100%;border:none;"
+            allowfullscreen></iframe>
+        </div>
+      -->
+      <div class="vid-ph">
+        <div class="play">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="#000"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <span class="vid-lbl">Veja a apresentação completa do treinamento</span>
+      </div>
+    </div>
+
+    <div class="cta-wrap hero-cta">
+      <a href="#comprar" class="cta">🎯 Quero Criar Meu Agente GPT Agora</a>
+      <span class="cta-safe">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.5 3.8 10.74 9 12 5.2-1.26 9-6.5 9-12V5l-9-4z"/></svg>
+        Acesso imediato · Pagamento 100% seguro
+      </span>
+    </div>
+
+  </div>
+</section>
+
+<!-- STRIP -->
+<div class="strip">
+  <div class="strip-in">
+    <div class="strip-item">🎯 <strong>100% prático</strong> — em vídeo</div>
+    <div class="pip"></div>
+    <div class="strip-item">🤖 <strong>Sem código</strong> — zero programação</div>
+    <div class="pip"></div>
+    <div class="strip-item">♾️ <strong>Acesso vitalício</strong></div>
+    <div class="pip"></div>
+    <div class="strip-item">🔓 <strong>Qualquer nicho</strong> — adaptável</div>
+  </div>
+</div>
+
+<hr class="div" style="margin-top:54px;">
+
+<!-- PROBLEMA -->
+<section class="sec">
+  <div class="wrap">
+    <div class="eye rev">🚨 O Problema Real</div>
+    <h2 class="h2 rev">Você usa ChatGPT mas ainda não tem resultados de verdade?</h2>
+    <p class="lead rev">A maioria usa IA como um buscador glorificado. O problema não é a ferramenta — é a falta de personalização e estratégia.</p>
+    <div class="prob-grid rev">
+      <div class="prob-card">
+        <div class="prob-ico">🤷</div>
+        <div><h3>Respostas genéricas</h3><p>Você pergunta e recebe aquela resposta de "consultor universal" que serve pra todo mundo e resolve de verdade pra ninguém.</p></div>
+      </div>
+      <div class="prob-card">
+        <div class="prob-ico">🔁</div>
+        <div><h3>Repete o contexto toda hora</h3><p>Cada nova conversa, você explica tudo de novo: quem é, o que vende, como fala. Pura perda de tempo.</p></div>
+      </div>
+      <div class="prob-card">
+        <div class="prob-ico">📉</div>
+        <div><h3>Aproveitando só 10% do potencial</h3><p>O GPT é capaz de muito mais. Sem configuração certa, você deixa o melhor da ferramenta na mesa.</p></div>
+      </div>
+      <div class="prob-card">
+        <div class="prob-ico">😵</div>
+        <div><h3>Não sabe por onde começar</h3><p>Instructions, knowledge base, comportamentos... parece técnico demais. Mas não precisa ser — e é isso que você vai aprender.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- VS -->
+<section class="sec">
+  <div class="wrap">
+    <div class="eye rev">🎯 A Virada de Chave</div>
+    <h2 class="h2 rev">GPT Genérico vs. Agente Sniper</h2>
+    <p class="lead rev">A diferença entre usar IA de forma mediana e ter um especialista que entrega o que você precisa — sempre.</p>
+    <div class="vs-wrap rev">
+      <div class="vs-grid">
+        <div class="vs-side bad">
+          <h3>❌ GPT Comum</h3>
+          <div class="vs-row">🔴 Responde de forma vaga e genérica</div>
+          <div class="vs-row">🔴 Não conhece seu negócio ou contexto</div>
+          <div class="vs-row">🔴 Sem memória entre sessões</div>
+          <div class="vs-row">🔴 Tom e linguagem aleatórios</div>
+          <div class="vs-row">🔴 Você perde tempo reformulando prompts</div>
+          <div class="vs-row">🔴 Resultado imprevisível</div>
+        </div>
+        <div class="vs-sep">
+          <div class="vs-line"></div>
+          <div class="vs-pill">VS</div>
+          <div class="vs-line"></div>
+        </div>
+        <div class="vs-side good">
+          <h3>✅ Agente GPT Sniper</h3>
+          <div class="vs-row">🟢 Especialista no seu problema específico</div>
+          <div class="vs-row">🟢 Conhece seu negócio, voz e objetivos</div>
+          <div class="vs-row">🟢 Base de conhecimento personalizada</div>
+          <div class="vs-row">🟢 Tom e comportamento que você definiu</div>
+          <div class="vs-row">🟢 Respostas diretas e aplicáveis</div>
+          <div class="vs-row">🟢 Resultado consistente toda vez</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- SOLUÇÃO -->
+<section class="sec" style="background:linear-gradient(180deg,transparent 0%,rgba(0,229,255,.022) 50%,transparent 100%);">
+  <div class="wrap">
+    <div class="eye rev">💡 A Solução</div>
+    <h2 class="h2 rev">Treinamento: <span style="color:var(--cyan)">Agentes GPT na Prática</span></h2>
+    <p class="lead rev">Aprenda do zero a criar, configurar e lançar seu próprio Agente GPT — sem código, sem complicação, com resultado imediato.</p>
+    <div class="sol-box rev">
+      <p>Você não precisa ser técnico. Você precisa entender <strong>como dar personalidade, conhecimento e foco a um agente</strong> — e eu mostro exatamente isso. Do GPT genérico ao sniper especialista, passo a passo, na tela, enquanto você aprende fazendo.</p>
+    </div>
+    <div class="author rev">
+      <div class="av">D</div>
+      <div class="av-info">
+        <h4>Seu Instrutor</h4>
+        <p>Criador de conteúdo sobre IA aplicada a negócios · Especialista em automação com GPT · Ajudou centenas de empreendedores a usar IA de forma estratégica para vender mais e trabalhar menos.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- MÓDULOS -->
+<section class="sec">
+  <div class="wrap">
+    <div class="eye rev">📚 O que você vai aprender</div>
+    <h2 class="h2 rev">Módulos do Treinamento</h2>
+    <div class="mod-list">
+      <div class="mod rev"><div class="mod-n">01</div><div><h3>O que é um Agente GPT e por que ele muda tudo</h3><p>Entenda a estrutura antes de criar: o que diferencia um GPT comum de um agente especializado e como isso se traduz em resultados reais para você.</p><span class="tag t-cyan">Fundação</span></div></div>
+      <div class="mod rev"><div class="mod-n">02</div><div><h3>Criando seu Agente do Zero: Instructions que Funcionam</h3><p>O segredo está nas instruções de sistema. Vou mostrar como estruturá-las para dar personalidade, regras, foco e comportamento — transformando o GPT em especialista.</p><span class="tag t-cyan">Prático</span></div></div>
+      <div class="mod rev"><div class="mod-n">03</div><div><h3>Alimentando a Base de Conhecimento do Agente</h3><p>Insira documentos, PDFs e informações do seu negócio para que o agente responda com profundidade — como um especialista que estudou anos no seu nicho.</p><span class="tag t-lime">Alto Impacto</span></div></div>
+      <div class="mod rev"><div class="mod-n">04</div><div><h3>Personalizando Tom, Voz e Comportamento</h3><p>Defina como o agente fala, o que ele nunca faz, qual é o seu "jeito". Faça ele soar como você — ou como o especialista perfeito para o seu cliente.</p><span class="tag t-purple">Diferencial</span></div></div>
+      <div class="mod rev"><div class="mod-n">05</div><div><h3>Criando Agentes para Qualquer Problema ou Nicho</h3><p>O método é universal. Vendas, conteúdo, suporte, análise, estratégia — aprenda o framework uma vez e aplique onde quiser, quantas vezes quiser.</p><span class="tag t-lime">♾️ Sem Limite</span></div></div>
+      <div class="mod rev"><div class="mod-n">06</div><div><h3>Publicando e Compartilhando seu Agente</h3><p>Use para você, compartilhe com a equipe ou disponibilize para clientes. Veja como publicar, gerar link e organizar múltiplos agentes.</p><span class="tag t-cyan">Entrega Final</span></div></div>
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- USE CASES -->
+<section class="sec">
+  <div class="wrap">
+    <div class="eye rev">🌐 Exemplos Reais</div>
+    <h2 class="h2 rev">Para o que você vai usar seu Agente GPT?</h2>
+    <p class="lead rev">A metodologia funciona para qualquer área. Crie um — ou vários. Cada um sniper no seu objetivo.</p>
+    <div class="cases-grid rev">
+      <div class="case"><span class="case-ico">📸</span><h3>Fotógrafo de IA</h3><p>Agente que fecha ensaios, responde objeções e cria propostas personalizadas para clientes.</p></div>
+      <div class="case"><span class="case-ico">🛒</span><h3>Vendedor Online</h3><p>Treinado no seu produto, na sua voz e nas principais objeções — vende enquanto você dorme.</p></div>
+      <div class="case"><span class="case-ico">✍️</span><h3>Criador de Conteúdo</h3><p>Conhece seu estilo, nicho e audiência — gera legendas, roteiros e posts no seu tom.</p></div>
+      <div class="case"><span class="case-ico">💻</span><h3>Suporte Técnico</h3><p>Especializado na sua stack — resolve dúvidas, depura código e explica soluções com clareza.</p></div>
+      <div class="case"><span class="case-ico">📊</span><h3>Análise de Negócio</h3><p>Com contexto do seu mercado — analisa dados, identifica oportunidades e sugere estratégias.</p></div>
+      <div class="case"><span class="case-ico">🎓</span><h3>Aprendizado Acelerado</h3><p>Um tutor personalizado para qualquer assunto — do inglês ao marketing digital.</p></div>
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- BULLETS -->
+<section class="sec">
+  <div class="wrap">
+    <div class="eye rev">✅ O que muda na sua vida</div>
+    <h2 class="h2 rev">Depois do treinamento, você vai poder…</h2>
+    <div class="bul-grid rev">
+      <div class="bul"><div class="bul-chk">✅</div><p><strong>Criar agentes para qualquer finalidade</strong> — <span>sem depender de ninguém técnico, sem código, sem custo extra.</span></p></div>
+      <div class="bul"><div class="bul-chk">✅</div><p><strong>Ter um especialista 24h disponível</strong> — <span>seu negócio, suas regras, seu tom. Sempre pronto.</span></p></div>
+      <div class="bul"><div class="bul-chk">✅</div><p><strong>Parar de repetir contexto</strong> — <span>o agente já sabe quem você é, o que vende e como falar.</span></p></div>
+      <div class="bul"><div class="bul-chk">✅</div><p><strong>Resultados consistentes e previsíveis</strong> — <span>chega de respostas aleatórias. O sniper entrega sempre.</span></p></div>
+      <div class="bul"><div class="bul-chk">✅</div><p><strong>Adaptar para qualquer nicho</strong> — <span>aprenda o método uma vez e aplique para sempre.</span></p></div>
+      <div class="bul"><div class="bul-chk">✅</div><p><strong>Acesso vitalício ao treinamento</strong> — <span>volte sempre que quiser, atualize seus agentes conforme cresce.</span></p></div>
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- BÔNUS -->
+<section class="sec">
+  <div class="wrap">
+    <div class="eye rev">🎁 Bônus Exclusivo</div>
+    <h2 class="h2 rev">Biblioteca de Templates Prontos</h2>
+    <div class="bonus rev">
+      <div class="bonus-ico">🗂️</div>
+      <div>
+        <div class="bonus-badge">🎁 Bônus</div>
+        <h3>Templates de Instructions Prontos</h3>
+        <p>Além do treinamento completo, você recebe uma biblioteca de templates para os usos mais comuns: vendas, suporte, conteúdo, análise, copywriting e mais. Copie, adapte e lance em minutos — sem começar do zero.</p>
+        <div class="bonus-tag">⚡ Economia de horas de configuração inicial</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- PREÇO -->
+<section class="price-sec" id="comprar">
+  <div class="wrap">
+    <div class="eye rev" style="display:flex;justify-content:center;">🚀 Oferta de Lançamento</div>
+    <h2 class="h2 rev" style="text-align:center;">Tudo que você precisa, num único lugar</h2>
+
+    <div class="price-card rev">
+      <div class="price-label">🔥 Preço Especial de Lançamento</div>
+
+      <div class="price-inc">
+        <div class="price-inc-h">Você está levando</div>
+        <div class="price-row"><span class="chk">✅</span> Treinamento completo em vídeo (acesso vitalício)</div>
+        <div class="price-row"><span class="chk">✅</span> Módulo de Instructions avançadas</div>
+        <div class="price-row"><span class="chk">✅</span> Como montar a Knowledge Base do agente</div>
+        <div class="price-row"><span class="chk">✅</span> Framework replicável para qualquer nicho</div>
+        <div class="price-row"><span class="chk">✅</span> Publicação e compartilhamento do agente</div>
+        <div class="price-row"><span class="chk">🎁</span> <strong>Bônus: Biblioteca de Templates Prontos</strong></div>
+      </div>
+
+      <p class="price-old">Valor total: R$497,00</p>
+      <div class="price-big"><sup>R$</sup>37</div>
+      <p class="price-note">Pagamento único · Acesso imediato · Sem assinatura</p>
+
+      <div class="cta-wrap">
+        <a href="#" class="cta">🎯 Quero Criar Meu Agente GPT — R$ 37</a>
+        <span class="cta-safe">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.5 3.8 10.74 9 12 5.2-1.26 9-6.5 9-12V5l-9-4z"/></svg>
+          Pix · Cartão · Boleto — 100% Seguro
+        </span>
+      </div>
+
+      <div class="guar">
+        <div class="guar-ico">🛡️</div>
+        <div>
+          <h4>Garantia de 7 Dias</h4>
+          <p>Não gostou? Peça reembolso total em até 7 dias, sem burocracia e sem perguntas. Risco zero para você.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- FAQ -->
+<section class="sec">
+  <div class="wrap">
+    <div class="eye rev">❓ Dúvidas Frequentes</div>
+    <h2 class="h2 rev">Perguntas e Respostas</h2>
+    <div class="faq-list rev">
+      <details class="faq"><summary>Preciso saber programar? <span class="faq-arr">+</span></summary><div class="faq-body">Não. Zero. O treinamento foi feito para pessoas sem nenhum conhecimento técnico. Você vai configurar agentes GPT usando a interface do próprio ChatGPT — sem uma linha de código.</div></details>
+      <details class="faq"><summary>Preciso pagar pelo ChatGPT Plus? <span class="faq-arr">+</span></summary><div class="faq-body">Para criar GPTs personalizados, sim — o ChatGPT Plus custa cerca de US$20/mês. O treinamento te ensina a extrair o máximo dessa assinatura, o retorno compensa imensamente.</div></details>
+      <details class="faq"><summary>Funciona para o meu nicho específico? <span class="faq-arr">+</span></summary><div class="faq-body">Sim. O método foi criado para ser adaptável a qualquer área. Fotografia, e-commerce, educação, suporte técnico, criação de conteúdo, gestão — você aprende o framework e aplica no seu contexto.</div></details>
+      <details class="faq"><summary>Quanto tempo leva para criar meu primeiro agente? <span class="faq-arr">+</span></summary><div class="faq-body">Seguindo o treinamento, você pode ter um agente funcional ainda durante as aulas. Um agente básico fica pronto em 1 a 2 horas. Aprimorar ao longo do tempo é o que o torna sniper.</div></details>
+      <details class="faq"><summary>O acesso às aulas expira? <span class="faq-arr">+</span></summary><div class="faq-body">Não. O acesso é vitalício. Assista quantas vezes quiser, no seu ritmo, e retorne sempre que criar um novo agente.</div></details>
+      <details class="faq"><summary>Posso criar mais de um agente GPT? <span class="faq-arr">+</span></summary><div class="faq-body">Sim, e essa é uma das maiores vantagens. Crie agentes ilimitados, cada um especializado numa tarefa diferente. Aprenda uma vez, aplique infinitas vezes.</div></details>
+    </div>
+  </div>
+</section>
+
+<hr class="div">
+
+<!-- URGÊNCIA -->
+<section class="sec" style="text-align:center;">
+  <div class="wrap">
+    <div class="urg-card rev">
+      <h2>Esse preço é de lançamento.<br>Não vai durar para sempre.</h2>
+      <p>R$37 é o preço especial de introdução. Conforme o treinamento cresce, o preço sobe. <strong>Garanta agora com o menor valor que vai existir.</strong></p>
+      <div class="cta-wrap">
+        <a href="#comprar" class="cta">🔒 Garantir Meu Acesso por R$ 37 Agora</a>
+        <span class="cta-safe">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.5 3.8 10.74 9 12 5.2-1.26 9-6.5 9-12V5l-9-4z"/></svg>
+          Acesso imediato após o pagamento
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PS -->
+<div class="ps-wrap">
+  <div class="ps rev">
+    <strong>P.S.:</strong> Por R$37 você leva o treinamento completo, o framework para criar agentes GPT para qualquer problema e a biblioteca de templates prontos. É o preço de um almoço, mas o impacto é de ter um time de especialistas trabalhando para você 24 horas por dia. <a href="#comprar">Clique aqui e garanta agora.</a>
+  </div>
+</div>
+
+<footer>
+  <p>© 2025 · Agentes GPT na Prática · Todos os direitos reservados</p>
+  <p style="margin-top:6px;">Feito para quem quer usar IA de verdade, não de mentira.</p>
+</footer>
+
+<!-- STICKY MOBILE -->
+<div class="sticky">
+  <div>
+    <div style="font-size:11px;color:var(--muted);">Lançamento</div>
+    <div class="sticky-price">R$ 37</div>
+  </div>
+  <a href="#comprar" class="sticky-btn">Garantir Acesso</a>
+</div>
+
+<script>
+  const els = document.querySelectorAll('.rev');
+  const ob = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); ob.unobserve(e.target); } });
+  }, { threshold: 0.09 });
+  els.forEach(e => ob.observe(e));
+</script>
+</body>
+</html>
