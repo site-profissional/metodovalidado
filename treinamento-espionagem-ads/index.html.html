@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Método de Espionagem de Criativos Lucrativos</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #00ff41;
+    --green-dim: #00cc33;
+    --green-dark: #00551a;
+    --green-glow: rgba(0,255,65,0.3);
+    --green-faint: rgba(0,255,65,0.06);
+    --bg: #020b05;
+    --bg2: #050f07;
+    --text: #c8ffd4;
+    --text-dim: #4a8a56;
+    --border: rgba(0,255,65,0.18);
+    --mono: 'Share Tech Mono', monospace;
+    --display: 'Orbitron', monospace;
+    --body: 'Rajdhani', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--body);
+    font-size: 17px;
+    line-height: 1.7;
+    overflow-x: hidden;
+    cursor: crosshair;
+  }
+
+  /* MATRIX RAIN CANVAS */
+  #matrix-canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+    opacity: 0.07;
+    pointer-events: none;
+  }
+
+  /* SCAN LINE OVERLAY */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.08) 2px,
+      rgba(0,0,0,0.08) 4px
+    );
+    pointer-events: none;
+    z-index: 9999;
+    animation: flicker 8s infinite;
+  }
+
+  @keyframes flicker {
+    0%,94%,100% { opacity: 1; }
+    95% { opacity: 0.85; }
+    97% { opacity: 0.95; }
+    99% { opacity: 0.88; }
+  }
+
+  /* MAIN WRAPPER */
+  .wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  /* TOP BAR */
+  .top-bar {
+    background: rgba(0,255,65,0.04);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 0;
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--green-dim);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    animation: blink-text 3s infinite;
+  }
+
+  @keyframes blink-text {
+    0%,80%,100% { opacity: 1; }
+    85% { opacity: 0.3; }
+  }
+
+  /* HERO SECTION */
+  .hero {
+    padding: 80px 0 60px;
+    text-align: center;
+    position: relative;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(0,255,65,0.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .tag-classified {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--green);
+    border: 1px solid var(--green);
+    padding: 4px 14px;
+    margin-bottom: 32px;
+    position: relative;
+    animation: pulse-border 2s infinite;
+  }
+
+  @keyframes pulse-border {
+    0%,100% { box-shadow: 0 0 6px var(--green-glow); }
+    50% { box-shadow: 0 0 18px var(--green-glow), 0 0 40px rgba(0,255,65,0.1); }
+  }
+
+  .tag-classified::before,
+  .tag-classified::after {
+    content: '//';
+    color: var(--text-dim);
+    margin: 0 6px;
+    font-size: 10px;
+  }
+
+  h1 {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: clamp(26px, 5vw, 46px);
+    line-height: 1.15;
+    color: #fff;
+    text-shadow: 0 0 30px rgba(0,255,65,0.4);
+    margin-bottom: 20px;
+  }
+
+  h1 .accent {
+    color: var(--green);
+    display: block;
+    font-size: clamp(30px, 6vw, 54px);
+    text-shadow: 0 0 40px var(--green), 0 0 80px rgba(0,255,65,0.3);
+  }
+
+  .subtitle {
+    font-family: var(--body);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-dim);
+    max-width: 580px;
+    margin: 0 auto 40px;
+    padding: 0 10px;
+  }
+
+  /* TERMINAL BLOCK */
+  .terminal {
+    background: rgba(0,0,0,0.6);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 20px 24px;
+    font-family: var(--mono);
+    font-size: 13px;
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 48px;
+  }
+
+  .terminal::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--green), transparent);
+    animation: scan-line 3s linear infinite;
+  }
+
+  @keyframes scan-line {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  .terminal-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot-r { background: #ff5f57; }
+  .dot-y { background: #ffbd2e; }
+  .dot-g { background: #28ca41; }
+
+  .terminal-title { font-size: 11px; color: var(--text-dim); margin-left: auto; letter-spacing: 2px; }
+
+  .term-line { margin: 4px 0; }
+  .term-prompt { color: var(--green); }
+  .term-cmd { color: #fff; }
+  .term-out { color: var(--text-dim); padding-left: 16px; }
+  .term-out.highlight { color: var(--green); font-weight: bold; }
+  .cursor { display: inline-block; width: 8px; height: 14px; background: var(--green); animation: blink 1s step-end infinite; vertical-align: middle; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* SECTIONS */
+  section { padding: 60px 0; position: relative; }
+
+  section + section { border-top: 1px solid var(--border); }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--green);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border), transparent);
+  }
+
+  h2 {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(20px, 3.5vw, 32px);
+    line-height: 1.2;
+    color: #fff;
+    margin-bottom: 20px;
+    text-shadow: 0 0 20px rgba(0,255,65,0.2);
+  }
+
+  p { color: var(--text); margin-bottom: 16px; font-size: 16px; }
+  p strong { color: var(--green); font-weight: 700; }
+
+  /* LIST ITEMS */
+  .spy-list { list-style: none; display: flex; flex-direction: column; gap: 12px; margin: 20px 0; }
+
+  .spy-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 18px;
+    background: var(--green-faint);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--green);
+    font-size: 15px;
+    transition: all 0.2s;
+  }
+
+  .spy-list li:hover {
+    background: rgba(0,255,65,0.1);
+    border-left-color: var(--green);
+    box-shadow: inset 0 0 30px rgba(0,255,65,0.05);
+    transform: translateX(4px);
+  }
+
+  .spy-list li::before {
+    content: '▶';
+    color: var(--green);
+    font-size: 11px;
+    margin-top: 3px;
+    flex-shrink: 0;
+  }
+
+  /* PROBLEM BOX */
+  .problem-box {
+    background: rgba(255,0,0,0.04);
+    border: 1px solid rgba(255,60,60,0.25);
+    border-left: 4px solid #ff3c3c;
+    padding: 24px;
+    margin: 24px 0;
+    font-size: 15px;
+    color: #ffaaaa;
+  }
+
+  .problem-box strong { color: #ff5555; }
+
+  /* HIGHLIGHT BOX */
+  .highlight-box {
+    background: rgba(0,255,65,0.04);
+    border: 1px solid var(--green-dim);
+    padding: 28px;
+    margin: 24px 0;
+    position: relative;
+  }
+
+  .highlight-box::before {
+    content: '[ INTELIGÊNCIA DE MERCADO ]';
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    background: var(--bg);
+    padding: 0 10px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--green);
+    letter-spacing: 2px;
+  }
+
+  /* FEATURE GRID */
+  .feature-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 28px 0;
+  }
+
+  @media (max-width: 560px) { .feature-grid { grid-template-columns: 1fr; } }
+
+  .feature-card {
+    background: rgba(0,0,0,0.5);
+    border: 1px solid var(--border);
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.25s;
+  }
+
+  .feature-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(0,255,65,0.05) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+
+  .feature-card:hover { border-color: var(--green-dim); transform: translateY(-2px); }
+  .feature-card:hover::after { opacity: 1; }
+
+  .feature-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--green);
+    margin-bottom: 8px;
+    letter-spacing: 2px;
+  }
+
+  .feature-title { font-family: var(--display); font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+  .feature-desc { font-size: 13px; color: var(--text-dim); line-height: 1.5; }
+
+  /* PRICE SECTION */
+  .price-section {
+    text-align: center;
+    padding: 70px 0;
+    position: relative;
+  }
+
+  .price-section::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 400px;
+    background: radial-gradient(ellipse, rgba(0,255,65,0.06), transparent 70%);
+    pointer-events: none;
+  }
+
+  .price-label {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-dim);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .price-tag {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: clamp(60px, 14vw, 100px);
+    color: var(--green);
+    line-height: 1;
+    text-shadow: 0 0 40px var(--green), 0 0 80px rgba(0,255,65,0.3);
+    margin: 10px 0;
+    display: block;
+  }
+
+  .price-cents { font-size: 0.35em; vertical-align: top; margin-top: 18px; }
+
+  .price-context {
+    font-family: var(--body);
+    font-size: 15px;
+    color: var(--text-dim);
+    margin-top: 10px;
+  }
+
+  /* CTA BUTTON */
+  .cta-btn {
+    display: inline-block;
+    background: var(--green);
+    color: #000;
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: clamp(14px, 2.5vw, 17px);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 18px 44px;
+    text-decoration: none;
+    margin: 20px auto;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.2s;
+    clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+    box-shadow: 0 0 30px rgba(0,255,65,0.4), 0 4px 20px rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    max-width: 500px;
+    width: 100%;
+  }
+
+  .cta-btn::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.4s;
+  }
+
+  .cta-btn:hover { 
+    background: #00ff55;
+    box-shadow: 0 0 50px rgba(0,255,65,0.6), 0 0 100px rgba(0,255,65,0.2);
+    transform: translateY(-2px) scale(1.01);
+  }
+
+  .cta-btn:hover::before { left: 100%; }
+
+  .cta-wrapper { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+
+  .cta-sub { font-family: var(--mono); font-size: 11px; color: var(--text-dim); letter-spacing: 2px; }
+
+  /* INSTRUCTOR CARD */
+  .instructor-card {
+    background: rgba(0,0,0,0.55);
+    border: 1px solid var(--border);
+    padding: 28px 24px;
+    margin: 28px 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .instructor-card::before {
+    content: '[ PERFIL DO INSTRUTOR ]';
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    background: var(--bg);
+    padding: 0 10px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--green);
+    letter-spacing: 2px;
+  }
+
+  .instructor-card::after {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 120px; height: 120px;
+    background: radial-gradient(circle at top right, rgba(0,255,65,0.06), transparent 70%);
+    pointer-events: none;
+  }
+
+  .instructor-name {
+    font-family: var(--display);
+    font-size: clamp(22px, 5vw, 30px);
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+    text-shadow: 0 0 20px rgba(0,255,65,0.3);
+  }
+
+  .instructor-role {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--green);
+    letter-spacing: 2px;
+    margin-bottom: 22px;
+  }
+
+  .instructor-creds {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .instructor-creds li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--text);
+    padding: 10px 14px;
+    background: var(--green-faint);
+    border-left: 2px solid var(--green-dim);
+  }
+
+  .instructor-creds li .cred-icon {
+    color: var(--green);
+    font-size: 14px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* URGENCY BAR */
+  .urgency-bar {
+    background: linear-gradient(90deg, rgba(255,50,50,0.08), rgba(255,100,0,0.08));
+    border: 1px solid rgba(255,80,0,0.3);
+    border-left: 4px solid #ff4400;
+    padding: 18px 24px;
+    margin: 30px 0;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: #ffaa77;
+  }
+
+  /* CHOICE COMPARISON */
+  .choice-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    margin: 28px 0;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  @media (max-width: 480px) { .choice-grid { grid-template-columns: 1fr; } }
+
+  .choice-col {
+    padding: 24px;
+  }
+
+  .choice-col.bad {
+    background: rgba(255,0,0,0.04);
+    border-right: 1px solid var(--border);
+  }
+
+  .choice-col.good { background: rgba(0,255,65,0.04); }
+
+  .choice-head {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .choice-col.bad .choice-head { color: #ff5555; }
+  .choice-col.good .choice-head { color: var(--green); }
+
+  .choice-list { list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 14px; }
+  .choice-col.bad .choice-list li::before { content: '✕  '; color: #ff5555; }
+  .choice-col.good .choice-list li::before { content: '✓  '; color: var(--green); }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 40px 0;
+    border-top: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 1px;
+  }
+
+  /* DIVIDER */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 20px 0;
+    color: var(--text-dim);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 2px;
+  }
+
+  .divider::before,
+  .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ANIMATIONS */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.6s ease forwards;
+  }
+
+  @keyframes fadeInUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-in:nth-child(1) { animation-delay: 0.1s; }
+  .fade-in:nth-child(2) { animation-delay: 0.25s; }
+  .fade-in:nth-child(3) { animation-delay: 0.4s; }
+
+  /* GLITCH */
+  .glitch {
+    position: relative;
+    display: inline-block;
+  }
+
+  .glitch:hover {
+    animation: glitch 0.3s steps(2) infinite;
+  }
+
+  @keyframes glitch {
+    0% { text-shadow: 2px 0 var(--green), -2px 0 #ff00ff; }
+    25% { text-shadow: -2px 0 var(--green), 2px 0 #00ffff; }
+    50% { text-shadow: 2px 2px var(--green), -2px -2px #ff00ff; }
+    75% { text-shadow: -1px 0 #00ffff, 1px 0 var(--green); }
+    100% { text-shadow: 2px 0 var(--green), -2px 0 #ff00ff; }
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--green-dark); }
+  ::-webkit-scrollbar-thumb:hover { background: var(--green-dim); }
+
+  /* MOBILE FIRST */
+  @media (max-width: 600px) {
+    body { font-size: 15px; cursor: auto; }
+    .wrapper { padding: 0 14px; }
+    .hero { padding: 48px 0 36px; }
+    h1 { font-size: clamp(22px, 7vw, 34px); }
+    h1 .accent { font-size: clamp(26px, 8vw, 40px); }
+    h2 { font-size: clamp(18px, 5.5vw, 26px); }
+    .subtitle { font-size: 15px; }
+    .terminal { padding: 14px 14px; font-size: 11px; }
+    .terminal-title { display: none; }
+    .cta-btn { padding: 16px 20px; font-size: 13px; clip-path: none; }
+    section { padding: 40px 0; }
+    .feature-grid { grid-template-columns: 1fr; }
+    .price-tag { font-size: clamp(56px, 18vw, 80px); }
+    .choice-grid { grid-template-columns: 1fr; }
+    .choice-col.bad { border-right: none; border-bottom: 1px solid var(--border); }
+    .instructor-card { padding: 24px 16px; }
+    .top-bar { font-size: 9px; letter-spacing: 1px; padding: 8px 10px; }
+  }
+
+  @media (min-width: 601px) and (max-width: 820px) {
+    .wrapper { padding: 0 24px; }
+    .cta-btn { font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="matrix-canvas"></canvas>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  ⚡ SISTEMA DE ESPIONAGEM ATIVO &nbsp;|&nbsp; ACESSO LIBERADO POR TEMPO LIMITADO &nbsp;|&nbsp; R$20 SOMENTE HOJE ⚡
+</div>
+
+<div class="wrapper">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="fade-in">
+      <div class="tag-classified">OSINT ADS // INTELIGÊNCIA</div>
+    </div>
+
+    <div class="fade-in">
+      <h1>
+        Descubra como encontrar anúncios que vendem
+        <span class="accent glitch">TODOS OS DIAS</span>
+        no Facebook e modele para vender mais rápido
+      </h1>
+    </div>
+
+    <div class="fade-in">
+      <p class="subtitle">
+        Mesmo que você esteja começando do zero e já tenha testando criativos que não funcionam
+      </p>
+    </div>
+
+    <!-- TERMINAL -->
+    <div class="terminal fade-in">
+      <div class="terminal-header">
+        <span class="dot dot-r"></span>
+        <span class="dot dot-y"></span>
+        <span class="dot dot-g"></span>
+        <span class="terminal-title">CREATIVE_SPY_v2.7 — ANÁLISE EM TEMPO REAL</span>
+      </div>
+      <div class="term-line"><span class="term-prompt">$</span> <span class="term-cmd">scan --ads-library --filter=active --min-days=30</span></div>
+      <div class="term-line"><span class="term-out">→ Encontrados: 1.247 anúncios rodando há 30+ dias</span></div>
+      <div class="term-line"><span class="term-out">→ Padrão detectado: gatilhos que continuam convertendo</span></div>
+      <div class="term-line"><span class="term-out highlight">→ STATUS: CRIATIVOS VENCEDORES MAPEADOS ✓</span></div>
+      <div class="term-line"><span class="term-prompt">$</span> <span class="cursor"></span></div>
+    </div>
+
+    <div class="cta-wrapper fade-in">
+      <a href="https://go.perfectpay.com.br/PPU38CQ9T9L" class="cta-btn">
+        🔓 QUERO ACESSAR AGORA POR R$20
+      </a>
+      <span class="cta-sub">// acesso imediato · pagamento seguro</span>
+    </div>
+  </section>
+
+  <!-- PROBLEMA -->
+  <section>
+    <div class="section-label">// ANÁLISE DO PROBLEMA</div>
+    <h2>A verdade que ninguém conta sobre tráfego pago</h2>
+
+    <p>A verdade é simples:</p>
+    <p><strong>Você não precisa adivinhar o que funciona.</strong></p>
+    <p>Existem anúncios rodando há semanas, meses e até anos… E isso só acontece por um motivo:</p>
+    <p><strong>Eles estão dando lucro todos os dias.</strong></p>
+
+    <div class="problem-box">
+      <strong>⚠ ENQUANTO ISSO, A MAIORIA FAZ O SEGUINTE:</strong>
+      <ul class="spy-list" style="margin-top:14px;">
+        <li>Testa criativo aleatório sem base — levando meses para descobrir o que funciona</li>
+        <li>Gasta tempo e energia sem chegar nos resultados que outros já alcançaram</li>
+        <li>Fica presa no ciclo infinito de "tentativa e erro" enquanto outros faturam</li>
+      </ul>
+    </div>
+
+    <p>E o pior? Acha que o problema é orçamento, pixel ou público.</p>
+    <p><strong>Mas não é.</strong></p>
+
+    <div class="highlight-box">
+      <p style="font-size:18px; font-weight:700; color:#fff; margin:0;">
+        O problema é simples: você está tentando criar do zero algo que<br>
+        <span style="color:var(--green);">já foi validado e já está vendendo agora.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- SOLUÇÃO -->
+  <section>
+    <div class="section-label">// NOVA OPORTUNIDADE</div>
+    <h2>E se você pudesse simplesmente encontrar anúncios que já estão vendendo… e modelar eles?</h2>
+
+    <ul class="spy-list">
+      <li>Sem precisar ter "ideias geniais"</li>
+      <li>Sem perder dinheiro testando no escuro</li>
+      <li>Sem correr risco de bloqueio ou problema jurídico</li>
+      <li>Com clareza total sobre o que o mercado já validou</li>
+    </ul>
+  </section>
+
+  <!-- MECANISMO -->
+  <section>
+    <div class="section-label">// MECANISMO SECRETO</div>
+    <h2>O método que permite espionar os criativos mais lucrativos do mercado</h2>
+
+    <p>Existe um processo simples que permite:</p>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-num">// 01</div>
+        <div class="feature-title">IDENTIFICAÇÃO</div>
+        <div class="feature-desc">Anúncios lucrativos ativos há semanas e meses expostos com precisão cirúrgica</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">// 02</div>
+        <div class="feature-title">DECODIFICAÇÃO</div>
+        <div class="feature-desc">Por que eles continuam rodando — o padrão escondido que mantém o ROI positivo</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">// 03</div>
+        <div class="feature-title">MODELAGEM INTELIGENTE</div>
+        <div class="feature-desc">Como usar a estrutura sem copiar de forma burra — e sem risco jurídico</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">// 04</div>
+        <div class="feature-title">PRIMEIRO TESTE SÓLIDO</div>
+        <div class="feature-desc">Maximize as chances de venda já no primeiro criativo — sem queimar verba</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUTO -->
+  <section>
+    <div class="section-label">// O QUE VOCÊ RECEBE</div>
+    <h2>Método de Espionagem de Criativos Lucrativos</h2>
+
+    <p>Um treinamento direto ao ponto que te mostra exatamente:</p>
+
+    <ul class="spy-list">
+      <li>Onde encontrar anúncios vencedores que já estão convertendo</li>
+      <li>Como analisar criativos que vendem há semanas e meses</li>
+      <li>Como modelar sem perder no leilão e sem copiar literalmente</li>
+      <li>Como evitar os erros que fazem você perder dinheiro no início</li>
+      <li><strong>O detalhe escondido que faz anúncios rodarem por meses</strong></li>
+      <li><strong>O erro que faz você perder no leilão mesmo com bom criativo</strong></li>
+    </ul>
+
+    <div class="divider">RESULTADO FINAL</div>
+
+    <ul class="spy-list">
+      <li>Pare de testar no escuro definitivamente</li>
+      <li>Economize dinheiro em testes desnecessários</li>
+      <li>Acelere suas vendas com base em dados reais</li>
+      <li>Tenha clareza total do que funciona no mercado agora</li>
+    </ul>
+  </section>
+
+  <!-- ÂNCORA DE PREÇO -->
+  <section>
+    <div class="section-label">// COMPARAÇÃO DE CUSTO</div>
+
+    <div class="choice-grid">
+      <div class="choice-col bad">
+        <div class="choice-head">❌ SEM O MÉTODO</div>
+        <ul class="choice-list">
+          <li>Testa no escuro</li>
+          <li>Aprende errando</li>
+          <li>Sem clareza</li>
+          <li>Ciclo de frustração</li>
+          <li>Desiste antes de lucrar</li>
+        </ul>
+      </div>
+      <div class="choice-col good">
+        <div class="choice-head">✅ COM O MÉTODO</div>
+        <ul class="choice-list">
+          <li>Modelagem validada</li>
+          <li>Atalho de quem já vende</li>
+          <li>Clareza total</li>
+          <li>Processo replicável</li>
+          <li>Vendas mais rápidas</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="highlight-box" style="margin-top:24px;">
+      <p style="font-size:16px; font-weight:700; color:#fff; margin:0; text-align:center;">
+        Enquanto você esta tentando descobrir sozinho,<br>
+        <span style="color:var(--green);">alunos que aplicam esse método acertam criativo mais rapido</span><br>
+        <span style="color:var(--text-dim); font-size:14px; font-weight:400;">modelando os criativos certos — e agora você pode ver os deles.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- PREÇO + CTA -->
+  <section class="price-section">
+    <div class="section-label" style="justify-content:center; text-align:center;">// ACESSO COMPLETO</div>
+    <div class="price-label">INVESTIMENTO ÚNICO DE APENAS</div>
+    <span class="price-tag"><span class="price-cents">R$</span>20</span>
+    <p class="price-context">O preço de um lanche.<br>O atalho que outros levaram meses para descobrir.</p>
+
+    <div class="cta-wrapper">
+      <a href="https://go.perfectpay.com.br/PPU38CQ9T9L" class="cta-btn" style="font-size:18px; padding:22px 50px;">
+        🔓 ACESSAR O MÉTODO AGORA — R$20
+      </a>
+      <span class="cta-sub">// pagamento seguro · acesso imediato</span>
+    </div>
+  </section>
+
+  <!-- INSTRUTOR -->
+  <section>
+    <div class="section-label">// QUEM ESTÁ POR TRÁS DO MÉTODO</div>
+    <h2>Conheça o instrutor</h2>
+
+    <div class="instructor-card">
+      <div class="instructor-name">VICTOR</div>
+      <div class="instructor-role">// PROFISSIONAL DE TI · VENDEDOR DIGITAL · INVESTIGADOR OSINT</div>
+
+      <ul class="instructor-creds">
+        <li>
+          <span class="cred-icon">🎓</span>
+          <span>Formado em <strong>Análise e Desenvolvimento de Sistemas</strong> e <strong>Cibersegurança</strong> — cursando Engenharia de Software</span>
+        </li>
+        <li>
+          <span class="cred-icon">🏅</span>
+          <span>Profissional de TI e Cibersegurança <strong>certificado pela Google</strong></span>
+        </li>
+        <li>
+          <span class="cred-icon">🔍</span>
+          <span><strong>Investigador de Fontes Abertas (OSINT)</strong> — a mesma mentalidade de inteligência aplicada ao mercado digital</span>
+        </li>
+        <li>
+          <span class="cred-icon">💰</span>
+          <span>Mais de <strong>R$50.000 investidos</strong> em treinamentos e mentorias para dominar vendas online</span>
+        </li>
+        <li>
+          <span class="cred-icon">📅</span>
+          <span>Estudando e aplicando vendas online <strong>desde 2019</strong> — anos de testes reais, não teoria</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="highlight-box">
+      <p style="font-size:15px; color:var(--text); margin:0;">
+        A visão de quem <strong style="color:#fff;">pensa como um analista de inteligência</strong> aplicada ao tráfego pago:
+        não chute criativo — <span style="color:var(--green);">investigue o que já está funcionando e modele com precisão.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- URGÊNCIA -->
+  <section>
+    <div class="urgency-bar">
+      ⚠ ATENÇÃO: Esse valor pode sair do ar a qualquer momento. A decisão é simples:
+    </div>
+
+    <div class="choice-grid">
+      <div class="choice-col bad">
+        <div class="choice-head">CAMINHO 1</div>
+        <p style="font-size:14px; color:#ffaaaa;">Depender de dicas e teste no escuro, testando no chute, enquanto outros já descobriram o que funciona.</p>
+      </div>
+      <div class="choice-col good">
+        <div class="choice-head">CAMINHO 2</div>
+        <p style="font-size:14px; color:var(--text);">Ver os criativos de quem já fatura R$500 a R$1.000 por dia e modelar com inteligência agora.</p>
+      </div>
+    </div>
+
+    <div class="cta-wrapper" style="margin-top:40px;">
+      <a href="https://go.perfectpay.com.br/PPU38CQ9T9L" class="cta-btn">
+        ✅ QUERO COMEÇAR AGORA
+      </a>
+      <span class="cta-sub">// clique e acesse em segundos</span>
+    </div>
+  </section>
+
+</div><!-- end wrapper -->
+
+<footer>
+  <p>© 2026 · Método de Espionagem de Criativos · Todos os direitos reservados</p>
+  <p style="margin-top:8px; opacity:0.5;">// sistema ativo · acesso imediato após pagamento</p>
+</footer>
+
+<script>
+  // Matrix rain effect
+  const canvas = document.getElementById('matrix-canvas');
+  const ctx = canvas.getContext('2d');
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const chars = 'アイウエオカキクケコサシスセソ0123456789ABCDEF$#@%&<>[]{}|/\\CLASSIFIED_SPY_METHOD_HACK_DATA';
+  const fontSize = 13;
+  let cols = Math.floor(canvas.width / fontSize);
+  let drops = Array(cols).fill(0).map(() => Math.random() * -100);
+
+  function draw() {
+    ctx.fillStyle = 'rgba(2,11,5,0.05)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#00ff41';
+    ctx.font = fontSize + 'px Share Tech Mono, monospace';
+
+    cols = Math.floor(canvas.width / fontSize);
+    if (drops.length < cols) drops.push(...Array(cols - drops.length).fill(0));
+
+    for (let i = 0; i < cols; i++) {
+      const char = chars[Math.floor(Math.random() * chars.length)];
+      ctx.globalAlpha = Math.random() * 0.5 + 0.3;
+      ctx.fillText(char, i * fontSize, drops[i] * fontSize);
+      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+      drops[i]++;
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  setInterval(draw, 45);
+
+  // Intersection observer for animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('section').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(30px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(el);
+  });
+
+  // Hero sections already animated with CSS
+  document.querySelector('.hero').style.opacity = '1';
+  document.querySelector('.hero').style.transform = 'none';
+</script>
+</body>
+</html>
