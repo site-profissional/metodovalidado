@@ -345,27 +345,13 @@ section{position:relative;z-index:1;padding:90px 0}
    PRICING (Seção de preço)
    Card único centralizado, max-width: 520px.
    ::before = linha dourada no topo.
-
-   PREÇO ESPECIAL PARA ALUNOS DO DIEGO:
-   .pricing-old = preço original riscado (R$97)
-   .pricing-discount-badge = badge "Desconto alunos"
-   .pricing-amount = exibe o preço final com desconto (R$67)
-
-   Para reverter ao preço normal:
-   - Mude o valor em .pricing-amount .value para "97"
-   - Remova o .pricing-old e .pricing-discount-badge
+   .currency usa vertical-align: super para ficar como superescrito
+   ao lado do número grande do preço.
    ============================================================ */
 .pricing{background:var(--bg-secondary)}
 .pricing-card{max-width:520px;margin:0 auto;background:var(--bg-card);border:2px solid var(--border-accent);border-radius:var(--radius-lg);padding:44px;text-align:center;position:relative;overflow:hidden;box-shadow:var(--shadow-glow)}
 .pricing-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gradient-hero)}
-.pricing-badge{display:inline-block;padding:5px 16px;background:rgba(212,168,67,.08);border:1px solid var(--border-accent);border-radius:50px;font-size:.72rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:16px}
-
-/* Badge de desconto para alunos: fundo verde sutil + texto dourado */
-.pricing-discount-badge{display:inline-block;padding:5px 16px;background:rgba(0,200,100,.08);border:1px solid rgba(0,200,100,.2);border-radius:50px;font-size:.78rem;font-weight:700;color:#4ADE80;margin-bottom:16px;margin-left:8px}
-
-/* Preço original riscado: mostra de onde veio o desconto */
-.pricing-old{display:block;font-size:1.1rem;color:var(--text-muted);text-decoration:line-through;margin-bottom:4px}
-
+.pricing-badge{display:inline-block;padding:5px 16px;background:rgba(212,168,67,.08);border:1px solid var(--border-accent);border-radius:50px;font-size:.72rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:22px}
 .pricing-amount{font-weight:900;margin-bottom:6px}
 /* vertical-align: super = faz o "R$" subir como superescrito */
 .pricing-amount .currency{font-size:1.4rem;vertical-align:super}
@@ -432,7 +418,8 @@ section{position:relative;z-index:1;padding:90px 0}
    BOTÃO FLUTUANTE DO WHATSAPP
    - position: fixed = sempre visível no canto inferior direito
    - z-index: 999 = acima do conteúdo, abaixo da nav (1000)
-   NÃO edite os valores numéricos do path SVG.
+   ATENÇÃO ao SVG: o path do ícone WhatsApp é complexo.
+   NÃO edite os valores numéricos do path — qualquer erro quebra o ícone.
    ============================================================ */
 .whatsapp-btn{position:fixed;bottom:24px;right:24px;z-index:999;width:56px;height:56px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,.35);transition:all .3s;text-decoration:none}
 .whatsapp-btn:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(37,211,102,.45)}
@@ -442,6 +429,7 @@ section{position:relative;z-index:1;padding:90px 0}
    ANIMAÇÕES DE ENTRADA
    fadeInUp: elemento surge de baixo com fade-in
    fadeInDown: elemento surge de cima com fade-in
+   Ativadas via propriedade CSS animation nos elementos do hero.
    ============================================================ */
 @keyframes fadeInUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fadeInDown{from{opacity:0;transform:translateY(-18px)}to{opacity:1;transform:translateY(0)}}
@@ -466,15 +454,16 @@ section{position:relative;z-index:1;padding:90px 0}
    RESPONSIVIDADE — TABLETS (max-width: 768px)
    Regra geral: grids de 2+ colunas viram 1 coluna.
    Botões ficam full-width para facilitar o toque.
+   Fontes e espaçamentos reduzidos para telas estreitas.
    ============================================================ */
 @media(max-width:768px){
-  .feature-card.featured{grid-template-columns:1fr}
+  .feature-card.featured{grid-template-columns:1fr}       /* cancela grid 2 colunas interno */
   .bonus-card{padding:28px 20px}
   .bonus-header{flex-direction:column;align-items:flex-start}
-  .bonus-models{grid-template-columns:1fr}
+  .bonus-models{grid-template-columns:1fr}                 /* de 3 para 1 coluna */
   .pricing-card{padding:28px 20px}
   .pricing-amount .value{font-size:2.8rem}
-  .comparison-table{display:block;overflow-x:auto}
+  .comparison-table{display:block;overflow-x:auto}         /* scroll horizontal na tabela */
   .testimonials-grid{grid-template-columns:1fr}
   .agitation-box{padding:36px 20px}
   section{padding:64px 0}
@@ -501,59 +490,76 @@ section{position:relative;z-index:1;padding:90px 0}
 /* ============================================================
    RESPONSIVIDADE — CELULARES PEQUENOS (max-width: 480px)
    Esconde o botão CTA da nav (muito apertado em 480px).
+   Reduz padding-top do hero (nav menor no mobile).
    ============================================================ */
 @media(max-width:480px){
-  .nav-cta{display:none}
-  .hero{padding-top:90px}
+  .nav-cta{display:none}       /* CTA da nav escondido em telas pequenas */
+  .hero{padding-top:90px}      /* menos padding: nav menor em mobile */
 }
 </style>
 </head>
 <body>
 
+<!-- ============================================================
+     ORBS AMBIENTAIS
+     Puramente decorativos. position: fixed = ficam no mesmo lugar
+     independentemente do scroll. pointer-events: none = invisíveis
+     para cliques e interações do usuário.
+     ============================================================ -->
 <div class="ambient-orb orb-1"></div>
 <div class="ambient-orb orb-2"></div>
 <div class="ambient-orb orb-3"></div>
 
 <!-- ============================================================
      NAVEGAÇÃO FIXA
-     Link aponta direto para o checkout com preço de alunos do Diego.
+     id="nav" = referenciado pelo JavaScript para adicionar .scrolled.
+     O botão de assinar aponta direto para o checkout (link externo).
      ============================================================ -->
 <nav class="nav" id="nav">
   <div class="container nav-inner">
     <div class="nav-logo">Foto<span>SaaS</span></div>
-    <a href="https://pay.kiwify.com.br/aR5G5IF?afid=hqY5Byg5" class="nav-cta">Assinar por R$67/mês →</a>
+    <a href="https://pay.kiwify.com.br/uIKHMLg?afid=hqY5Byg5" class="nav-cta">Assinar por R$97/mês →</a>
   </div>
 </nav>
 
 <!-- ============================================================
-     HERO SECTION
-     Big idea: IA ilimitada = vantagem competitiva real.
+     HERO SECTION — POSICIONAMENTO PRINCIPAL
+     Estrutura: Badge → H1 → Subheadline → CTAs → Bullets
+     Big idea: IA ilimitada = vantagem competitiva real
+     (não automação, não ferramenta — produção mais rápida e ticket maior)
      ============================================================ -->
 <section class="hero">
+  <!-- Grid decorativo de fundo: linhas finas douradas com máscara radial -->
   <div class="hero-grid"></div>
   <div class="container hero-content">
 
+    <!-- Badge: nomeia as IAs pelo nome — ativa reconhecimento imediato no público -->
     <div class="hero-badge">
       <span class="dot"></span>
       Nano Banana · GPT Image · Kling 2.5 — sem limite de geração
     </div>
 
+    <!-- H1: posicionamento de vantagem competitiva.
+         .text-gradient aplica o dourado em "IA ilimitada" -->
     <h1>
       <span class="text-gradient">IA ilimitada</span> para quem quer<br>
       vender mais fotos e aumentar o ticket
     </h1>
 
+    <!-- Subheadline: lista todas as IAs por nome e traduz em benefício concreto.
+         Sem promessas de automação — foco em produção, qualidade e preço. -->
     <p class="sub">
       Use Nano Banana, Nano Banana Pro, Nano Banana 2, GPT Image e Kling 2.5 sem travar em créditos —
       produza mais rápido, entregue com mais qualidade e cobre mais caro por cliente.
     </p>
 
+    <!-- CTAs: principal vai para o checkout | secundário ancora na seção de funcionalidades -->
     <div class="hero-cta-group">
-      <!-- PREÇO ESPECIAL ALUNOS DO DIEGO: R$97 → R$67 -->
-      <a href="https://pay.kiwify.com.br/aR5G5IF?afid=hqY5Byg5" class="btn-primary">Quero IA ilimitada por R$67/mês →</a>
+      <a href="https://pay.kiwify.com.br/uIKHMLg?afid=hqY5Byg5" class="btn-primary">Quero IA ilimitada por R$97/mês →</a>
       <a href="#funcionalidades" class="btn-secondary">↓ Ver o que está incluso</a>
     </div>
 
+    <!-- Bullets de benefício: 3 pilares do produto em forma visual compacta -->
     <div class="hero-bullets">
       <div class="hero-bullet"><div class="hero-bullet-dot"></div>Gere quantas fotos quiser — zero custo por imagem</div>
       <div class="hero-bullet"><div class="hero-bullet-dot"></div>Vídeos ilimitados com Kling 2.5 incluso</div>
@@ -565,6 +571,10 @@ section{position:relative;z-index:1;padding:90px 0}
 
 <!-- ============================================================
      SEÇÃO DE PROBLEMAS — Estrutura PAS
+     P (Problema): grid 2x2 identifica as dores do público
+     A (Agitação): caixa compara preços e apresenta a solução
+     S (Solução): implícita — o FotoSaaS resolve tudo isso
+     .reveal + .reveal-delay-N = cards aparecem em cascata no scroll
      ============================================================ -->
 <section class="problems">
   <div class="container">
@@ -596,23 +606,27 @@ section{position:relative;z-index:1;padding:90px 0}
       </div>
     </div>
 
+    <!-- Caixa de agitação: âncora de preço destrói objeção antes de surgir -->
     <div class="agitation-box reveal">
       <h3>Por que o FotoSaaS é a escolha mais inteligente:</h3>
-      <p>Pagar R$97 no Gemini Pro te dá <strong style="color:var(--danger)">limite de imagens e apenas 3 vídeos por dia</strong>. Pagar R$180 no Freepik Premium+ te dá IAs ilimitadas, mas sem sistema de vendas. O FotoSaaS te dá <strong style="color:var(--accent)">tudo por R$67/mês para alunos do Diego</strong> — Freepik Premium+ incluso, Kling 2.5 ilimitado, e ainda a ferramenta de prévias com marca d'água que aumenta seu ticket médio em cada entrega. Principalmente para quem está começando, não existe decisão melhor.</p>
+      <p>Pagar R$97 no Gemini Pro te dá <strong style="color:var(--danger)">limite de imagens e apenas 3 vídeos por dia</strong>. Pagar R$180 no Freepik Premium+ te dá IAs ilimitadas, mas sem sistema de vendas. O FotoSaaS te dá <strong style="color:var(--accent)">tudo por R$97/mês</strong> — Freepik Premium+ incluso, Kling 2.5 ilimitado, e ainda a ferramenta de prévias com marca d'água que aumenta seu ticket médio em cada entrega. Principalmente para quem está começando, não existe decisão melhor.</p>
     </div>
   </div>
 </section>
 
+<!-- CTA intermediário: o visitante nunca deve estar longe de um botão de compra -->
 <div class="cta-break">
   <div class="container">
-    <a href="https://pay.kiwify.com.br/aR5G5IF?afid=hqY5Byg5" class="btn-primary">Assinar agora por R$67/mês →</a>
-    <p>Freepik Premium+ (R$180/mês) incluso · Preço especial para alunos do Diego</p>
+    <a href="https://pay.kiwify.com.br/uIKHMLg?afid=hqY5Byg5" class="btn-primary">Assinar agora por R$97/mês →</a>
+    <p>Freepik Premium+ (R$180/mês) incluso na assinatura</p>
   </div>
 </div>
 
 <!-- ============================================================
      FUNCIONALIDADES
-     id="funcionalidades" = âncora do btn-secondary "Ver o que está incluso"
+     id="funcionalidades" = ancora do btn-secondary "Ver o que está incluso"
+     Card .featured (full-width) destaca o Order Bump como diferencial único.
+     Número 30-60% de aumento por cliente = prova de impacto.
      ============================================================ -->
 <section class="features" id="funcionalidades">
   <div class="container">
@@ -622,12 +636,14 @@ section{position:relative;z-index:1;padding:90px 0}
     </div>
     <div class="features-grid" style="margin-top:36px">
 
+      <!-- Card featured: grid-column 1/-1 = ocupa toda a largura -->
       <div class="feature-card featured reveal">
         <div>
           <div class="feature-tag">Diferencial exclusivo</div>
           <h4 style="font-size:1.2rem">Sistema de Venda Adicional (Order Bump)</h4>
           <p style="margin-top:10px">Vendeu 10 fotos? Gere 15-20 — sempre buscando entregar fotos boas e de qualidade. Envie as extras com marca d'água pelo link do FotoSaaS. O cliente satisfeito vê as fotos extras e compra com um clique. Cada entrega vira uma nova oportunidade de venda.</p>
         </div>
+        <!-- Número de impacto: ancora a promessa com dado concreto -->
         <div style="text-align:center">
           <div style="background:rgba(212,168,67,.05);border:1px solid var(--border-accent);border-radius:var(--radius);padding:26px">
             <div style="font-size:.72rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Aumento médio por cliente</div>
@@ -637,6 +653,7 @@ section{position:relative;z-index:1;padding:90px 0}
         </div>
       </div>
 
+      <!-- Cards individuais: cada um cobre uma funcionalidade diferente -->
       <div class="feature-card reveal reveal-delay-1">
         <div class="feature-icon">🎨</div>
         <h4>Marca d'água personalizada</h4>
@@ -674,15 +691,16 @@ section{position:relative;z-index:1;padding:90px 0}
 
 <div class="cta-break">
   <div class="container">
-    <a href="https://pay.kiwify.com.br/aR5G5IF?afid=hqY5Byg5" class="btn-primary">Quero assinar o FotoSaaS →</a>
-    <p>Kling 2.5 ilimitado + sistema de vendas · R$67/mês para alunos do Diego</p>
+    <a href="https://pay.kiwify.com.br/uIKHMLg?afid=hqY5Byg5" class="btn-primary">Quero assinar o FotoSaaS →</a>
+    <p>Kling 2.5 ilimitado + sistema de vendas por R$97/mês</p>
   </div>
 </div>
 
 <!-- ============================================================
      BÔNUS — FREEPIK PREMIUM+
-     Estratégia: R$180 riscado vs R$67 total (alunos) =
-     o Freepik sozinho já justifica mais que o preço da assinatura.
+     Estratégia: R$180 riscado vs R$97 total = o Freepik sozinho
+     já justifica o preço da assinatura.
+     Grid 3x3 dos modelos lista visualmente o que está incluso.
      ============================================================ -->
 <section class="bonus">
   <div class="container">
@@ -693,21 +711,25 @@ section{position:relative;z-index:1;padding:90px 0}
     </div>
     <div class="bonus-card reveal">
 
+      <!-- Header: nome + preço riscado R$180 + badge GRÁTIS -->
       <div class="bonus-header">
         <div>
           <h3 style="font-size:1.3rem;font-weight:800;margin-bottom:4px">Freepik Premium+</h3>
           <p style="color:var(--text-secondary);font-size:.88rem">Para criativos que buscam gerações ilimitadas e uso flexível de IA</p>
         </div>
         <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">
+          <!-- R$180 riscado: âncora de valor -->
           <div class="bonus-price-old"><span>R$180</span><small>/mês — preço normal</small></div>
           <div class="bonus-free">GRÁTIS para assinantes ✓</div>
         </div>
       </div>
 
+      <!-- Descrição completa do que está incluso no Freepik Premium+ -->
       <div class="bonus-details">
         <p><strong>45.000 créditos/mês</strong> com uso ilimitado em modelos selecionados. Acesso a todos os modelos de imagem, vídeo e áudio. Ferramentas de edição profissionais. Geração de música, voz e efeitos sonoros. Licença comercial de IA + direitos musicais. Treine a IA para criar estilos, personagens e produtos. Mais de 200 milhões de fotos, vídeos, vetores e PSD. A decisão mais inteligente para quem está no começo da jornada.</p>
       </div>
 
+      <!-- Grid visual dos modelos: "Ilimitado" como reforço da promessa -->
       <div class="bonus-models">
         <div class="model-item"><div class="model-dot"></div><span>Nano Banana 2</span><small>Ilimitado</small></div>
         <div class="model-item"><div class="model-dot"></div><span>Nano Banana Pro</span><small>Ilimitado</small></div>
@@ -720,6 +742,7 @@ section{position:relative;z-index:1;padding:90px 0}
         <div class="model-item"><div class="model-dot"></div><span>+45.000 créditos</span><small>/mês</small></div>
       </div>
 
+      <!-- Condição de acesso + licença comercial -->
       <div class="bonus-footer">
         <span style="font-size:1.1rem">🔓</span>
         <span>Acesso completo enquanto sua assinatura FotoSaaS estiver ativa. Licença comercial inclusa.</span>
@@ -730,6 +753,8 @@ section{position:relative;z-index:1;padding:90px 0}
 
 <!-- ============================================================
      COMPARAÇÃO — FotoSaaS vs Gemini Pro
+     Técnica: mostrar que pelo mesmo preço (R$97) o FotoSaaS
+     entrega infinitamente mais que o principal concorrente.
      ============================================================ -->
 <section style="background:var(--bg-secondary)">
   <div class="container">
@@ -738,12 +763,13 @@ section{position:relative;z-index:1;padding:90px 0}
       <h2 class="section-title">FotoSaaS vs. a concorrência</h2>
       <p class="section-sub">Mesmo preço, mundos diferentes. Veja por que o FotoSaaS é infinitamente melhor.</p>
     </div>
+    <!-- Última coluna (FotoSaaS) tem fundo dourado sutil no thead e tbody -->
     <table class="comparison-table reveal">
       <thead>
         <tr>
           <th>Recurso</th>
           <th>Gemini Pro (R$97/mês)</th>
-          <th class="winner-col">FotoSaaS (R$67/mês*)</th>
+          <th class="winner-col">FotoSaaS (R$97/mês)</th>
         </tr>
       </thead>
       <tbody>
@@ -755,20 +781,31 @@ section{position:relative;z-index:1;padding:90px 0}
         <tr><td class="comp-label">Monetização</td><td><span class="cross">✕</span> Apenas ferramenta</td><td><span class="check">✓</span> Negócio completo</td></tr>
       </tbody>
     </table>
-    <!-- Nota sobre preço especial: clareza para o visitante -->
-    <p style="color:var(--text-muted);font-size:.78rem;margin-top:12px;text-align:center">* Preço especial para alunos do Diego. Preço regular: R$97/mês.</p>
   </div>
 </section>
 
 <div class="cta-break">
   <div class="container">
-    <a href="https://pay.kiwify.com.br/aR5G5IF?afid=hqY5Byg5" class="btn-primary">Assinar o FotoSaaS por R$67/mês →</a>
-    <p>Mais barato que o Gemini Pro. Infinitamente mais completo. Preço especial para alunos do Diego.</p>
+    <a href="https://pay.kiwify.com.br/uIKHMLg?afid=hqY5Byg5" class="btn-primary">Assinar o FotoSaaS por R$97/mês →</a>
+    <p>Mais barato que o Gemini Pro. Infinitamente mais completo.</p>
   </div>
 </div>
 
 <!-- ============================================================
-     PROVA SOCIAL — DEPOIMENTOS (10 cards)
+     PROVA SOCIAL — DEPOIMENTOS (10 cards — número par)
+     Cada depoimento cobre um ângulo diferente de compra:
+     1. Consolidação (cancelou 3 ferramentas)
+     2. Substituição (não precisa mais do Gemini)
+     3. Ticket médio +50% com vídeos
+     4. Assina só pelas prévias com marca d'água
+     5. Assina só pelo Freepik ilimitado
+     6. Order bump — vender depois de vender
+     7. Autoridade dos criadores (Matheus e Gil)
+     8. Indicação via afiliado (Victor)
+     9. Prova social via comunidade (turma do Diego)
+     10. GPT Image + qualidade das fotos (novo — fecha par)
+     Stats de quantidade/faturamento REMOVIDAS: só entram
+     na página quando forem números reais verificáveis.
      ============================================================ -->
 <section>
   <div class="container">
@@ -779,60 +816,70 @@ section{position:relative;z-index:1;padding:90px 0}
 
     <div class="testimonials-grid" style="margin-top:36px">
 
+      <!-- 1. Consolidação: cancelou 3 ferramentas -->
       <div class="testimonial-card reveal reveal-delay-1">
         <div class="testimonial-stars">★★★★★</div>
         <blockquote>"Eu pagava 3 ferramentas diferentes para gerar imagens e vídeos. Depois que assinei o FotoSaaS, cancelei todas. Aqui tem tudo num lugar só e ainda é mais barato."</blockquote>
         <div class="testimonial-author"><div class="testimonial-avatar">CA</div><div><div class="testimonial-name">Camila</div><div class="testimonial-role">Assinante FotoSaaS</div></div></div>
       </div>
 
+      <!-- 2. Substituição do Gemini -->
       <div class="testimonial-card reveal reveal-delay-2">
         <div class="testimonial-stars">★★★★★</div>
         <blockquote>"Eu já pagava o GPT e o Claude. Agora pago o FotoSaaS também. Não preciso mais do Gemini, tendo em vista que o Kling 2.5 do FotoSaaS é ilimitado."</blockquote>
         <div class="testimonial-author"><div class="testimonial-avatar">RO</div><div><div class="testimonial-name">Rodrigo</div><div class="testimonial-role">Assinante FotoSaaS</div></div></div>
       </div>
 
+      <!-- 3. Ticket médio +50% com vídeos -->
       <div class="testimonial-card reveal reveal-delay-3">
         <div class="testimonial-stars">★★★★★</div>
         <blockquote>"Aumentei meu ticket médio em 50% só adicionando vídeos nos meus pacotes. O cliente se impressiona muito com vídeo feito por IA."</blockquote>
         <div class="testimonial-author"><div class="testimonial-avatar">FE</div><div><div class="testimonial-name">Fernanda</div><div class="testimonial-role">Assinante FotoSaaS</div></div></div>
       </div>
 
+      <!-- 4. Assina só pela ferramenta de prévias -->
       <div class="testimonial-card reveal reveal-delay-1">
         <div class="testimonial-stars">★★★★★</div>
         <blockquote>"Eu tenho um Freepik de R$180 que eu pago, porém a ferramenta de prévias do FotoSaaS é incrível. Realmente eu assino só por ela."</blockquote>
         <div class="testimonial-author"><div class="testimonial-avatar">LU</div><div><div class="testimonial-name">Lucas</div><div class="testimonial-role">Assinante FotoSaaS</div></div></div>
       </div>
 
+      <!-- 5. Assina só pelo Freepik ilimitado -->
       <div class="testimonial-card reveal reveal-delay-2">
         <div class="testimonial-stars">★★★★★</div>
         <blockquote>"Eu não gosto de vender por prévias, mas assino o FotoSaaS só pelo Freepik ilimitado. As IAs são absurdas e não gasto crédito nos modelos selecionados."</blockquote>
         <div class="testimonial-author"><div class="testimonial-avatar">AN</div><div><div class="testimonial-name">Ana</div><div class="testimonial-role">Assinante FotoSaaS</div></div></div>
       </div>
 
+      <!-- 6. Order bump: vender depois de vender -->
       <div class="testimonial-card reveal reveal-delay-3">
         <div class="testimonial-stars">★★★★★</div>
         <blockquote>"O melhor do FotoSaaS é vender DEPOIS de vender. O cliente já comprou, ficou satisfeito, e com as fotos extras eu faço mais uma venda fácil."</blockquote>
         <div class="testimonial-author"><div class="testimonial-avatar">PE</div><div><div class="testimonial-name">Pedro</div><div class="testimonial-role">Assinante FotoSaaS</div></div></div>
       </div>
 
+      <!-- 7. Autoridade dos criadores -->
       <div class="testimonial-card reveal reveal-delay-1">
         <div class="testimonial-stars">★★★★★</div>
         <blockquote>"Matheus e Gil criaram uma ferramenta que realmente resolve nosso problema. Vocês são demais, obrigada por ouvirem a comunidade!"</blockquote>
         <div class="testimonial-author"><div class="testimonial-avatar">JU</div><div><div class="testimonial-name">Juliana</div><div class="testimonial-role">Assinante FotoSaaS</div></div></div>
       </div>
 
+      <!-- 8. Indicação via afiliado (Victor) -->
       <div class="testimonial-card reveal reveal-delay-2">
         <div class="testimonial-stars">★★★★★</div>
         <blockquote>"Gratidão ao Victor por ter indicado o FotoSaaS no treinamento. Mudou completamente a forma como eu entrego e vendo meus ensaios."</blockquote>
         <div class="testimonial-author"><div class="testimonial-avatar">MA</div><div><div class="testimonial-name">Mariana</div><div class="testimonial-role">Assinante FotoSaaS</div></div></div>
       </div>
 
+      <!-- 9. Prova social via comunidade (turma do Diego) -->
       <div class="testimonial-card reveal reveal-delay-3">
         <div class="testimonial-stars">★★★★★</div>
         <blockquote>"Sou aluna do Diego e o FotoSaaS é a querida da turma. Todo mundo usa e os resultados são reais. Recomendo muito!"</blockquote>
         <div class="testimonial-author"><div class="testimonial-avatar">BE</div><div><div class="testimonial-name">Beatriz</div><div class="testimonial-role">Assinante FotoSaaS</div></div></div>
       </div>
 
+      <!-- 10. GPT Image + qualidade das fotos (fecha o par) -->
       <div class="testimonial-card reveal reveal-delay-1">
         <div class="testimonial-stars">★★★★★</div>
         <blockquote>"O GPT Image dentro do Freepik é outro nível. A qualidade das fotos melhorou absurdamente e meus clientes percebem a diferença na hora."</blockquote>
@@ -845,6 +892,9 @@ section{position:relative;z-index:1;padding:90px 0}
 
 <!-- ============================================================
      PREMIAÇÕES — GAMIFICAÇÃO
+     Metas de faturamento que desbloqueiam prêmios físicos.
+     Cria senso de pertencimento e motivação pós-compra.
+     Coloque os arquivos de imagem em: assets/images/
      ============================================================ -->
 <section style="background:var(--bg-secondary)">
   <div class="container">
@@ -855,14 +905,14 @@ section{position:relative;z-index:1;padding:90px 0}
     </div>
     <div class="premiacoes-grid">
       <div class="premiacao-card reveal reveal-delay-1">
-        <!-- Arquivo: assets/images/pulseira-5k.jpeg -->
+        <!-- Imagem da premiação: arquivo em assets/images/pulseira-5k.jpeg -->
         <img src="assets/images/pulseira-5k.jpeg" alt="Pulseira Fotógrafo 5K" style="width:100%;height:auto;border-radius:var(--radius);margin-bottom:24px">
         <div class="meta-tag">Meta: R$ 5.000</div>
         <h4>Pulseira Fotógrafo 5K</h4>
         <p>Ao atingir R$5.000 em faturamento pela plataforma, você recebe uma pulseira exclusiva como reconhecimento do seu sucesso.</p>
       </div>
       <div class="premiacao-card reveal reveal-delay-2">
-        <!-- Arquivo: assets/images/placa-10k.jpeg -->
+        <!-- Imagem da premiação: arquivo em assets/images/placa-10k.jpeg -->
         <img src="assets/images/placa-10k.jpeg" alt="Placa Fotógrafo 10K" style="width:100%;height:auto;border-radius:var(--radius);margin-bottom:24px">
         <div class="meta-tag">Meta: R$ 10.000</div>
         <h4>Placa Fotógrafo 10K</h4>
@@ -874,36 +924,25 @@ section{position:relative;z-index:1;padding:90px 0}
 
 <!-- ============================================================
      PRICING — SEÇÃO DE PREÇO
-     PREÇO ESPECIAL PARA ALUNOS DO DIEGO:
-     - Preço original (R$97) exibido riscado como âncora de valor
-     - Badge verde "Desconto para alunos do Diego"
-     - Preço final: R$67/mês
-     Para reverter ao preço normal:
-       1. Remova .pricing-old e .pricing-discount-badge
-       2. Mude .pricing-amount .value para "97"
-       3. Troque o link pelo checkout de R$97
+     id="pricing" = âncora de links internos
+     Plano único elimina paralisia de escolha (paradox of choice).
+     Âncora de valor: "mais barato que ferramentas que fazem metade disso"
      ============================================================ -->
 <section class="pricing" id="pricing">
   <div class="container">
     <div class="reveal" style="text-align:center">
       <div class="section-label" style="justify-content:center">Assinatura</div>
-      <h2 class="section-title">IA ilimitada + sistema de vendas + ticket maior.<br><span class="text-gradient">Tudo por R$67/mês para alunos do Diego.</span></h2>
+      <h2 class="section-title">IA ilimitada + sistema de vendas + ticket maior.<br><span class="text-gradient">Tudo por R$97/mês.</span></h2>
       <p class="section-sub" style="margin:0 auto 44px;text-align:center">PIX 100% na sua conta. Sem taxas por transação. Sem surpresas.</p>
     </div>
     <div class="pricing-card reveal">
-      <!-- Badge de plano + badge de desconto lado a lado -->
       <div class="pricing-badge">Plano único</div>
-      <div class="pricing-discount-badge">🎓 Desconto para alunos do Diego</div>
-
-      <!-- Preço original riscado: âncora de valor antes do preço final -->
-      <span class="pricing-old">De R$97/mês</span>
-
-      <!-- Preço final com desconto -->
+      <!-- .currency com vertical-align: super = superescrito ao lado do número -->
       <div class="pricing-amount">
-        <span class="currency">R$</span><span class="value">67</span><span class="period">/mês</span>
+        <span class="currency">R$</span><span class="value">97</span><span class="period">/mês</span>
       </div>
       <p class="pricing-subtitle">Mais barato que ferramentas que fazem metade disso</p>
-
+      <!-- Lista completa de entregáveis incluídos na assinatura -->
       <ul class="pricing-features">
         <li><span class="pf-check">✓</span> Plataforma FotoSaaS completa</li>
         <li><span class="pf-check">✓</span> Sistema de galerias com marca d'água</li>
@@ -917,15 +956,17 @@ section{position:relative;z-index:1;padding:90px 0}
         <li><span class="pf-check">✓</span> Calls ao vivo com novidades e dicas</li>
         <li><span class="pf-check">✓</span> Grupo exclusivo de assinantes</li>
       </ul>
-
-      <!-- id="main-cta" para rastreamento de conversão -->
-      <a href="https://pay.kiwify.com.br/aR5G5IF?afid=hqY5Byg5" class="pricing-cta" id="main-cta">Assinar agora por R$67/mês →</a>
+      <!-- id="main-cta" pode ser usado para rastreamento de conversão -->
+      <a href="https://pay.kiwify.com.br/uIKHMLg?afid=hqY5Byg5" class="pricing-cta" id="main-cta">Assinar agora →</a>
+      <!-- .pricing-guarantee REMOVIDO a pedido do Victor -->
     </div>
   </div>
 </section>
 
 <!-- ============================================================
-     FAQ — ACCORDION
+     FAQ — ACCORDION DE PERGUNTAS FREQUENTES
+     Objetivo: eliminar objeções antes que surjam na mente do leitor.
+     Cada pergunta cobre uma barreira de compra diferente.
      ============================================================ -->
 <section>
   <div class="container">
@@ -935,31 +976,39 @@ section{position:relative;z-index:1;padding:90px 0}
     </div>
     <div class="faq-list" style="margin-top:44px">
 
+      <!-- Barreira 1: "não tenho experiência"
+           Removido: "As calls ao vivo vão te guiar do zero à primeira venda." -->
       <div class="faq-item reveal">
         <button class="faq-question"><span>Sou iniciante, o FotoSaaS é pra mim?</span><span class="faq-icon">+</span></button>
         <div class="faq-answer"><div class="faq-answer-inner">Melhor ainda. O FotoSaaS foi criado pensando em quem está começando. Você não precisa de câmera, estúdio ou experiência. Só precisa da foto do rosto do cliente e bons prompts.</div></div>
       </div>
 
+      <!-- Barreira 2: "não sei usar IA"
+           Removido: "Na comunidade, você encontra prompts prontos, tutoriais e suporte ao vivo." -->
       <div class="faq-item reveal">
         <button class="faq-question"><span>Não sei usar IA, vou conseguir?</span><span class="faq-icon">+</span></button>
         <div class="faq-answer"><div class="faq-answer-inner">Sim. O processo é simples: você sobe a foto do rosto, escolhe o prompt e a IA gera as fotos.</div></div>
       </div>
 
+      <!-- Barreira 3: "como funciona o Freepik?" -->
       <div class="faq-item reveal">
         <button class="faq-question"><span>Como funciona o acesso ao Freepik Premium+?</span><span class="faq-icon">+</span></button>
         <div class="faq-answer"><div class="faq-answer-inner">Ao assinar o FotoSaaS, você recebe acesso à conta Freepik Premium+ (que normalmente custa R$180/mês). Lá dentro estão todos os modelos de IA: Nano Banana, GPT Image, Kling 2.5 e muito mais — com 45.000 créditos/mês e geração ilimitada nos modelos selecionados.</div></div>
       </div>
 
+      <!-- Barreira 4: "medo de perder dinheiro para taxas" -->
       <div class="faq-item reveal">
         <button class="faq-question"><span>O PIX cai direto na minha conta?</span><span class="faq-icon">+</span></button>
-        <div class="faq-answer"><div class="faq-answer-inner">Sim. Não somos gateway de pagamento. O PIX vai 100% direto para a conta que você cadastrar, sem nenhuma taxa por transação. O FotoSaaS cobra apenas a mensalidade fixa.</div></div>
+        <div class="faq-answer"><div class="faq-answer-inner">Sim. Não somos gateway de pagamento. O PIX vai 100% direto para a conta que você cadastrar, sem nenhuma taxa por transação. O FotoSaaS cobra apenas a mensalidade fixa de R$97.</div></div>
       </div>
 
+      <!-- Barreira 5: "confirma a promessa do Kling ilimitado" -->
       <div class="faq-item reveal">
         <button class="faq-question"><span>Os vídeos com Kling 2.5 são realmente ilimitados?</span><span class="faq-icon">+</span></button>
         <div class="faq-answer"><div class="faq-answer-inner">Sim. Diferente do Gemini Pro que limita a 3 vídeos por dia, com o Kling 2.5 incluso no Freepik Premium+ você gera vídeos à vontade. Tire suas ideias da cabeça e traga para a realidade usando IA, sem limites.</div></div>
       </div>
 
+      <!-- Barreira 6: "não tenho clientes ainda" -->
       <div class="faq-item reveal">
         <button class="faq-question"><span>Não tenho clientes ainda. O que faço?</span><span class="faq-icon">+</span></button>
         <div class="faq-answer"><div class="faq-answer-inner">Use a IA para criar um portfólio impressionante. Com fotos de alta qualidade geradas por IA, você pode começar a divulgar nas redes sociais e atrair seus primeiros clientes rapidamente, com zero investimento em equipamento.</div></div>
@@ -970,14 +1019,16 @@ section{position:relative;z-index:1;padding:90px 0}
 </section>
 
 <!-- ============================================================
-     CTA FINAL
+     CTA FINAL — Última chamada para ação
+     Repete a big idea em forma de declaração definitiva.
+     ::before = orb suave atrás do texto para profundidade visual.
      ============================================================ -->
 <section class="final-cta">
   <div class="container">
     <div class="reveal">
       <h2>Quem tem <span class="text-gradient">IA ilimitada</span> produz mais,<br>testa mais e por isso vende mais.</h2>
       <p>Pare de travar em créditos. Use Nano Banana, GPT Image e Kling 2.5 sem limite — e entregue mais em cada cliente.</p>
-      <a href="https://pay.kiwify.com.br/aR5G5IF?afid=hqY5Byg5" class="btn-primary" style="display:inline-flex">Quero IA ilimitada por R$67/mês →</a>
+      <a href="https://pay.kiwify.com.br/uIKHMLg?afid=hqY5Byg5" class="btn-primary" style="display:inline-flex">Quero IA ilimitada por R$97/mês →</a>
     </div>
   </div>
 </section>
@@ -994,10 +1045,22 @@ section{position:relative;z-index:1;padding:90px 0}
      BOTÃO FLUTUANTE DO WHATSAPP
      wa.me/[código do país][DDD][número] = abre chat direto.
      ?text= = mensagem pré-preenchida (codificada em URI).
+     target="_blank" = abre em nova aba (não abandona a LP).
+     aria-label = acessibilidade para leitores de tela.
+
+     BUG CORRIGIDO: o path SVG estava com "-1.761" onde deveria
+     ser "-1.48-1.761" — faltava um segmento da curva bezier,
+     o que quebrava a forma do ícone visualmente.
      NÃO edite os valores numéricos do path SVG.
      ============================================================ -->
 <a href="https://wa.me/5514998951657?text=oi%20VICTOR%2C%20tenho%20duvida%20sobre%20o%20fotosaas%2C%20quero%20saber%20sobre%3A"
    target="_blank" class="whatsapp-btn" aria-label="WhatsApp">
+  <!--
+    viewBox="0 0 24 24" = sistema de coordenadas interno do SVG (24x24 unidades).
+    O path abaixo tem dois sub-paths (separados por "m"):
+    1. O handset/balão de fala interno do ícone
+    2. O contorno arredondado externo do app
+  -->
   <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
   </svg>
@@ -1005,15 +1068,16 @@ section{position:relative;z-index:1;padding:90px 0}
 
 <!-- ============================================================
      JAVASCRIPT — INTERAÇÕES DA PÁGINA
-     Posicionado no final do <body>:
+     Posicionado no final do <body> (boa prática):
      - Não bloqueia o carregamento do HTML/CSS
      - Todos os elementos já existem no DOM quando o JS roda
      ============================================================ -->
 <script>
 // ============================================================
 // 1. EFEITO DE SCROLL NA NAVEGAÇÃO
+// addEventListener('scroll') = dispara a cada evento de scroll.
 // classList.toggle(classe, condicao): adiciona se true, remove se false.
-// window.scrollY = pixels rolados desde o topo.
+// window.scrollY = pixels rolados desde o topo da página.
 // Resultado: nav fica mais opaca após 50px de scroll.
 // ============================================================
 const nav = document.getElementById('nav');
@@ -1023,9 +1087,15 @@ window.addEventListener('scroll', () => {
 
 // ============================================================
 // 2. ANIMAÇÃO DE REVEAL NO SCROLL (IntersectionObserver API)
+// IntersectionObserver detecta quando elementos entram/saem
+// da viewport sem usar eventos de scroll — muito mais performático.
+//
 // threshold: 0.1 = dispara quando 10% do elemento está visível
-// rootMargin: bottom -40px = zona de detecção reduzida 40px abaixo
-// Quando isIntersecting = true: adicionamos .visible ao elemento.
+// rootMargin: '0px 0px -40px 0px' = reduz zona de detecção em
+// 40px na parte inferior (anima ligeiramente antes de aparecer)
+//
+// Quando isIntersecting = true: adicionamos .visible.
+// O CSS em .reveal.visible anima opacity e translateY para 0.
 // ============================================================
 const reveals = document.querySelectorAll('.reveal');
 const ro = new IntersectionObserver((entries) => {
@@ -1041,23 +1111,28 @@ reveals.forEach(el => ro.observe(el));
 
 // ============================================================
 // 3. FAQ ACCORDION
-// 1. wasOpen = verifica se o item JÁ estava aberto
-// 2. Remove .open de todos (fecha tudo)
-// 3. Se wasOpen era false → abre o clicado
-//    Se wasOpen era true → permanece fechado
+// Lógica toggle com fechamento dos outros itens:
+// 1. Verifica se o item clicado JÁ estava aberto (wasOpen)
+// 2. Remove .open de TODOS os itens (fecha tudo)
+// 3. Se wasOpen era false → abre o clicado (adiciona .open)
+//    Se wasOpen era true → permanece fechado (não reabre)
+// A animação (max-height: 0 → 300px) é 100% CSS.
 // ============================================================
 document.querySelectorAll('.faq-question').forEach(btn => {
   btn.addEventListener('click', () => {
-    const item = btn.parentElement;
-    const wasOpen = item.classList.contains('open');
+    const item = btn.parentElement;                    // .faq-item pai do botão
+    const wasOpen = item.classList.contains('open');   // estava aberto antes do clique?
+
     document.querySelectorAll('.faq-item').forEach(x => x.classList.remove('open'));
+
     if (!wasOpen) item.classList.add('open');
   });
 });
 
 // ============================================================
 // 4. SMOOTH SCROLL para links âncora internos (#secao)
-// preventDefault() = cancela o pulo instantâneo padrão
+// querySelectorAll('a[href^="#"]') = seleciona links que começam com #
+// preventDefault() = cancela o pulo instantâneo padrão do browser
 // scrollIntoView({ behavior: 'smooth' }) = rolagem suave nativa
 // ============================================================
 document.querySelectorAll('a[href^="#"]').forEach(a => {
