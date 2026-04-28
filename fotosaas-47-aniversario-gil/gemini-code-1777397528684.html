@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B-DAY DO GIL 🎂 FotoSaaS — Oferta Especial 21 Anos</title>
+    <meta name="description" content="Aniversário do Gil! Só hoje, 28/04, o FotoSaaS de R$67 por apenas R$47. IAs ilimitadas: Nano Banana 2, Flux 2 Pro e Kling 2.5.">
+    <style>
+        :root {
+            /* Paleta Especial de Aniversário (Dourado Festivo) */
+            --bg-primary:   #0A0A0A;
+            --bg-secondary: #111111;
+            --bg-card:      #161616;
+            --accent:       #F5BD02; /* Dourado mais vibrante para festa */
+            --accent-light: #FFD700;
+            --accent-glow:  rgba(245, 189, 2, 0.3);
+            --text-primary:  #F2F0EB;
+            --text-secondary: #9E9A90;
+            --text-muted:     #5E5A52;
+            --border:         rgba(255,255,255,0.06);
+            --border-accent:  rgba(245, 189, 2, 0.2);
+            --gradient-party: linear-gradient(135deg, #F5BD02 0%, #FFD700 50%, #B8860B 100%);
+            --radius: 14px;
+            --radius-lg: 20px;
+            --shadow-glow: 0 0 50px rgba(245, 189, 2, 0.15);
+            --danger: #FF5C5C;
+        }
+
+        *{margin:0;padding:0;box-sizing:border-box}
+        html{scroll-behavior:smooth;font-size:16px}
+        body{font-family:Arial,Helvetica,sans-serif;background:var(--bg-primary);color:var(--text-primary);overflow-x:hidden;line-height:1.7;-webkit-font-smoothing:antialiased}
+        .container{max-width:1100px;margin:0 auto;padding:0 24px}
+        .text-gradient{background:var(--gradient-party);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        
+        /* Orbs de Aniversário */
+        .ambient-orb{position:fixed;border-radius:50%;filter:blur(140px);pointer-events:none;z-index:0}
+        .orb-1{width:500px;height:500px;background:var(--accent);top:-200px;left:-150px;opacity:.1}
+        .orb-2{width:400px;height:400px;background:#B8860B;top:40%;right:-200px;opacity:.08}
+
+        /* Nav */
+        .nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:14px 0;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(10,10,10,.8);border-bottom:1px solid var(--border-accent);transition:all .3s}
+        .nav-inner{display:flex;justify-content:space-between;align-items:center}
+        .nav-logo{font-weight:900;font-size:1.4rem;letter-spacing:-.5px}
+        .nav-logo span{color:var(--accent)}
+        .nav-cta{background:var(--gradient-party);color:#0A0A0A;text-decoration:none;padding:10px 22px;border-radius:50px;font-weight:700;font-size:.82rem;transition:all .3s;box-shadow:0 4px 18px var(--accent-glow)}
+        
+        /* Hero */
+        .hero{position:relative;z-index:1;min-height:90vh;display:flex;align-items:center;padding:130px 0 80px;overflow:hidden;text-align:center}
+        .hero-badge{display:inline-flex;align-items:center;gap:8px;padding:7px 18px;background:rgba(245, 189, 2, 0.12);border:1px solid var(--border-accent);border-radius:50px;font-size:.85rem;font-weight:700;color:var(--accent-light);margin-bottom:28px}
+        .hero h1{font-weight:900;font-size:clamp(2.2rem,6vw,4rem);line-height:1.1;letter-spacing:-1.5px;margin-bottom:22px}
+        .hero p.sub{font-size:clamp(1rem,2vw,1.2rem);color:var(--text-secondary);max-width:750px;margin:0 auto 36px}
+        
+        /* Preços */
+        .price-tag{display:flex;justify-content:center;align-items:center;gap:15px;margin-bottom:30px}
+        .old-price{font-size:1.5rem;text-decoration:line-through;color:var(--text-muted)}
+        .new-price{font-size:3.5rem;font-weight:900;color:var(--accent)}
+
+        .btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--gradient-party);color:#0A0A0A;text-decoration:none;padding:18px 40px;border-radius:50px;font-weight:800;font-size:1.1rem;transition:all .3s;box-shadow:0 6px 35px var(--accent-glow);position:relative}
+        .btn-primary:hover{transform:scale(1.05);box-shadow:0 10px 45px var(--accent-glow)}
+
+        /* Confetti / Party Elements */
+        .confetti{position:absolute;font-size:20px;pointer-events:none;animation:fall 3s linear infinite}
+        @keyframes fall{from{transform:translateY(-10vh) rotate(0deg)}to{transform:translateY(110vh) rotate(360deg)}}
+
+        /* Sections */
+        section{position:relative;z-index:1;padding:90px 0}
+        .section-label{display:inline-flex;align-items:center;gap:8px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:2.5px;color:var(--accent);margin-bottom:14px}
+        .section-title{font-weight:900;font-size:clamp(1.8rem,4vw,2.8rem);margin-bottom:44px}
+        
+        /* Features Grid */
+        .features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+        .feature-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:32px;transition:all .3s}
+        .feature-card:hover{border-color:var(--border-accent);transform:translateY(-5px)}
+        .feature-icon{font-size:2rem;margin-bottom:15px}
+
+        /* Bonus/Models */
+        .bonus-card{background:var(--bg-card);border:2px solid var(--border-accent);border-radius:var(--radius-lg);padding:40px;position:relative}
+        .bonus-models{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:25px}
+        .model-item{background:rgba(255,255,255,0.03);padding:15px;border-radius:10px;display:flex;align-items:center;gap:10px;border:1px solid var(--border)}
+        .model-dot{width:8px;height:8px;background:var(--accent);border-radius:50%}
+
+        /* Pricing Card */
+        .pricing-section{background:var(--bg-secondary)}
+        .pricing-card{max-width:550px;margin:0 auto;background:var(--bg-card);border:3px solid var(--accent);border-radius:var(--radius-lg);padding:50px;text-align:center;box-shadow:var(--shadow-glow)}
+        .renewal-note{background:rgba(245, 189, 2, 0.1);padding:10px;border-radius:8px;font-size:.85rem;color:var(--accent);font-weight:700;margin-top:20px;border:1px dashed var(--accent)}
+
+        .footer{padding:50px 0;text-align:center;border-top:1px solid var(--border);color:var(--text-muted)}
+        
+        /* Floating Whatsapp */
+        .whatsapp-btn{position:fixed;bottom:24px;right:24px;z-index:999;width:60px;height:60px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(0,0,0,0.5)}
+
+        @media(max-width:768px){
+            .hero h1{font-size:2.2rem}
+            .new-price{font-size:2.8rem}
+            .pricing-card{padding:30px 20px}
+        }
+    </style>
+</head>
+<body>
+
+<div class="ambient-orb orb-1"></div>
+<div class="ambient-orb orb-2"></div>
+
+<nav class="nav">
+    <div class="container nav-inner">
+        <div class="nav-logo">Foto<span>SaaS</span></div>
+        <a href="https://pay.kiwify.com.br/AMiL1fs?afid=gyFzqgzd" class="nav-cta">Assinar B-Day R$47/mês</a>
+    </div>
+</nav>
+
+<section class="hero">
+    <div class="container">
+        <div class="hero-badge">🎂 SÓ HOJE: ANIVERSÁRIO DO GIL (21 ANOS)</div>
+        <h1><span class="text-gradient">O Gil faz 21 anos,</span><br>mas quem ganha o presente é você!</h1>
+        <p class="sub">Somente neste dia 28/04, libere o FotoSaaS com valor histórico de aniversário. IA ilimitada para escalar seu negócio de fotos e vídeos.</p>
+        
+        <div class="price-tag">
+            <span class="old-price">De R$ 67</span>
+            <span class="new-price text-gradient">R$ 47<small style="font-size: 1rem; font-weight: 400; color: var(--text-secondary)">/mês</small></span>
+        </div>
+
+        <a href="https://pay.kiwify.com.br/AMiL1fs?afid=gyFzqgzd" class="btn-primary">APROVEITAR PRESENTE: R$47/MÊS →</a>
+        
+        <p style="margin-top: 20px; font-weight: 700; color: var(--accent)">⚠️ O preço de R$47 será mantido para sempre enquanto sua renovação estiver ativa!</p>
+    </div>
+</section>
+
+<section class="features" style="background: var(--bg-secondary);">
+    <div class="container">
+        <div class="section-label">O que mudou?</div>
+        <h2 class="section-title">As IAs mais poderosas do mercado<br><span class="text-gradient">sem limites para você produzir.</span></h2>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🍌</div>
+                <h4>Nano Banana 2</h4>
+                <p>A evolução da IA de fotos de rosto. Resultados ultra realistas e ilimitados.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔥</div>
+                <h4>Flux 2 Pro</h4>
+                <p>Qualidade profissional para cenários e iluminação. Agora ilimitado no FotoSaaS.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">✨</div>
+                <h4>Seedream 4.5</h4>
+                <p>Perfeito para ensaios artísticos e editoriais de moda com IA.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎬</div>
+                <h4>Kling 2.5 (Vídeos)</h4>
+                <p>Crie vídeos cinematográficos a partir de fotos. Sem limites de geração para membros.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="bonus">
+    <div class="container">
+        <div class="section-label">Acesso Completo</div>
+        <h2 class="section-title">Sua Central de Inteligência Artificial</h2>
+        <div class="bonus-card">
+            <h3>Modelos Ativos e Ilimitados:</h3>
+            <div class="bonus-models">
+                <div class="model-item"><div class="model-dot"></div><span>Nano Banana 2</span></div>
+                <div class="model-item"><div class="model-dot"></div><span>Flux 2 Pro</span></div>
+                <div class="model-item"><div class="model-dot"></div><span>Seedream 4.5</span></div>
+                <div class="model-item"><div class="model-dot"></div><span>Kling 2.5 (Vídeo)</span></div>
+                <div class="model-item"><div class="model-dot"></div><span>Nano Banana</span></div>
+            </div>
+            <p style="margin-top: 30px; color: var(--text-secondary); font-size: 0.9rem;">*Os modelos GPT e Flux 2 Max foram descontinuados para dar lugar às novas versões mais rápidas e potentes.</p>
+        </div>
+    </div>
+</section>
+
+<section class="pricing-section">
+    <div class="container">
+        <div class="pricing-card">
+            <div class="section-label" style="justify-content: center;">OFERTA DE ANIVERSÁRIO</div>
+            <h2 style="font-size: 2.5rem; margin-bottom: 10px;">Plano B-Day Gil</h2>
+            <div class="price-tag">
+                <span class="old-price">R$ 67</span>
+                <span class="new-price">R$ 47</span>
+            </div>
+            
+            <ul style="list-style: none; text-align: left; margin: 30px 0; border-top: 1px solid var(--border); padding-top: 20px;">
+                <li style="margin-bottom: 12px;">✅ IAs Ilimitadas (Nano Banana 2, Flux 2 Pro, etc)</li>
+                <li style="margin-bottom: 12px;">✅ Vídeos Ilimitados com Kling 2.5</li>
+                <li style="margin-bottom: 12px;">✅ Sistema de Galerias e Venda Adicional</li>
+                <li style="margin-bottom: 12px;">✅ PIX direto na sua conta</li>
+                <li style="margin-bottom: 12px;">✅ Freepik Premium+ Incluso</li>
+            </ul>
+
+            <a href="https://pay.kiwify.com.br/AMiL1fs?afid=gyFzqgzd" class="btn-primary" style="width: 100%; justify-content: center;">ASSINAR POR R$47 AGORA →</a>
+            
+            <div class="renewal-note">
+                SOU CLIENTE FIEL: Mantendo sua assinatura ativa, o valor de R$47 será o seu preço permanente de renovação!
+            </div>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 15px;">Promoção válida apenas hoje, 28/04 até às 23:59.</p>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <p><strong>Foto<span>SaaS</span> — B-Day Edition</strong></p>
+        <p>© 2026 Gil 21 Anos. Todos os direitos reservados.</p>
+    </div>
+</footer>
+
+<a href="https://wa.me/5514998951657?text=Parabéns%20Gil!%20Quero%20aproveitar%20a%20promoção%20de%20aniversário" target="_blank" class="whatsapp-btn">
+    <svg viewBox="0 0 24 24" width="32" height="32" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+    // Gerar confetes simples
+    function createConfetti() {
+        const colors = ['#F5BD02', '#FFD700', '#FFFFFF'];
+        const confetti = document.createElement('div');
+        confetti.classList.add('confetti');
+        confetti.innerText = '✨';
+        confetti.style.left = Math.random() * 100 + 'vw';
+        confetti.style.color = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.animationDuration = (Math.random() * 2 + 3) + 's';
+        document.body.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 5000);
+    }
+    setInterval(createConfetti, 300);
+</script>
+
+</body>
+</html>
