@@ -2,807 +2,570 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
+<!-- Meta viewport: garante responsividade em dispositivos móveis.
+     width=device-width: usa a largura real do dispositivo.
+     initial-scale=1.0: impede zoom automático no carregamento. -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🎂 FotoSaaS — Aniversário do Gil · Oferta Especial Hoje</title>
-<meta name="description" content="Aniversário de 21 anos do Gil! Hoje o FotoSaaS sai por R$47/mês — quem assinar por R$47 mantém esse preço para sempre. Nano Banana 2, Flux 2 Pro, Seedream 4.5 e Kling 2.5 ilimitados.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- Title: aparece na aba do navegador e nos resultados do Google (SEO) -->
+<title>FotoSaaS — IA Ilimitada + Mais Vendas + Ticket Maior</title>
+<!-- Meta description: snippet exibido nos resultados de busca.
+     Ideal entre 150-160 caracteres para não ser cortado pelo Google. -->
+<meta name="description" content="Use Nano Banana, GPT Image e Kling 2.5 sem limites. Produza mais rápido, entregue melhor e aumente seu faturamento com fotos feitas por IA.">
 <style>
+/* ============================================================
+   VARIÁVEIS CSS (Custom Properties)
+   Definidas em :root para uso global em toda a página.
+   Vantagem: mudar uma cor aqui reflete em todos os elementos
+   que usam essa variável — sem precisar caçar cada linha.
+   Sintaxe de uso: color: var(--nome-da-variavel)
+   ============================================================ */
 :root {
-  --bg-primary:   #080808;
-  --bg-secondary: #0F0F0F;
-  --bg-card:      #141414;
+  /* --- Backgrounds (do mais escuro ao mais claro) --- */
+  --bg-primary:   #0A0A0A;   /* Fundo principal: preto profundo */
+  --bg-secondary: #111111;   /* Fundo de seções alternadas: preto suave */
+  --bg-card:      #161616;   /* Fundo dos cards internos */
 
-  --gold:         #D4A843;
-  --gold-light:   #F0C75A;
-  --gold-pale:    #F7DFA0;
-  --gold-glow:    rgba(212,168,67,0.22);
-  --gold-bg:      rgba(212,168,67,0.06);
+  /* --- Paleta dourada (cor de destaque / accent) --- */
+  --accent:       #D4A843;               /* Dourado principal */
+  --accent-light: #E8C36A;               /* Dourado mais claro (hover, destaques) */
+  --accent-glow:  rgba(212,168,67,0.25); /* Dourado com transparência (sombras/glow) */
+  --accent-2:     #F0D078;               /* Dourado secundário (orbs, gradientes) */
 
-  /* Cores de festa — vermelho/rosa para aniversário */
-  --party-red:    #E83A5A;
-  --party-pink:   #FF6B8A;
-  --party-glow:   rgba(232,58,90,0.2);
+  /* --- Cores de texto --- */
+  --text-primary:   #F2F0EB; /* Texto principal: quase branco, levemente quente */
+  --text-secondary: #9E9A90; /* Texto secundário: cinza claro */
+  --text-muted:     #5E5A52; /* Texto apagado: cinza escuro (labels, rodapés) */
 
-  --text-primary:   #F5F2EC;
-  --text-secondary: #9A9690;
-  --text-muted:     #555050;
+  /* --- Bordas --- */
+  --border:        rgba(255,255,255,0.06); /* Borda sutil branca transparente */
+  --border-accent: rgba(212,168,67,0.2);   /* Borda dourada transparente */
 
-  --border:        rgba(255,255,255,0.05);
-  --border-gold:   rgba(212,168,67,0.18);
+  /* --- Gradientes reutilizáveis --- */
+  --gradient-hero: linear-gradient(135deg, #D4A843 0%, #F0D078 50%, #D4A843 100%);
+  /* Gradiente dourado: usado em botões, textos destacados e linhas decorativas */
 
-  --gradient-gold: linear-gradient(135deg, #D4A843 0%, #F0C75A 50%, #D4A843 100%);
-  --gradient-party: linear-gradient(135deg, #E83A5A 0%, #D4A843 50%, #F0C75A 100%);
+  --gradient-card: linear-gradient(145deg, rgba(212,168,67,0.05) 0%, rgba(240,208,120,0.03) 100%);
+  /* Gradiente sutil: fundo de cards especiais (featured, bonus) */
 
-  --radius:    12px;
-  --radius-sm:  8px;
-  --radius-lg: 20px;
+  /* --- Bordas arredondadas (border-radius) --- */
+  --radius:    14px; /* Arredondamento padrão */
+  --radius-sm:  8px; /* Pequeno (tags, campos) */
+  --radius-lg: 20px; /* Grande (cards principais, seções) */
 
-  --shadow-gold: 0 0 60px rgba(212,168,67,0.08);
-  --shadow-party: 0 0 60px rgba(232,58,90,0.08);
+  /* --- Sombras --- */
+  --shadow-glow: 0 0 50px rgba(212,168,67,0.1); /* Glow dourado sutil */
 
-  --danger: #FF5252;
-}
-
-*, *::before, *::after { margin:0; padding:0; box-sizing:border-box }
-html { scroll-behavior:smooth; font-size:16px }
-body {
-  font-family: 'DM Sans', sans-serif;
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  overflow-x: hidden;
-  line-height: 1.7;
-  -webkit-font-smoothing: antialiased;
+  /* --- Cor de alerta/erro --- */
+  --danger: #FF5C5C; /* Vermelho: preços riscados, ícones de problema */
 }
 
-/* ── CONTAINER ── */
-.container { max-width:1100px; margin:0 auto; padding:0 24px }
+/* ============================================================
+   RESET CSS
+   Remove margens e paddings padrão do navegador, que variam
+   entre Chrome, Firefox e Safari — garantindo comportamento
+   consistente em todos eles.
+   box-sizing: border-box faz padding/border entrarem no cálculo
+   da largura total, evitando elementos "vazarem" do layout.
+   ============================================================ */
+*{margin:0;padding:0;box-sizing:border-box}
 
-/* ── TIPOGRAFIA ESPECIAL ── */
-.display { font-family: 'Bebas Neue', cursive; letter-spacing:1px }
-.serif { font-family: 'Cormorant Garamond', serif }
+/* scroll-behavior: smooth = rolagem suave ao clicar em links âncora (#secao) */
+html{scroll-behavior:smooth;font-size:16px}
 
-.text-gradient {
-  background: var(--gradient-gold);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.text-party {
-  background: var(--gradient-party);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.text-gold { color: var(--gold-light) }
+/* ============================================================
+   BODY — Configurações globais do corpo da página
+   overflow-x: hidden = impede scroll horizontal indesejado
+   -webkit-font-smoothing: antialiased = suaviza fontes no macOS/Chrome
+   line-height: 1.7 = espaçamento entre linhas para leitura confortável
+   ============================================================ */
+body{font-family:Arial,Helvetica,sans-serif;background:var(--bg-primary);color:var(--text-primary);overflow-x:hidden;line-height:1.7;-webkit-font-smoothing:antialiased}
 
-/* ── PARTÍCULAS DE CONFETE ── */
-.confetti-wrap {
-  position: fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden;
-}
-.confetti-piece {
-  position: absolute;
-  width: 8px; height: 14px;
-  border-radius: 2px;
-  top: -20px;
-  animation: confetti-fall linear infinite;
-  opacity: 0;
-}
-@keyframes confetti-fall {
-  0%   { transform: translateY(0) rotate(0deg); opacity:1 }
-  100% { transform: translateY(110vh) rotate(720deg); opacity:0 }
-}
+/* Container centralizado com largura máxima.
+   padding: 0 24px = respiro lateral em telas menores */
+.container{max-width:1100px;margin:0 auto;padding:0 24px}
 
-/* ── ORBS AMBIENTAIS ── */
-.ambient-orb { position:fixed; border-radius:50%; filter:blur(160px); pointer-events:none; z-index:0 }
-.orb-1 { width:600px; height:600px; background:var(--gold); top:-250px; left:-200px; opacity:.06 }
-.orb-2 { width:400px; height:400px; background:var(--party-red); top:30%; right:-200px; opacity:.05 }
-.orb-3 { width:300px; height:300px; background:var(--gold); bottom:5%; left:-100px; opacity:.04 }
+/* ============================================================
+   TEXTO COM GRADIENTE
+   Técnica CSS para aplicar gradiente como cor do texto:
+   1. background define o gradiente
+   2. background-clip: text = o background só aparece atrás do texto
+   3. -webkit-text-fill-color: transparent = texto fica transparente,
+      revelando o gradiente de fundo
+   Prefixo -webkit- necessário para Chrome/Safari.
+   ============================================================ */
+.text-gradient{background:var(--gradient-hero);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.text-accent{color:var(--accent-light)}
 
-/* ── FAIXA DE ANIVERSÁRIO (banner topo) ── */
-.birthday-banner {
-  position: relative; z-index:100;
-  background: linear-gradient(90deg, var(--party-red) 0%, #C42040 50%, var(--party-red) 100%);
-  text-align: center; padding: 10px 16px;
-  font-size:.82rem; font-weight:700; letter-spacing:.5px;
-  color:#fff;
-}
-.birthday-banner span { color: var(--gold-pale); }
+/* ============================================================
+   ORBS AMBIENTAIS (Luzes de fundo decorativas)
+   Círculos grandes e extremamente desfocados, posicionados
+   de forma fixa na tela.
+   - position: fixed = ficam estáticos enquanto o usuário rola
+   - filter: blur(140px) = desfoque intenso cria efeito atmosférico
+   - pointer-events: none = não capturam cliques
+   - z-index: 0 = ficam atrás de todo o conteúdo
+   ============================================================ */
+.ambient-orb{position:fixed;border-radius:50%;filter:blur(140px);pointer-events:none;z-index:0}
+.orb-1{width:500px;height:500px;background:var(--accent);top:-200px;left:-150px;opacity:.08}
+.orb-2{width:400px;height:400px;background:var(--accent-2);top:40%;right:-200px;opacity:.05}
+.orb-3{width:300px;height:300px;background:var(--accent);bottom:5%;left:-100px;opacity:.04}
 
-/* ── NAV ── */
-.nav {
-  position:fixed; top:36px; left:0; right:0; z-index:1000;
-  padding:14px 0;
-  backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px);
-  background:rgba(8,8,8,.85);
-  border-bottom:1px solid transparent;
-  transition:all .3s;
-}
-.nav.with-banner { top:36px }
-.nav.scrolled { border-bottom-color:var(--border); background:rgba(8,8,8,.96) }
-.nav-inner { display:flex; justify-content:space-between; align-items:center }
-.nav-logo { font-family:'Bebas Neue',cursive; font-size:1.6rem; letter-spacing:1px }
-.nav-logo span { color:var(--gold) }
-.nav-cta {
-  background: var(--gradient-party);
-  color:#fff; text-decoration:none;
-  padding:9px 22px; border-radius:50px;
-  font-weight:700; font-size:.8rem;
-  transition:all .3s;
-  box-shadow: 0 4px 20px var(--party-glow);
-}
-.nav-cta:hover { transform:translateY(-2px); box-shadow:0 8px 30px var(--party-glow) }
+/* ============================================================
+   NAVEGAÇÃO (NAV)
+   - position: fixed = gruda no topo, visível durante todo o scroll
+   - backdrop-filter: blur(20px) = efeito de vidro fosco (glassmorphism)
+     Torna o conteúdo atrás da nav levemente borrado
+   - z-index: 1000 = garante que fique acima de todos os elementos
+   - transition: all .3s = suaviza as mudanças ao aplicar .scrolled
+   A classe .scrolled é adicionada via JavaScript quando o usuário
+   rola mais de 50px — tornando o fundo mais opaco.
+   ============================================================ */
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:14px 0;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:rgba(10,10,10,.8);border-bottom:1px solid transparent;transition:all .3s}
+.nav.scrolled{border-bottom-color:var(--border);background:rgba(10,10,10,.95)}
+.nav-inner{display:flex;justify-content:space-between;align-items:center}
 
-/* ── HERO ── */
-.hero {
-  position:relative; z-index:1;
-  min-height:100vh;
-  display:flex; align-items:center;
-  padding:160px 0 90px;
-  overflow:hidden;
-}
-.hero-grid {
-  position:absolute; inset:0;
-  background-image:
-    linear-gradient(rgba(212,168,67,.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(212,168,67,.025) 1px, transparent 1px);
-  background-size:60px 60px;
-  mask-image:radial-gradient(ellipse 70% 60% at 50% 40%, black 25%, transparent 70%);
-  -webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 40%, black 25%, transparent 70%);
-}
-.hero-content { text-align:center; position:relative; z-index:2 }
+/* Logo: "Foto" branco + "SaaS" dourado via span */
+.nav-logo{font-weight:900;font-size:1.4rem;letter-spacing:-.5px}
+.nav-logo span{color:var(--accent)}
 
-/* Emoji de bolo animado */
-.cake-emoji {
-  font-size:3rem;
-  display:block;
-  margin-bottom:16px;
-  animation:cake-bounce .8s ease infinite alternate;
-}
-@keyframes cake-bounce {
-  from { transform: translateY(0) rotate(-5deg) }
-  to   { transform: translateY(-10px) rotate(5deg) }
-}
+/* Botão CTA da nav: gradiente dourado com texto escuro */
+.nav-cta{background:var(--gradient-hero);color:#0A0A0A;text-decoration:none;padding:10px 22px;border-radius:50px;font-weight:700;font-size:.82rem;transition:all .3s;box-shadow:0 4px 18px var(--accent-glow)}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 6px 28px var(--accent-glow)}
 
-/* Badge "hoje somente" */
-.hero-badge {
-  display:inline-flex; align-items:center; gap:8px;
-  padding:7px 18px;
-  background:rgba(232,58,90,.1);
-  border:1px solid rgba(232,58,90,.3);
-  border-radius:50px;
-  font-size:.78rem; font-weight:700; color:var(--party-pink);
-  margin-bottom:24px;
-  animation:fadeInDown .8s ease forwards;
-  letter-spacing:.5px; text-transform:uppercase;
-}
-.hero-badge .dot { width:7px; height:7px; background:var(--party-red); border-radius:50%; animation:pulse-dot 1.5s infinite }
-@keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(1.4)} }
+/* ============================================================
+   HERO SECTION (Acima da dobra / First screen)
+   min-height: 100vh = ocupa pelo menos a altura total da tela
+   display: flex + align-items: center = centraliza verticalmente
+   padding-top grande = compensa a nav fixa no topo
+   ============================================================ */
+.hero{position:relative;z-index:1;min-height:100vh;display:flex;align-items:center;padding:130px 0 80px;overflow:hidden}
 
-.hero h1 {
-  font-family:'Bebas Neue',cursive;
-  font-size:clamp(2.6rem,7vw,5rem);
-  line-height:1.05;
-  letter-spacing:1px;
-  margin-bottom:16px;
-  animation:fadeInUp .8s .1s ease both;
-}
-.hero-sub {
-  font-family:'Cormorant Garamond',serif;
-  font-size:clamp(1.1rem,2.2vw,1.4rem);
-  color:var(--text-secondary);
-  max-width:620px;
-  margin:0 auto 20px;
-  font-style:italic;
-  animation:fadeInUp .8s .2s ease both;
-}
+/* Grid sutil no fundo do hero: linhas finas douradas.
+   Dois gradientes lineares sobrepostos criam uma grade.
+   mask-image radial = linhas somem nas bordas, concentrando
+   o efeito no centro da seção. */
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(212,168,67,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(212,168,67,.02) 1px,transparent 1px);background-size:50px 50px;mask-image:radial-gradient(ellipse 70% 55% at 50% 40%,black 30%,transparent 70%);-webkit-mask-image:radial-gradient(ellipse 70% 55% at 50% 40%,black 30%,transparent 70%)}
+.hero-content{text-align:center;position:relative;z-index:2}
 
-/* Preço hero */
-.hero-price-block {
-  display:inline-flex; flex-direction:column; align-items:center;
-  gap:4px;
-  margin-bottom:30px;
-  animation:fadeInUp .8s .3s ease both;
-}
-.hero-price-from {
-  font-size:.95rem; color:var(--text-muted);
-  text-decoration:line-through;
-}
-.hero-price-main {
-  display:flex; align-items:baseline; gap:4px;
-}
-.hero-price-main .currency {
-  font-family:'Bebas Neue',cursive;
-  font-size:2rem; color:var(--gold-light);
-}
-.hero-price-main .value {
-  font-family:'Bebas Neue',cursive;
-  font-size:5rem; line-height:1;
-  background:var(--gradient-party);
-  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
-}
-.hero-price-main .period {
-  font-size:1rem; color:var(--text-secondary); font-weight:500;
-}
-.hero-price-note {
-  font-size:.78rem; color:var(--gold-light);
-  background:rgba(212,168,67,.08);
-  border:1px solid var(--border-gold);
-  border-radius:50px;
-  padding:3px 14px;
-  font-weight:600;
-}
+/* ============================================================
+   BADGE DO HERO (Pill/etiqueta no topo)
+   inline-flex = alinha o dot e o texto na mesma linha
+   animation: fadeInDown = entra suavemente de cima para baixo
+   ============================================================ */
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:7px 18px;background:rgba(212,168,67,.08);border:1px solid var(--border-accent);border-radius:50px;font-size:.8rem;font-weight:600;color:var(--accent-light);margin-bottom:28px;animation:fadeInDown .8s ease forwards}
+/* Ponto pulsante: simula status "ao vivo" com animação de opacidade */
+.hero-badge .dot{width:7px;height:7px;background:var(--accent);border-radius:50%;animation:pulse-dot 2s infinite}
+@keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:.3}}
 
-.hero-cta-group {
-  display:flex; gap:14px; justify-content:center; flex-wrap:wrap;
-  animation:fadeInUp .8s .4s ease both;
-}
+/* ============================================================
+   H1 DO HERO
+   clamp(min, preferido, max): tamanho responsivo automático.
+   Em telas pequenas: 2rem | Em telas grandes: 3.6rem
+   animation "both": mantém o estado inicial (opacity:0) antes
+   de começar e o estado final depois de terminar.
+   Delays escalonados criam efeito cascata: badge (0s) > h1 (0.1s) > sub (0.25s)
+   ============================================================ */
+.hero h1{font-weight:900;font-size:clamp(2rem,5vw,3.6rem);line-height:1.12;letter-spacing:-1px;margin-bottom:22px;animation:fadeInUp .8s .1s ease both}
+.hero p.sub{font-size:clamp(.95rem,1.8vw,1.15rem);color:var(--text-secondary);max-width:680px;margin:0 auto 36px;animation:fadeInUp .8s .25s ease both}
 
-/* ── BOTÃO PRIMÁRIO (festa) ── */
-.btn-primary {
-  display:inline-flex; align-items:center; gap:8px;
-  background:var(--gradient-party);
-  color:#fff; text-decoration:none;
-  padding:16px 36px; border-radius:50px;
-  font-weight:700; font-size:1rem;
-  transition:all .3s;
-  box-shadow: 0 6px 30px var(--party-glow);
-  position:relative; overflow:hidden;
-}
-.btn-primary::after {
-  content:''; position:absolute; inset:0;
-  background:linear-gradient(135deg,rgba(255,255,255,.18) 0%,transparent 50%);
-  opacity:0; transition:opacity .3s;
-}
-.btn-primary:hover { transform:translateY(-2px); box-shadow:0 10px 44px var(--party-glow) }
-.btn-primary:hover::after { opacity:1 }
+/* Grupo de CTAs: flex para botões lado a lado, wrap para mobile */
+.hero-cta-group{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;animation:fadeInUp .8s .4s ease both}
 
-/* Botão dourado (alternativo) */
-.btn-gold {
-  display:inline-flex; align-items:center; gap:8px;
-  background:var(--gradient-gold);
-  color:#0A0A0A; text-decoration:none;
-  padding:16px 36px; border-radius:50px;
-  font-weight:700; font-size:1rem;
-  transition:all .3s;
-  box-shadow: 0 6px 30px var(--gold-glow);
-  position:relative; overflow:hidden;
-}
-.btn-gold:hover { transform:translateY(-2px); box-shadow:0 10px 44px var(--gold-glow) }
+/* ============================================================
+   BOTÃO PRIMÁRIO (CTA principal — dourado)
+   ::after cria um overlay branco semitransparente que aparece
+   no hover, dando a sensação de "brilho" ao passar o mouse.
+   overflow: hidden garante que o ::after não vaze para fora
+   do botão arredondado.
+   ============================================================ */
+.btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--gradient-hero);color:#0A0A0A;text-decoration:none;padding:15px 34px;border-radius:50px;font-weight:700;font-size:1rem;transition:all .3s;box-shadow:0 6px 28px var(--accent-glow);position:relative;overflow:hidden}
+.btn-primary::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.2) 0%,transparent 50%);opacity:0;transition:opacity .3s}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 40px var(--accent-glow)}
+.btn-primary:hover::after{opacity:1}
 
-.btn-secondary {
-  display:inline-flex; align-items:center; gap:8px;
-  color:var(--text-secondary); text-decoration:none;
-  padding:16px 26px; border-radius:50px;
-  font-weight:600; font-size:.95rem;
-  border:1px solid var(--border);
-  transition:all .3s;
-}
-.btn-secondary:hover { color:var(--text-primary); border-color:rgba(255,255,255,.15) }
+/* Botão secundário: outline com borda sutil */
+.btn-secondary{display:inline-flex;align-items:center;gap:8px;color:var(--text-secondary);text-decoration:none;padding:15px 26px;border-radius:50px;font-weight:600;font-size:.95rem;border:1px solid var(--border);transition:all .3s}
+.btn-secondary:hover{color:var(--text-primary);border-color:rgba(255,255,255,.15)}
 
-.hero-bullets {
-  display:flex; justify-content:center; gap:28px;
-  margin-top:40px; flex-wrap:wrap;
-  animation:fadeInUp .8s .55s ease both;
-}
-.hero-bullet { display:flex; align-items:center; gap:8px; font-size:.85rem; color:var(--text-secondary) }
-.hero-bullet-dot { width:6px; height:6px; border-radius:50%; background:var(--party-red); flex-shrink:0 }
+/* ============================================================
+   BULLETS DO HERO
+   Substituem as estatísticas genéricas por benefícios concretos.
+   flex-wrap: wrap = em mobile empilham verticalmente.
+   Cada bullet tem um ponto dourado + texto descritivo.
+   ============================================================ */
+.hero-bullets{display:flex;justify-content:center;gap:32px;margin-top:44px;flex-wrap:wrap;animation:fadeInUp .8s .55s ease both}
+.hero-bullet{display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--text-secondary)}
+.hero-bullet-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0}
 
-/* ── SEÇÃO GENÉRICA ── */
-section { position:relative; z-index:1; padding:90px 0 }
+/* ============================================================
+   PADRÃO DE SEÇÕES
+   z-index: 1 garante que fiquem acima dos orbs (z-index: 0).
+   padding: 90px 0 = espaçamento vertical consistente.
+   ============================================================ */
+section{position:relative;z-index:1;padding:90px 0}
 
-.section-label {
-  display:inline-flex; align-items:center; gap:8px;
-  font-size:.72rem; font-weight:700; text-transform:uppercase;
-  letter-spacing:2.5px; color:var(--gold); margin-bottom:14px;
-}
-.section-label::before {
-  content:''; width:20px; height:2px;
-  background:var(--gradient-gold); border-radius:2px;
-}
-.section-title {
-  font-family:'Bebas Neue',cursive;
-  font-size:clamp(2rem,4.5vw,3.2rem);
-  line-height:1.1; letter-spacing:.5px; margin-bottom:18px;
-}
-.section-sub { color:var(--text-secondary); font-size:1rem; max-width:580px; margin-bottom:44px }
+/* Label acima dos títulos (ex: "O PROBLEMA", "FUNCIONALIDADES")
+   ::before = linha decorativa dourada de 20px antes do texto */
+.section-label{display:inline-flex;align-items:center;gap:8px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:2.5px;color:var(--accent);margin-bottom:14px}
+.section-label::before{content:'';width:20px;height:2px;background:var(--gradient-hero);border-radius:2px}
 
-/* ── COUNTDOWN ── */
-.countdown-section {
-  background:linear-gradient(135deg, rgba(232,58,90,.06) 0%, rgba(212,168,67,.04) 100%);
-  border-top:1px solid rgba(232,58,90,.15);
-  border-bottom:1px solid rgba(232,58,90,.15);
-  padding:44px 0;
-}
-.countdown-inner { text-align:center }
-.countdown-label {
-  font-size:.78rem; text-transform:uppercase; letter-spacing:2px;
-  color:var(--party-pink); font-weight:700; margin-bottom:20px;
-}
-.countdown-clock {
-  display:inline-flex; gap:16px; align-items:center; flex-wrap:wrap; justify-content:center;
-}
-.countdown-unit {
-  display:flex; flex-direction:column; align-items:center; gap:4px;
-}
-.countdown-num {
-  font-family:'Bebas Neue',cursive;
-  font-size:3.5rem; line-height:1;
-  background:var(--gradient-party);
-  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
-  min-width:72px; text-align:center;
-  background-color:rgba(232,58,90,.05);
-  border:1px solid rgba(232,58,90,.2);
-  border-radius:10px; padding:8px 12px;
-}
-.countdown-text {
-  font-size:.68rem; text-transform:uppercase; letter-spacing:1.5px; color:var(--text-muted);
-}
-.countdown-sep {
-  font-family:'Bebas Neue',cursive;
-  font-size:2.5rem; color:var(--party-red); margin-top:-18px;
-}
-.countdown-note {
-  margin-top:20px; font-size:.82rem; color:var(--text-muted);
-}
+.section-title{font-weight:900;font-size:clamp(1.6rem,3.5vw,2.5rem);line-height:1.18;letter-spacing:-.5px;margin-bottom:18px}
+.section-sub{color:var(--text-secondary);font-size:1rem;max-width:580px;margin-bottom:44px}
 
-/* ── CARD ANIVERSÁRIO ── */
-.birthday-card-section { background:var(--bg-secondary) }
-.birthday-card {
-  background:linear-gradient(145deg, rgba(232,58,90,.06) 0%, rgba(212,168,67,.04) 100%);
-  border:1px solid rgba(232,58,90,.2);
-  border-radius:var(--radius-lg);
-  padding:52px 48px;
-  text-align:center;
-  position:relative;
-  overflow:hidden;
-}
-.birthday-card::before {
-  content:'';
-  position:absolute; top:0; left:0; right:0; height:3px;
-  background:var(--gradient-party);
-}
-.birthday-card::after {
-  content:'🎉🎊🎂🎁🎈';
-  position:absolute; top:20px; left:50%; transform:translateX(-50%);
-  font-size:1.4rem; letter-spacing:8px; opacity:.35;
-}
-.birthday-card-emoji { font-size:4rem; display:block; margin-bottom:20px }
-.birthday-card h2 {
-  font-family:'Bebas Neue',cursive;
-  font-size:clamp(2rem,5vw,3.5rem);
-  letter-spacing:1px;
-  margin-bottom:12px;
-}
-.birthday-card p {
-  font-family:'Cormorant Garamond',serif;
-  font-size:1.15rem; color:var(--text-secondary);
-  max-width:600px; margin:0 auto 28px;
-  line-height:1.7;
-}
-.birthday-guarantee {
-  display:inline-flex; align-items:center; gap:10px;
-  padding:12px 28px;
-  background:rgba(212,168,67,.08);
-  border:1px solid var(--border-gold);
-  border-radius:50px;
-  font-size:.88rem; font-weight:600; color:var(--gold-light);
-}
+/* ============================================================
+   SEÇÃO DE PROBLEMAS
+   Grid 2x2 de dores do público-alvo.
+   Em mobile vira 1 coluna (ver media query).
+   ============================================================ */
+.problems{background:var(--bg-secondary)}
+.problems-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:36px}
+.problem-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:30px;transition:all .3s}
+/* Hover: borda dourada + sobe 3px + sombra glow */
+.problem-card:hover{border-color:var(--border-accent);transform:translateY(-3px);box-shadow:var(--shadow-glow)}
+/* Ícone do problema: fundo vermelho sutil para associação visual negativa */
+.problem-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:18px;background:rgba(255,92,92,.08);border:1px solid rgba(255,92,92,.12)}
+.problem-card h4{font-weight:700;margin-bottom:6px;font-size:1rem}
+.problem-card p{color:var(--text-secondary);font-size:.9rem;line-height:1.6}
 
-/* ── PROBLEMAS ── */
-.problems { background:var(--bg-primary) }
-.problems-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:18px; margin-top:36px }
-.problem-card {
-  background:var(--bg-card);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  padding:30px;
-  transition:all .3s;
-}
-.problem-card:hover { border-color:rgba(232,58,90,.2); transform:translateY(-3px) }
-.problem-icon {
-  width:44px; height:44px; border-radius:10px;
-  display:flex; align-items:center; justify-content:center;
-  font-size:1.3rem; margin-bottom:18px;
-  background:rgba(255,82,82,.07); border:1px solid rgba(255,82,82,.12);
-}
-.problem-card h4 { font-weight:700; margin-bottom:6px; font-size:1rem }
-.problem-card p { color:var(--text-secondary); font-size:.9rem; line-height:1.6 }
+/* ============================================================
+   CAIXA DE AGITAÇÃO
+   Destaque de copy persuasiva ao fim da seção de problemas.
+   ::before = linha dourada centrada no topo do box.
+   Usa âncora de preço: compara R$97 vs R$180 para mostrar valor.
+   ============================================================ */
+.agitation-box{background:var(--gradient-card);border:1px solid var(--border-accent);border-radius:var(--radius-lg);padding:50px 44px;text-align:center;margin-top:50px;position:relative;overflow:hidden}
+.agitation-box::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:180px;height:2px;background:var(--gradient-hero)}
+.agitation-box h3{font-weight:800;font-size:clamp(1.2rem,2.5vw,1.6rem);margin-bottom:14px;line-height:1.3}
+.agitation-box p{color:var(--text-secondary);font-size:1rem;max-width:640px;margin:0 auto}
 
-.agitation-box {
-  background:linear-gradient(145deg, rgba(212,168,67,.04) 0%, rgba(240,208,120,.025) 100%);
-  border:1px solid var(--border-gold);
-  border-radius:var(--radius-lg);
-  padding:48px 44px;
-  text-align:center;
-  margin-top:50px;
-  position:relative; overflow:hidden;
-}
-.agitation-box::before {
-  content:''; position:absolute; top:0; left:50%; transform:translateX(-50%);
-  width:200px; height:2px; background:var(--gradient-gold);
-}
-.agitation-box h3 { font-family:'Bebas Neue',cursive; font-size:clamp(1.4rem,3vw,2rem); margin-bottom:14px; letter-spacing:.5px }
-.agitation-box p { color:var(--text-secondary); font-size:.95rem; max-width:660px; margin:0 auto }
+/* ============================================================
+   SEÇÃO DE FUNCIONALIDADES
+   Grid responsivo: auto-fit preenche colunas automaticamente.
+   minmax(280px, 1fr): cada coluna tem mínimo 280px e cresce igualmente.
+   O card .featured é especial: ocupa linha inteira (grid-column: 1/-1)
+   e tem layout interno de 2 colunas.
+   ============================================================ */
+.features{background:var(--bg-secondary)}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.feature-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:32px;transition:all .3s;position:relative;overflow:hidden}
+.feature-card:hover{border-color:var(--border-accent);transform:translateY(-3px)}
 
-/* ── FEATURES ── */
-.features { background:var(--bg-secondary) }
-.features-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:18px }
-.feature-card {
-  background:var(--bg-card);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  padding:32px;
-  transition:all .3s;
-  position:relative; overflow:hidden;
-}
-.feature-card:hover { border-color:var(--border-gold); transform:translateY(-3px) }
-.feature-card.featured {
-  grid-column:1/-1;
-  background:linear-gradient(145deg,rgba(212,168,67,.05) 0%,rgba(240,208,120,.025) 100%);
-  border-color:var(--border-gold);
-  display:grid; grid-template-columns:1fr 1fr; gap:36px; align-items:center;
-}
-.feature-icon {
-  width:48px; height:48px; border-radius:12px;
-  display:flex; align-items:center; justify-content:center;
-  font-size:1.4rem; margin-bottom:18px;
-  background:var(--gold-bg); border:1px solid var(--border-gold);
-}
-.feature-card h4 { font-weight:700; font-size:1.05rem; margin-bottom:6px }
-.feature-card p { color:var(--text-secondary); font-size:.9rem }
-.feature-tag {
-  display:inline-block; padding:4px 12px;
-  background:var(--gold-bg); border:1px solid var(--border-gold);
-  border-radius:50px; font-size:.7rem; font-weight:700;
-  color:var(--gold); text-transform:uppercase; letter-spacing:1px; margin-bottom:14px;
-}
+/* grid-column: 1/-1 = da primeira até a última coluna (full width) */
+.feature-card.featured{grid-column:1/-1;background:var(--gradient-card);border-color:var(--border-accent);display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:center}
 
-/* ── BÔNUS ── */
-.bonus { background:linear-gradient(180deg,var(--bg-primary) 0%,var(--bg-secondary) 100%) }
-.bonus-card {
-  background:var(--bg-card);
-  border:1px solid var(--border-gold);
-  border-radius:var(--radius-lg);
-  padding:48px;
-  position:relative; overflow:hidden;
-}
-.bonus-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:var(--gradient-gold) }
-.bonus-card::after {
-  content:''; position:absolute; bottom:-100px; right:-100px;
-  width:280px; height:280px; background:var(--gold);
-  border-radius:50%; filter:blur(120px); opacity:.04;
-}
-.bonus-header { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:20px; margin-bottom:32px; position:relative; z-index:1 }
-.bonus-price-old { padding:10px 18px; border-radius:var(--radius-sm); background:rgba(255,82,82,.06); border:1px solid rgba(255,82,82,.12) }
-.bonus-price-old span { color:var(--danger); font-weight:700; font-size:1.3rem; text-decoration:line-through }
-.bonus-price-old small { display:block; color:var(--text-muted); font-size:.75rem }
-.bonus-free { padding:10px 22px; border-radius:50px; background:var(--gold-bg); border:1px solid var(--border-gold); color:var(--gold); font-weight:700; font-size:.95rem }
-.bonus-details { position:relative; z-index:1; margin-bottom:28px; padding:24px; background:rgba(255,255,255,.012); border:1px solid var(--border); border-radius:var(--radius) }
-.bonus-details p { color:var(--text-secondary); font-size:.88rem; line-height:1.7 }
-.bonus-details strong { color:var(--text-primary) }
-.bonus-models { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; position:relative; z-index:1 }
-.model-item { display:flex; align-items:center; gap:10px; padding:12px 16px; background:rgba(255,255,255,.012); border:1px solid var(--border); border-radius:var(--radius-sm); transition:all .2s }
-.model-item:hover { background:rgba(212,168,67,.04); border-color:var(--border-gold) }
-.model-dot { width:8px; height:8px; border-radius:50%; background:var(--gold); flex-shrink:0 }
-.model-item span { font-weight:600; font-size:.85rem }
-.model-item small { color:var(--text-muted); font-size:.72rem; margin-left:auto }
-.bonus-footer { margin-top:28px; padding-top:20px; border-top:1px solid var(--border); display:flex; align-items:center; gap:10px; color:var(--text-secondary); font-size:.88rem; position:relative; z-index:1 }
+/* Ícone do feature: fundo dourado sutil */
+.feature-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:18px;background:rgba(212,168,67,.08);border:1px solid var(--border-accent)}
+.feature-card h4{font-weight:700;font-size:1.05rem;margin-bottom:6px}
+.feature-card p{color:var(--text-secondary);font-size:.9rem}
 
-/* ── COMPARAÇÃO ── */
-.comparison-table { width:100%; border-collapse:separate; border-spacing:0; margin-top:36px }
-.comparison-table th, .comparison-table td { padding:16px 20px; text-align:left; border-bottom:1px solid var(--border) }
-.comparison-table thead th { font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:1px; font-size:.72rem }
-.comparison-table thead th:last-child { background:rgba(212,168,67,.04); border-radius:var(--radius-sm) var(--radius-sm) 0 0 }
-.comparison-table tbody td:last-child { background:rgba(212,168,67,.02) }
-.comparison-table tbody tr:last-child td:last-child { border-radius:0 0 var(--radius-sm) var(--radius-sm) }
-.check { color:var(--gold); font-weight:700 }
-.cross { color:var(--danger); font-weight:700 }
-.comp-label { color:var(--text-secondary); font-size:.88rem }
-.winner-col { color:var(--gold); font-weight:700 }
+/* Tag/badge pequena dentro do card featured */
+.feature-tag{display:inline-block;padding:4px 12px;background:rgba(212,168,67,.08);border:1px solid var(--border-accent);border-radius:50px;font-size:.7rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px}
 
-/* ── DEPOIMENTOS ── */
-.testimonials-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:16px }
-.testimonial-card { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:28px; transition:all .3s }
-.testimonial-card:hover { border-color:var(--border-gold) }
-.testimonial-stars { color:var(--gold); font-size:.85rem; margin-bottom:14px; letter-spacing:2px }
-.testimonial-card blockquote { color:var(--text-secondary); font-size:.9rem; line-height:1.65; font-style:italic; margin-bottom:18px }
-.testimonial-author { display:flex; align-items:center; gap:10px }
-.testimonial-avatar { width:40px; height:40px; border-radius:50%; background:var(--gradient-gold); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.8rem; color:#0A0A0A }
-.testimonial-name { font-weight:700; font-size:.85rem }
-.testimonial-role { color:var(--text-muted); font-size:.75rem }
+/* ============================================================
+   SEÇÃO DE BÔNUS (Freepik Premium+)
+   Card principal com:
+   - ::before = linha dourada de 3px no topo
+   - ::after = orb decorativo no canto inferior direito
+   ============================================================ */
+.bonus{background:linear-gradient(180deg,var(--bg-primary) 0%,var(--bg-secondary) 100%)}
+.bonus-card{background:var(--bg-card);border:1px solid var(--border-accent);border-radius:var(--radius-lg);padding:48px;position:relative;overflow:hidden}
+.bonus-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gradient-hero)}
+.bonus-card::after{content:'';position:absolute;bottom:-100px;right:-100px;width:280px;height:280px;background:var(--accent);border-radius:50%;filter:blur(120px);opacity:.04}
+.bonus-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;margin-bottom:32px;position:relative;z-index:1}
 
-/* ── PRICING ── */
-.pricing { background:var(--bg-secondary) }
-.pricing-card {
-  max-width:540px; margin:0 auto;
-  background:var(--bg-card);
-  border:2px solid rgba(232,58,90,.3);
-  border-radius:var(--radius-lg);
-  padding:48px 44px;
-  text-align:center;
-  position:relative; overflow:hidden;
-  box-shadow: 0 0 80px rgba(232,58,90,.07), 0 0 40px var(--gold-glow);
-}
-.pricing-card::before {
-  content:''; position:absolute; top:0; left:0; right:0; height:3px;
-  background:var(--gradient-party);
-}
-.pricing-badge {
-  display:inline-block; padding:5px 16px;
-  background:rgba(232,58,90,.1); border:1px solid rgba(232,58,90,.25);
-  border-radius:50px; font-size:.72rem; font-weight:700;
-  color:var(--party-pink); text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;
-}
-.pricing-badge-gold {
-  display:inline-block; padding:5px 16px;
-  background:var(--gold-bg); border:1px solid var(--border-gold);
-  border-radius:50px; font-size:.72rem; font-weight:700;
-  color:var(--gold); text-transform:uppercase; letter-spacing:1px; margin-bottom:16px; margin-left:8px;
-}
-.pricing-old { display:block; font-size:1.1rem; color:var(--text-muted); text-decoration:line-through; margin-bottom:4px }
-.pricing-amount { font-weight:900; margin-bottom:6px }
-.pricing-amount .currency { font-family:'Bebas Neue',cursive; font-size:1.6rem; vertical-align:super; color:var(--gold-light) }
-.pricing-amount .value {
-  font-family:'Bebas Neue',cursive; font-size:5rem; letter-spacing:-1px;
-  background:var(--gradient-party);
-  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
-}
-.pricing-amount .period { color:var(--text-muted); font-size:.95rem; font-weight:400 }
-.pricing-lock {
-  display:inline-block;
-  margin-bottom:20px;
-  padding:8px 20px;
-  background:rgba(212,168,67,.07);
-  border:1px solid var(--border-gold);
-  border-radius:50px;
-  font-size:.82rem; color:var(--gold-light); font-weight:600;
-}
-.pricing-subtitle { color:var(--text-secondary); font-size:.88rem; margin-bottom:28px }
-.pricing-features { list-style:none; text-align:left; margin-bottom:32px }
-.pricing-features li { display:flex; align-items:flex-start; gap:10px; padding:9px 0; font-size:.9rem; color:var(--text-secondary); border-bottom:1px solid var(--border) }
-.pricing-features li:last-child { border-bottom:none }
-.pricing-features .pf-check { color:var(--gold); font-weight:700; font-size:.95rem; flex-shrink:0; margin-top:2px }
-.pricing-cta {
-  display:block; width:100%; padding:17px;
-  background:var(--gradient-party);
-  color:#fff; text-decoration:none;
-  border-radius:50px; font-weight:700; font-size:1.05rem;
-  transition:all .3s; box-shadow:0 6px 30px var(--party-glow);
-}
-.pricing-cta:hover { transform:translateY(-2px); box-shadow:0 12px 44px var(--party-glow) }
+/* Preço riscado (R$180): âncora de valor — "vale isso, mas é grátis" */
+.bonus-price-old{padding:10px 18px;border-radius:var(--radius-sm);background:rgba(255,92,92,.06);border:1px solid rgba(255,92,92,.12)}
+.bonus-price-old span{color:var(--danger);font-weight:700;font-size:1.3rem;text-decoration:line-through}
+.bonus-price-old small{display:block;color:var(--text-muted);font-size:.75rem}
 
-/* ── FAQ ── */
-.faq-list { max-width:700px; margin:0 auto }
-.faq-item { border-bottom:1px solid var(--border); overflow:hidden }
-.faq-question {
-  width:100%; background:none; border:none; color:var(--text-primary);
-  font-family:'DM Sans',sans-serif; font-size:1rem; font-weight:700;
-  text-align:left; padding:22px 0; cursor:pointer;
-  display:flex; justify-content:space-between; align-items:center; gap:14px;
-  transition:color .2s;
-}
-.faq-question:hover { color:var(--gold-light) }
-.faq-icon {
-  width:26px; height:26px; border-radius:50%;
-  background:var(--gold-bg); display:flex; align-items:center; justify-content:center;
-  font-size:1.1rem; flex-shrink:0; transition:all .3s; color:var(--gold);
-}
-.faq-item.open .faq-icon { transform:rotate(45deg); background:var(--gold); color:#0A0A0A }
-.faq-answer { max-height:0; overflow:hidden; transition:max-height .4s ease }
-.faq-item.open .faq-answer { max-height:320px }
-.faq-answer-inner { padding:0 0 22px; color:var(--text-secondary); font-size:.92rem; line-height:1.7 }
+.bonus-free{padding:10px 22px;border-radius:50px;background:rgba(212,168,67,.08);border:1px solid var(--border-accent);color:var(--accent);font-weight:700;font-size:.95rem}
+.bonus-details{position:relative;z-index:1;margin-bottom:28px;padding:24px;background:rgba(255,255,255,.015);border:1px solid var(--border);border-radius:var(--radius)}
+.bonus-details p{color:var(--text-secondary);font-size:.88rem;line-height:1.7}
+.bonus-details strong{color:var(--text-primary)}
 
-/* ── CTA FINAL ── */
-.final-cta { text-align:center; padding:120px 0; position:relative; overflow:hidden }
-.final-cta::before {
-  content:''; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
-  width:600px; height:600px; background:var(--party-red);
-  border-radius:50%; filter:blur(220px); opacity:.04;
-}
-.final-cta h2 {
-  font-family:'Bebas Neue',cursive;
-  font-size:clamp(2rem,5vw,3.8rem);
-  line-height:1.1; letter-spacing:.5px; margin-bottom:18px; position:relative;
-}
-.final-cta p { color:var(--text-secondary); font-size:1rem; margin-bottom:36px; position:relative }
+/* Grid 3x3 dos modelos de IA disponíveis */
+.bonus-models{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;position:relative;z-index:1}
+.model-item{display:flex;align-items:center;gap:10px;padding:12px 16px;background:rgba(255,255,255,.015);border:1px solid var(--border);border-radius:var(--radius-sm);transition:all .2s}
+.model-item:hover{background:rgba(212,168,67,.04);border-color:var(--border-accent)}
+.model-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex-shrink:0}
+.model-item span{font-weight:600;font-size:.85rem}
+/* margin-left: auto = empurra o "small" para a direita do item */
+.model-item small{color:var(--text-muted);font-size:.72rem;margin-left:auto}
+.bonus-footer{margin-top:28px;padding-top:20px;border-top:1px solid var(--border);display:flex;align-items:center;gap:10px;color:var(--text-secondary);font-size:.88rem;position:relative;z-index:1}
 
-/* ── FOOTER ── */
-.footer { border-top:1px solid var(--border); padding:36px 0; text-align:center; color:var(--text-muted); font-size:.8rem }
-.footer a { color:var(--text-secondary); text-decoration:none }
-.footer a:hover { color:var(--text-primary) }
+/* ============================================================
+   TABELA DE COMPARAÇÃO
+   border-collapse: separate + border-spacing: 0 = permite
+   border-radius nas células sem colapsar as bordas.
+   Última coluna tem fundo dourado sutil = destaque visual
+   do "vencedor" na comparação.
+   ============================================================ */
+.comparison-table{width:100%;border-collapse:separate;border-spacing:0;margin-top:36px}
+.comparison-table th,.comparison-table td{padding:16px 20px;text-align:left;border-bottom:1px solid var(--border)}
+.comparison-table thead th{font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;font-size:.72rem}
+.comparison-table thead th:last-child{background:rgba(212,168,67,.04);border-radius:var(--radius-sm) var(--radius-sm) 0 0}
+.comparison-table tbody td:last-child{background:rgba(212,168,67,.02)}
+.comparison-table tbody tr:last-child td:last-child{border-radius:0 0 var(--radius-sm) var(--radius-sm)}
+.check{color:var(--accent);font-weight:700;font-size:1rem}
+.cross{color:var(--danger);font-weight:700;font-size:1rem}
+.comp-label{color:var(--text-secondary);font-size:.88rem}
+.winner-col{color:var(--accent);font-weight:700}
 
-/* ── CTA BREAK ── */
-.cta-break { text-align:center; padding:40px 0; position:relative; z-index:1 }
-.cta-break p { color:var(--text-muted); font-size:.82rem; margin-top:12px }
+/* ============================================================
+   DEPOIMENTOS / TESTIMONIALS
+   Grid auto-fit: colunas mínimas de 300px, crescem até 1fr.
+   Cada card tem: estrelas, blockquote em itálico, avatar + nome.
+   ============================================================ */
+.testimonials-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.testimonial-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:28px;transition:all .3s}
+.testimonial-card:hover{border-color:var(--border-accent)}
+/* Estrelas douradas com espaçamento entre elas via letter-spacing */
+.testimonial-stars{color:var(--accent);font-size:.85rem;margin-bottom:14px;letter-spacing:2px}
+.testimonial-card blockquote{color:var(--text-secondary);font-size:.9rem;line-height:1.65;font-style:italic;margin-bottom:18px}
+.testimonial-author{display:flex;align-items:center;gap:10px}
+/* Avatar circular: gradiente dourado como fundo, iniciais em preto */
+.testimonial-avatar{width:40px;height:40px;border-radius:50%;background:var(--gradient-hero);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;color:#0A0A0A}
+.testimonial-name{font-weight:700;font-size:.85rem}
+.testimonial-role{color:var(--text-muted);font-size:.75rem}
 
-/* ── PREMIAÇÕES ── */
-.premiacoes-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:24px; margin-top:40px }
-.premiacao-card {
-  background:var(--bg-card); border:1px solid var(--border-gold);
-  border-radius:var(--radius-lg); padding:36px; text-align:center;
-  transition:all .3s; position:relative; overflow:hidden;
-}
-.premiacao-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:var(--gradient-gold) }
-.premiacao-card:hover { transform:translateY(-3px); box-shadow:var(--shadow-gold) }
-.premiacao-card h4 { font-weight:800; font-size:1.15rem; margin-bottom:6px; color:var(--gold-light) }
-.premiacao-card .meta-tag { display:inline-block; padding:4px 14px; background:var(--gold-bg); border:1px solid var(--border-gold); border-radius:50px; font-size:.72rem; font-weight:700; color:var(--gold); margin-bottom:14px }
-.premiacao-card p { color:var(--text-secondary); font-size:.88rem; line-height:1.6 }
+/* ============================================================
+   PREMIAÇÕES
+   Grid 2 colunas para os cards de conquista (5K, 10K).
+   ::before em cada card = linha dourada no topo.
+   ============================================================ */
+.premiacoes-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:40px}
+.premiacao-card{background:var(--bg-card);border:1px solid var(--border-accent);border-radius:var(--radius-lg);padding:36px;text-align:center;transition:all .3s;position:relative;overflow:hidden}
+.premiacao-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gradient-hero)}
+.premiacao-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-glow)}
+.premiacao-card h4{font-weight:800;font-size:1.15rem;margin-bottom:6px;color:var(--accent-light)}
+.premiacao-card .meta-tag{display:inline-block;padding:4px 14px;background:rgba(212,168,67,.08);border:1px solid var(--border-accent);border-radius:50px;font-size:.72rem;font-weight:700;color:var(--accent);margin-bottom:14px}
+.premiacao-card p{color:var(--text-secondary);font-size:.88rem;line-height:1.6}
 
-/* ── WHATSAPP ── */
-.whatsapp-btn {
-  position:fixed; bottom:24px; right:24px; z-index:999;
-  width:56px; height:56px; border-radius:50%; background:#25D366;
-  display:flex; align-items:center; justify-content:center;
-  box-shadow:0 4px 20px rgba(37,211,102,.35); transition:all .3s; text-decoration:none;
-}
-.whatsapp-btn:hover { transform:scale(1.1); box-shadow:0 6px 28px rgba(37,211,102,.45) }
-.whatsapp-btn svg { width:28px; height:28px; fill:#fff }
+/* ============================================================
+   PRICING (Seção de preço)
+   Card único centralizado, max-width: 520px.
+   ::before = linha dourada no topo.
 
-/* ── ANIMAÇÕES ── */
-@keyframes fadeInUp   { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
-@keyframes fadeInDown { from{opacity:0;transform:translateY(-18px)} to{opacity:1;transform:translateY(0)} }
-.reveal { opacity:0; transform:translateY(36px); transition:all .65s cubic-bezier(.16,1,.3,1) }
-.reveal.visible { opacity:1; transform:translateY(0) }
-.reveal-delay-1 { transition-delay:.08s }
-.reveal-delay-2 { transition-delay:.16s }
-.reveal-delay-3 { transition-delay:.24s }
-.reveal-delay-4 { transition-delay:.32s }
+   PREÇO ESPECIAL PARA ALUNOS DO DIEGO:
+   .pricing-old = preço original riscado (R$97)
+   .pricing-discount-badge = badge "Desconto alunos"
+   .pricing-amount = exibe o preço final com desconto (R$67)
 
-/* ── RESPONSIVO ── */
+   Para reverter ao preço normal:
+   - Mude o valor em .pricing-amount .value para "97"
+   - Remova o .pricing-old e .pricing-discount-badge
+   ============================================================ */
+.pricing{background:var(--bg-secondary)}
+.pricing-card{max-width:520px;margin:0 auto;background:var(--bg-card);border:2px solid var(--border-accent);border-radius:var(--radius-lg);padding:44px;text-align:center;position:relative;overflow:hidden;box-shadow:var(--shadow-glow)}
+.pricing-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gradient-hero)}
+.pricing-badge{display:inline-block;padding:5px 16px;background:rgba(212,168,67,.08);border:1px solid var(--border-accent);border-radius:50px;font-size:.72rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:16px}
+
+/* Badge de desconto para alunos: fundo verde sutil + texto dourado */
+.pricing-discount-badge{display:inline-block;padding:5px 16px;background:rgba(0,200,100,.08);border:1px solid rgba(0,200,100,.2);border-radius:50px;font-size:.78rem;font-weight:700;color:#4ADE80;margin-bottom:16px;margin-left:8px}
+
+/* Preço original riscado: mostra de onde veio o desconto */
+.pricing-old{display:block;font-size:1.1rem;color:var(--text-muted);text-decoration:line-through;margin-bottom:4px}
+
+.pricing-amount{font-weight:900;margin-bottom:6px}
+/* vertical-align: super = faz o "R$" subir como superescrito */
+.pricing-amount .currency{font-size:1.4rem;vertical-align:super}
+.pricing-amount .value{font-size:3.6rem;letter-spacing:-2px}
+.pricing-amount .period{color:var(--text-muted);font-size:.95rem;font-weight:400}
+.pricing-subtitle{color:var(--text-secondary);font-size:.88rem;margin-bottom:28px}
+/* Lista de features: ícone ✓ dourado + texto descritivo */
+.pricing-features{list-style:none;text-align:left;margin-bottom:32px}
+.pricing-features li{display:flex;align-items:flex-start;gap:10px;padding:9px 0;font-size:.9rem;color:var(--text-secondary);border-bottom:1px solid var(--border)}
+.pricing-features li:last-child{border-bottom:none}
+/* flex-shrink: 0 = impede o ícone de encolher em textos longos */
+.pricing-features .pf-check{color:var(--accent);font-weight:700;font-size:.95rem;flex-shrink:0;margin-top:2px}
+/* display:block + width:100% = botão ocupa toda a largura do card */
+.pricing-cta{display:block;width:100%;padding:16px;background:var(--gradient-hero);color:#0A0A0A;text-decoration:none;border-radius:50px;font-weight:700;font-size:1.05rem;transition:all .3s;box-shadow:0 6px 28px var(--accent-glow)}
+.pricing-cta:hover{transform:translateY(-2px);box-shadow:0 10px 40px var(--accent-glow)}
+
+/* ============================================================
+   FAQ — ACCORDION
+   Técnica CSS pura: max-height: 0 esconde o conteúdo SEM usar
+   display:none, o que permite a transição animada de altura.
+   A classe .open é adicionada via JavaScript ao clicar.
+   .faq-item.open .faq-answer sobe para max-height: 300px
+   e o CSS transiciona suavemente.
+   O ícone + gira 45° quando aberto (vira ×).
+   ============================================================ */
+.faq-list{max-width:700px;margin:0 auto}
+.faq-item{border-bottom:1px solid var(--border);overflow:hidden}
+.faq-question{width:100%;background:none;border:none;color:var(--text-primary);font-family:inherit;font-size:1rem;font-weight:700;text-align:left;padding:22px 0;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:14px;transition:color .2s}
+.faq-question:hover{color:var(--accent-light)}
+/* Círculo com + que vira × ao rotacionar 45° */
+.faq-icon{width:26px;height:26px;border-radius:50%;background:rgba(212,168,67,.08);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;transition:all .3s;color:var(--accent)}
+.faq-item.open .faq-icon{transform:rotate(45deg);background:var(--accent);color:#0A0A0A}
+/* max-height: 0 = fechado | max-height: 300px = aberto */
+.faq-answer{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.faq-item.open .faq-answer{max-height:300px}
+.faq-answer-inner{padding:0 0 22px;color:var(--text-secondary);font-size:.92rem;line-height:1.7}
+
+/* ============================================================
+   CTA FINAL
+   ::before = orb centralizado atrás do texto para profundidade visual.
+   Última oportunidade de converter antes do footer.
+   ============================================================ */
+.final-cta{text-align:center;padding:110px 0;position:relative;overflow:hidden}
+.final-cta::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:500px;height:500px;background:var(--accent);border-radius:50%;filter:blur(200px);opacity:.04}
+.final-cta h2{font-weight:900;font-size:clamp(1.7rem,4vw,2.8rem);line-height:1.15;letter-spacing:-.5px;margin-bottom:18px;position:relative}
+.final-cta p{color:var(--text-secondary);font-size:1.05rem;margin-bottom:36px;position:relative}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer{border-top:1px solid var(--border);padding:36px 0;text-align:center;color:var(--text-muted);font-size:.8rem}
+.footer a{color:var(--text-secondary);text-decoration:none}
+.footer a:hover{color:var(--text-primary)}
+
+/* ============================================================
+   CTA BREAK (Botão entre seções)
+   Garante que o visitante nunca esteja longe de um CTA —
+   técnica padrão em landing pages de alto desempenho.
+   ============================================================ */
+.cta-break{text-align:center;padding:40px 0;position:relative;z-index:1}
+.cta-break p{color:var(--text-muted);font-size:.82rem;margin-top:12px}
+
+/* ============================================================
+   BOTÃO FLUTUANTE DO WHATSAPP
+   - position: fixed = sempre visível no canto inferior direito
+   - z-index: 999 = acima do conteúdo, abaixo da nav (1000)
+   NÃO edite os valores numéricos do path SVG.
+   ============================================================ */
+.whatsapp-btn{position:fixed;bottom:24px;right:24px;z-index:999;width:56px;height:56px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,.35);transition:all .3s;text-decoration:none}
+.whatsapp-btn:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(37,211,102,.45)}
+.whatsapp-btn svg{width:28px;height:28px;fill:#fff}
+
+/* ============================================================
+   ANIMAÇÕES DE ENTRADA
+   fadeInUp: elemento surge de baixo com fade-in
+   fadeInDown: elemento surge de cima com fade-in
+   ============================================================ */
+@keyframes fadeInUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeInDown{from{opacity:0;transform:translateY(-18px)}to{opacity:1;transform:translateY(0)}}
+
+/* ============================================================
+   SISTEMA DE REVEAL (Animação no scroll com IntersectionObserver)
+   .reveal = estado inicial: invisível e 36px abaixo da posição final
+   .reveal.visible = estado final: visível na posição correta
+   A classe .visible é adicionada pelo JavaScript quando o elemento
+   entra na viewport durante o scroll.
+   cubic-bezier(.16,1,.3,1) = curva de easing suave (spring-like)
+   .reveal-delay-N = delays escalonados para efeito cascata nos grids
+   ============================================================ */
+.reveal{opacity:0;transform:translateY(36px);transition:all .65s cubic-bezier(.16,1,.3,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:.08s}
+.reveal-delay-2{transition-delay:.16s}
+.reveal-delay-3{transition-delay:.24s}
+.reveal-delay-4{transition-delay:.32s}
+
+/* ============================================================
+   RESPONSIVIDADE — TABLETS (max-width: 768px)
+   Regra geral: grids de 2+ colunas viram 1 coluna.
+   Botões ficam full-width para facilitar o toque.
+   ============================================================ */
 @media(max-width:768px){
-  .feature-card.featured { grid-template-columns:1fr }
-  .bonus-card { padding:28px 20px }
-  .bonus-header { flex-direction:column; align-items:flex-start }
-  .bonus-models { grid-template-columns:1fr }
-  .pricing-card { padding:28px 20px }
-  .pricing-amount .value { font-size:3.8rem }
-  .comparison-table { display:block; overflow-x:auto }
-  .testimonials-grid { grid-template-columns:1fr }
-  .agitation-box { padding:36px 20px }
-  section { padding:64px 0 }
-  .bonus-footer { flex-direction:column; text-align:center }
-  .bonus-details { padding:18px }
-  .problems-grid { grid-template-columns:1fr }
-  .premiacoes-grid { grid-template-columns:1fr }
-  .btn-primary,.btn-gold { padding:16px 28px; font-size:1rem; width:100%; justify-content:center }
-  .btn-secondary { padding:14px 24px; width:100%; justify-content:center }
-  .pricing-cta { padding:18px; font-size:1.05rem }
-  .hero h1 { font-size:2.4rem }
-  .hero-sub { font-size:1rem }
-  .section-title { font-size:1.8rem }
-  .hero-cta-group { flex-direction:column; align-items:center }
-  .cta-break .btn-primary { max-width:400px; margin:0 auto }
-  .faq-question { padding:20px 0; font-size:.95rem; min-height:56px }
-  .hero-bullets { gap:16px; flex-direction:column; align-items:center }
-  .birthday-card { padding:36px 20px }
-  .countdown-num { font-size:2.6rem; min-width:58px }
-  .hero-price-main .value { font-size:4rem }
-  .nav { top:36px }
+  .feature-card.featured{grid-template-columns:1fr}
+  .bonus-card{padding:28px 20px}
+  .bonus-header{flex-direction:column;align-items:flex-start}
+  .bonus-models{grid-template-columns:1fr}
+  .pricing-card{padding:28px 20px}
+  .pricing-amount .value{font-size:2.8rem}
+  .comparison-table{display:block;overflow-x:auto}
+  .testimonials-grid{grid-template-columns:1fr}
+  .agitation-box{padding:36px 20px}
+  section{padding:64px 0}
+  .bonus-footer{flex-direction:column;text-align:center}
+  .bonus-details{padding:18px}
+  .problems-grid{grid-template-columns:1fr}
+  .premiacoes-grid{grid-template-columns:1fr}
+  .btn-primary{padding:16px 28px;font-size:1rem;width:100%;justify-content:center}
+  .btn-secondary{padding:14px 24px;width:100%;justify-content:center}
+  .pricing-cta{padding:18px;font-size:1.05rem}
+  .hero h1{font-size:1.8rem;letter-spacing:-.5px}
+  .hero p.sub{font-size:.95rem}
+  .section-title{font-size:1.5rem}
+  .problem-card p,.feature-card p{font-size:.88rem}
+  .hero-cta-group{flex-direction:column;align-items:center}
+  .cta-break .btn-primary{max-width:400px;margin:0 auto}
+  .faq-question{padding:20px 0;font-size:.95rem;min-height:56px}
+  .testimonial-card{padding:24px}
+  .feature-card{padding:24px}
+  .problem-card{padding:24px}
+  .hero-bullets{gap:16px;flex-direction:column;align-items:center}
 }
+
+/* ============================================================
+   RESPONSIVIDADE — CELULARES PEQUENOS (max-width: 480px)
+   Esconde o botão CTA da nav (muito apertado em 480px).
+   ============================================================ */
 @media(max-width:480px){
-  .nav-cta { display:none }
-  .hero { padding-top:110px }
-  .birthday-banner { font-size:.72rem }
+  .nav-cta{display:none}
+  .hero{padding-top:90px}
 }
 </style>
 </head>
 <body>
 
-<!-- Orbs ambientais -->
 <div class="ambient-orb orb-1"></div>
 <div class="ambient-orb orb-2"></div>
 <div class="ambient-orb orb-3"></div>
 
-<!-- Confete animado (JS cria os pedaços) -->
-<div class="confetti-wrap" id="confettiWrap"></div>
-
-<!-- ── FAIXA DE ANIVERSÁRIO ── -->
-<div class="birthday-banner" id="birthdayBanner">
-  🎂 <span>28/04 — Aniversário de 21 anos do Gil!</span> &nbsp;·&nbsp; FotoSaaS por apenas <span>R$47/mês</span> &nbsp;·&nbsp; Oferta válida somente hoje 🎉
-</div>
-
-<!-- ── NAV ── -->
+<!-- ============================================================
+     NAVEGAÇÃO FIXA
+     Link aponta direto para o checkout com preço de alunos do Diego.
+     ============================================================ -->
 <nav class="nav" id="nav">
   <div class="container nav-inner">
     <div class="nav-logo">Foto<span>SaaS</span></div>
-    <a href="https://pay.kiwify.com.br/AMiL1fs?afid=gyFzqgzd" class="nav-cta">🎂 Assinar por R$47/mês →</a>
+    <a href="https://pay.kiwify.com.br/aR5G5IF?afid=hqY5Byg5" class="nav-cta">Assinar por R$67/mês →</a>
   </div>
 </nav>
 
-<!-- ── HERO ── -->
+<!-- ============================================================
+     HERO SECTION
+     Big idea: IA ilimitada = vantagem competitiva real.
+     ============================================================ -->
 <section class="hero">
   <div class="hero-grid"></div>
   <div class="container hero-content">
 
     <div class="hero-badge">
       <span class="dot"></span>
-      Oferta de aniversário · Somente hoje, 28/04
+      Nano Banana · GPT Image · Kling 2.5 — sem limite de geração
     </div>
-
-    <span class="cake-emoji">🎂</span>
 
     <h1>
-      <span class="text-party">Parabéns, Gil!</span><br>
-      <span class="text-gradient">21 anos</span> e IA ilimitada<br>
-      por um preço histórico
+      <span class="text-gradient">IA ilimitada</span> para quem quer<br>
+      vender mais fotos e aumentar o ticket
     </h1>
 
-    <p class="hero-sub serif">
-      Para celebrar os 21 anos do proprietário do FotoSaaS, hoje o plano sai por apenas R$47/mês —<br>
-      e quem assinar agora <strong>mantém esse preço para sempre</strong> nas renovações.
+    <p class="sub">
+      Use Nano Banana, Nano Banana Pro, Nano Banana 2, GPT Image e Kling 2.5 sem travar em créditos —
+      produza mais rápido, entregue com mais qualidade e cobre mais caro por cliente.
     </p>
 
-    <div class="hero-price-block">
-      <span class="hero-price-from">De R$67/mês</span>
-      <div class="hero-price-main">
-        <span class="currency">R$</span>
-        <span class="value">47</span>
-        <span class="period">/mês</span>
-      </div>
-      <span class="hero-price-note">🔒 Quem assinar hoje mantém R$47 nas renovações</span>
-    </div>
-
     <div class="hero-cta-group">
-      <a href="https://pay.kiwify.com.br/AMiL1fs?afid=gyFzqgzd" class="btn-primary">🎉 Quero assinar por R$47/mês →</a>
+      <!-- PREÇO ESPECIAL ALUNOS DO DIEGO: R$97 → R$67 -->
+      <a href="https://pay.kiwify.com.br/aR5G5IF?afid=hqY5Byg5" class="btn-primary">Quero IA ilimitada por R$67/mês →</a>
       <a href="#funcionalidades" class="btn-secondary">↓ Ver o que está incluso</a>
     </div>
 
     <div class="hero-bullets">
-      <div class="hero-bullet"><div class="hero-bullet-dot"></div>Nano Banana 2, Flux 2 Pro, Seedream 4.5 — ilimitados</div>
-      <div class="hero-bullet"><div class="hero-bullet-dot"></div>Kling 2.5 ilimitado para vídeos</div>
-      <div class="hero-bullet"><div class="hero-bullet-dot"></div>Sistema de prévias que aumenta seu ticket</div>
+      <div class="hero-bullet"><div class="hero-bullet-dot"></div>Gere quantas fotos quiser — zero custo por imagem</div>
+      <div class="hero-bullet"><div class="hero-bullet-dot"></div>Vídeos ilimitados com Kling 2.5 incluso</div>
+      <div class="hero-bullet"><div class="hero-bullet-dot"></div>Sistema de prévias que aumenta seu ticket por entrega</div>
     </div>
 
   </div>
 </section>
 
-<!-- ── COUNTDOWN ── -->
-<div class="countdown-section" id="countdownSection">
-  <div class="container countdown-inner">
-    <div class="countdown-label">⏰ Oferta encerra à meia-noite de hoje</div>
-    <div class="countdown-clock">
-      <div class="countdown-unit">
-        <div class="countdown-num display" id="cdHours">00</div>
-        <div class="countdown-text">Horas</div>
-      </div>
-      <div class="countdown-sep">:</div>
-      <div class="countdown-unit">
-        <div class="countdown-num display" id="cdMinutes">00</div>
-        <div class="countdown-text">Minutos</div>
-      </div>
-      <div class="countdown-sep">:</div>
-      <div class="countdown-unit">
-        <div class="countdown-num display" id="cdSeconds">00</div>
-        <div class="countdown-text">Segundos</div>
-      </div>
-    </div>
-    <div class="countdown-note">Após a meia-noite o preço volta para R$67/mês</div>
-  </div>
-</div>
-
-<!-- ── CARD ANIVERSÁRIO ── -->
-<section class="birthday-card-section">
-  <div class="container">
-    <div class="birthday-card reveal">
-      <span class="birthday-card-emoji">🎁</span>
-      <h2>O presente do <span class="text-party">Gil</span> pra você</h2>
-      <p class="serif">
-        Hoje, <strong style="color:var(--text-primary)">28 de abril</strong>, o Gil completa 21 anos.
-        Para celebrar, ele decidiu dar um presente pra toda a comunidade:
-        o FotoSaaS inteiro — com Freepik Premium+ incluso, Kling 2.5 ilimitado,
-        Nano Banana 2, Flux 2 Pro, Seedream 4.5 e todo o sistema de vendas —
-        por apenas R$47/mês, só hoje.
-      </p>
-      <div class="birthday-guarantee">
-        🔒 Assinou hoje por R$47? Renova sempre por R$47. Garantido.
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── PROBLEMAS ── -->
+<!-- ============================================================
+     SEÇÃO DE PROBLEMAS — Estrutura PAS
+     ============================================================ -->
 <section class="problems">
   <div class="container">
     <div class="reveal">
@@ -835,19 +598,22 @@ section { position:relative; z-index:1; padding:90px 0 }
 
     <div class="agitation-box reveal">
       <h3>Por que o FotoSaaS é a escolha mais inteligente:</h3>
-      <p>Pagar R$97 no Gemini Pro te dá <strong style="color:var(--danger)">limite de imagens e apenas 3 vídeos por dia</strong>. Pagar R$180 no Freepik Premium+ te dá IAs ilimitadas, mas sem sistema de vendas. O FotoSaaS te dá <strong style="color:var(--gold-light)">tudo por R$47/mês hoje</strong> — Freepik Premium+ incluso, Kling 2.5 ilimitado, e ainda a ferramenta de prévias com marca d'água que aumenta seu ticket médio. Uma vez na vida: presente de aniversário do Gil.</p>
+      <p>Pagar R$97 no Gemini Pro te dá <strong style="color:var(--danger)">limite de imagens e apenas 3 vídeos por dia</strong>. Pagar R$180 no Freepik Premium+ te dá IAs ilimitadas, mas sem sistema de vendas. O FotoSaaS te dá <strong style="color:var(--accent)">tudo por R$67/mês para alunos do Diego</strong> — Freepik Premium+ incluso, Kling 2.5 ilimitado, e ainda a ferramenta de prévias com marca d'água que aumenta seu ticket médio em cada entrega. Principalmente para quem está começando, não existe decisão melhor.</p>
     </div>
   </div>
 </section>
 
 <div class="cta-break">
   <div class="container">
-    <a href="https://pay.kiwify.com.br/AMiL1fs?afid=gyFzqgzd" class="btn-primary">🎂 Assinar agora por R$47/mês →</a>
-    <p>Freepik Premium+ (R$180/mês) incluso · Preço de aniversário somente hoje</p>
+    <a href="https://pay.kiwify.com.br/aR5G5IF?afid=hqY5Byg5" class="btn-primary">Assinar agora por R$67/mês →</a>
+    <p>Freepik Premium+ (R$180/mês) incluso · Preço especial para alunos do Diego</p>
   </div>
 </div>
 
-<!-- ── FUNCIONALIDADES ── -->
+<!-- ============================================================
+     FUNCIONALIDADES
+     id="funcionalidades" = âncora do btn-secondary "Ver o que está incluso"
+     ============================================================ -->
 <section class="features" id="funcionalidades">
   <div class="container">
     <div class="reveal">
@@ -863,9 +629,9 @@ section { position:relative; z-index:1; padding:90px 0 }
           <p style="margin-top:10px">Vendeu 10 fotos? Gere 15-20 — sempre buscando entregar fotos boas e de qualidade. Envie as extras com marca d'água pelo link do FotoSaaS. O cliente satisfeito vê as fotos extras e compra com um clique. Cada entrega vira uma nova oportunidade de venda.</p>
         </div>
         <div style="text-align:center">
-          <div style="background:rgba(212,168,67,.05);border:1px solid var(--border-gold);border-radius:var(--radius);padding:26px">
+          <div style="background:rgba(212,168,67,.05);border:1px solid var(--border-accent);border-radius:var(--radius);padding:26px">
             <div style="font-size:.72rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Aumento médio por cliente</div>
-            <div style="font-family:'Bebas Neue',cursive;font-size:3rem;color:var(--gold);line-height:1">30-60%</div>
+            <div style="font-size:2.8rem;font-weight:900;color:var(--accent);line-height:1">30-60%</div>
             <div style="color:var(--text-secondary);font-size:.82rem;margin-top:6px">em receita por entrega</div>
           </div>
         </div>
@@ -908,16 +674,20 @@ section { position:relative; z-index:1; padding:90px 0 }
 
 <div class="cta-break">
   <div class="container">
-    <a href="https://pay.kiwify.com.br/AMiL1fs?afid=gyFzqgzd" class="btn-primary">🎉 Quero assinar o FotoSaaS →</a>
-    <p>Kling 2.5 ilimitado + sistema de vendas · R$47/mês somente hoje</p>
+    <a href="https://pay.kiwify.com.br/aR5G5IF?afid=hqY5Byg5" class="btn-primary">Quero assinar o FotoSaaS →</a>
+    <p>Kling 2.5 ilimitado + sistema de vendas · R$67/mês para alunos do Diego</p>
   </div>
 </div>
 
-<!-- ── BÔNUS ── -->
+<!-- ============================================================
+     BÔNUS — FREEPIK PREMIUM+
+     Estratégia: R$180 riscado vs R$67 total (alunos) =
+     o Freepik sozinho já justifica mais que o preço da assinatura.
+     ============================================================ -->
 <section class="bonus">
   <div class="container">
     <div class="reveal">
-      <div class="section-label">Bônus Incluso</div>
+      <div class="section-label">Bônus Absurdo</div>
       <h2 class="section-title">Freepik Premium+ <span class="text-gradient">incluso</span><br>na sua assinatura</h2>
       <p class="section-sub">Enquanto outras ferramentas cobram caro e limitam tudo, você recebe acesso completo ao Freepik Premium+ — sem custo adicional.</p>
     </div>
@@ -935,14 +705,17 @@ section { position:relative; z-index:1; padding:90px 0 }
       </div>
 
       <div class="bonus-details">
-        <p><strong>45.000 créditos/mês</strong> com uso ilimitado em modelos selecionados. Acesso a todos os modelos de imagem, vídeo e áudio. Ferramentas de edição profissionais. Geração de música, voz e efeitos sonoros. Licença comercial de IA + direitos musicais. Treine a IA para criar estilos, personagens e produtos. Mais de 200 milhões de fotos, vídeos, vetores e PSD.</p>
+        <p><strong>45.000 créditos/mês</strong> com uso ilimitado em modelos selecionados. Acesso a todos os modelos de imagem, vídeo e áudio. Ferramentas de edição profissionais. Geração de música, voz e efeitos sonoros. Licença comercial de IA + direitos musicais. Treine a IA para criar estilos, personagens e produtos. Mais de 200 milhões de fotos, vídeos, vetores e PSD. A decisão mais inteligente para quem está no começo da jornada.</p>
       </div>
 
       <div class="bonus-models">
         <div class="model-item"><div class="model-dot"></div><span>Nano Banana 2</span><small>Ilimitado</small></div>
-        <div class="model-item"><div class="model-dot"></div><span>Flux 2 Pro</span><small>Ilimitado</small></div>
+        <div class="model-item"><div class="model-dot"></div><span>Nano Banana Pro</span><small>Ilimitado</small></div>
+        <div class="model-item"><div class="model-dot"></div><span>Nano Banana</span><small>Ilimitado</small></div>
+        <div class="model-item"><div class="model-dot"></div><span>GPT Image 1.5</span><small>Ilimitado</small></div>
         <div class="model-item"><div class="model-dot"></div><span>Seedream 4.5</span><small>Ilimitado</small></div>
-        <div class="model-item"><div class="model-dot"></div><span>Kling 2.5</span><small>Vídeos ilimitados</small></div>
+        <div class="model-item"><div class="model-dot"></div><span>Flux.2 Max</span><small>Ilimitado</small></div>
+        <div class="model-item"><div class="model-dot"></div><span>Kling 2.5</span><small>Ilimitado</small></div>
         <div class="model-item"><div class="model-dot"></div><span>+200M recursos</span><small>Premium</small></div>
         <div class="model-item"><div class="model-dot"></div><span>+45.000 créditos</span><small>/mês</small></div>
       </div>
@@ -955,7 +728,9 @@ section { position:relative; z-index:1; padding:90px 0 }
   </div>
 </section>
 
-<!-- ── COMPARAÇÃO ── -->
+<!-- ============================================================
+     COMPARAÇÃO — FotoSaaS vs Gemini Pro
+     ============================================================ -->
 <section style="background:var(--bg-secondary)">
   <div class="container">
     <div class="reveal">
@@ -968,30 +743,33 @@ section { position:relative; z-index:1; padding:90px 0 }
         <tr>
           <th>Recurso</th>
           <th>Gemini Pro (R$97/mês)</th>
-          <th class="winner-col">FotoSaaS (R$47 hoje 🎂)</th>
+          <th class="winner-col">FotoSaaS (R$67/mês*)</th>
         </tr>
       </thead>
       <tbody>
-        <tr><td class="comp-label">Geração de imagens</td><td><span class="cross">✕</span> Limitada</td><td><span class="check">✓</span> Ilimitada (Nano Banana 2, Flux 2 Pro, Seedream 4.5…)</td></tr>
+        <tr><td class="comp-label">Geração de imagens</td><td><span class="cross">✕</span> Limitada</td><td><span class="check">✓</span> Ilimitada (30+ modelos)</td></tr>
         <tr><td class="comp-label">Geração de vídeos</td><td><span class="cross">✕</span> Máx. 3/dia</td><td><span class="check">✓</span> Kling 2.5 ilimitado</td></tr>
         <tr><td class="comp-label">Sistema de vendas</td><td><span class="cross">✕</span> Não tem</td><td><span class="check">✓</span> Galerias + Order Bump</td></tr>
         <tr><td class="comp-label">Entrega automatizada</td><td><span class="cross">✕</span> Não tem</td><td><span class="check">✓</span> PIX direto na conta</td></tr>
         <tr><td class="comp-label">Marca d'água</td><td><span class="cross">✕</span> Não tem</td><td><span class="check">✓</span> Personalizada</td></tr>
-        <tr><td class="comp-label">Preço</td><td><span class="cross">✕</span> R$97/mês</td><td><span class="check">✓</span> R$47/mês (somente hoje)</td></tr>
+        <tr><td class="comp-label">Monetização</td><td><span class="cross">✕</span> Apenas ferramenta</td><td><span class="check">✓</span> Negócio completo</td></tr>
       </tbody>
     </table>
-    <p style="color:var(--text-muted);font-size:.78rem;margin-top:12px;text-align:center">* Preço de aniversário: somente 28/04. Preço regular: R$67/mês.</p>
+    <!-- Nota sobre preço especial: clareza para o visitante -->
+    <p style="color:var(--text-muted);font-size:.78rem;margin-top:12px;text-align:center">* Preço especial para alunos do Diego. Preço regular: R$97/mês.</p>
   </div>
 </section>
 
 <div class="cta-break">
   <div class="container">
-    <a href="https://pay.kiwify.com.br/AMiL1fs?afid=gyFzqgzd" class="btn-primary">🎂 Assinar o FotoSaaS por R$47/mês →</a>
-    <p>Mais barato que o Gemini Pro. Infinitamente mais completo. Oferta válida somente hoje.</p>
+    <a href="https://pay.kiwify.com.br/aR5G5IF?afid=hqY5Byg5" class="btn-primary">Assinar o FotoSaaS por R$67/mês →</a>
+    <p>Mais barato que o Gemini Pro. Infinitamente mais completo. Preço especial para alunos do Diego.</p>
   </div>
 </div>
 
-<!-- ── DEPOIMENTOS ── -->
+<!-- ============================================================
+     PROVA SOCIAL — DEPOIMENTOS (10 cards)
+     ============================================================ -->
 <section>
   <div class="container">
     <div class="reveal">
@@ -1027,7 +805,7 @@ section { position:relative; z-index:1; padding:90px 0 }
 
       <div class="testimonial-card reveal reveal-delay-2">
         <div class="testimonial-stars">★★★★★</div>
-        <blockquote>"Não gosto de vender por prévias, mas assino o FotoSaaS só pelo Freepik ilimitado. As IAs são absurdas e não gasto crédito nos modelos selecionados."</blockquote>
+        <blockquote>"Eu não gosto de vender por prévias, mas assino o FotoSaaS só pelo Freepik ilimitado. As IAs são absurdas e não gasto crédito nos modelos selecionados."</blockquote>
         <div class="testimonial-author"><div class="testimonial-avatar">AN</div><div><div class="testimonial-name">Ana</div><div class="testimonial-role">Assinante FotoSaaS</div></div></div>
       </div>
 
@@ -1057,7 +835,7 @@ section { position:relative; z-index:1; padding:90px 0 }
 
       <div class="testimonial-card reveal reveal-delay-1">
         <div class="testimonial-stars">★★★★★</div>
-        <blockquote>"O Nano Banana 2 dentro do Freepik é outro nível. A qualidade das fotos melhorou absurdamente e meus clientes percebem a diferença na hora."</blockquote>
+        <blockquote>"O GPT Image dentro do Freepik é outro nível. A qualidade das fotos melhorou absurdamente e meus clientes percebem a diferença na hora."</blockquote>
         <div class="testimonial-author"><div class="testimonial-avatar">TH</div><div><div class="testimonial-name">Thiago</div><div class="testimonial-role">Assinante FotoSaaS</div></div></div>
       </div>
 
@@ -1065,7 +843,9 @@ section { position:relative; z-index:1; padding:90px 0 }
   </div>
 </section>
 
-<!-- ── PREMIAÇÕES ── -->
+<!-- ============================================================
+     PREMIAÇÕES — GAMIFICAÇÃO
+     ============================================================ -->
 <section style="background:var(--bg-secondary)">
   <div class="container">
     <div class="reveal" style="text-align:center">
@@ -1075,12 +855,14 @@ section { position:relative; z-index:1; padding:90px 0 }
     </div>
     <div class="premiacoes-grid">
       <div class="premiacao-card reveal reveal-delay-1">
+        <!-- Arquivo: assets/images/pulseira-5k.jpeg -->
         <img src="assets/images/pulseira-5k.jpeg" alt="Pulseira Fotógrafo 5K" style="width:100%;height:auto;border-radius:var(--radius);margin-bottom:24px">
         <div class="meta-tag">Meta: R$ 5.000</div>
         <h4>Pulseira Fotógrafo 5K</h4>
         <p>Ao atingir R$5.000 em faturamento pela plataforma, você recebe uma pulseira exclusiva como reconhecimento do seu sucesso.</p>
       </div>
       <div class="premiacao-card reveal reveal-delay-2">
+        <!-- Arquivo: assets/images/placa-10k.jpeg -->
         <img src="assets/images/placa-10k.jpeg" alt="Placa Fotógrafo 10K" style="width:100%;height:auto;border-radius:var(--radius);margin-bottom:24px">
         <div class="meta-tag">Meta: R$ 10.000</div>
         <h4>Placa Fotógrafo 10K</h4>
@@ -1090,26 +872,36 @@ section { position:relative; z-index:1; padding:90px 0 }
   </div>
 </section>
 
-<!-- ── PRICING ── -->
+<!-- ============================================================
+     PRICING — SEÇÃO DE PREÇO
+     PREÇO ESPECIAL PARA ALUNOS DO DIEGO:
+     - Preço original (R$97) exibido riscado como âncora de valor
+     - Badge verde "Desconto para alunos do Diego"
+     - Preço final: R$67/mês
+     Para reverter ao preço normal:
+       1. Remova .pricing-old e .pricing-discount-badge
+       2. Mude .pricing-amount .value para "97"
+       3. Troque o link pelo checkout de R$97
+     ============================================================ -->
 <section class="pricing" id="pricing">
   <div class="container">
     <div class="reveal" style="text-align:center">
       <div class="section-label" style="justify-content:center">Assinatura</div>
-      <h2 class="section-title">IA ilimitada + sistema de vendas + ticket maior.<br><span class="text-party">Aniversário do Gil: R$47/mês, somente hoje.</span></h2>
+      <h2 class="section-title">IA ilimitada + sistema de vendas + ticket maior.<br><span class="text-gradient">Tudo por R$67/mês para alunos do Diego.</span></h2>
       <p class="section-sub" style="margin:0 auto 44px;text-align:center">PIX 100% na sua conta. Sem taxas por transação. Sem surpresas.</p>
     </div>
     <div class="pricing-card reveal">
-      <div class="pricing-badge">🎂 Oferta de Aniversário</div>
-      <div class="pricing-badge-gold">28/04 somente</div>
+      <!-- Badge de plano + badge de desconto lado a lado -->
+      <div class="pricing-badge">Plano único</div>
+      <div class="pricing-discount-badge">🎓 Desconto para alunos do Diego</div>
 
-      <span class="pricing-old">De R$67/mês</span>
+      <!-- Preço original riscado: âncora de valor antes do preço final -->
+      <span class="pricing-old">De R$97/mês</span>
 
+      <!-- Preço final com desconto -->
       <div class="pricing-amount">
-        <span class="currency">R$</span><span class="value">47</span><span class="period">/mês</span>
+        <span class="currency">R$</span><span class="value">67</span><span class="period">/mês</span>
       </div>
-
-      <div class="pricing-lock">🔒 Assinou hoje? Renova sempre por R$47</div>
-
       <p class="pricing-subtitle">Mais barato que ferramentas que fazem metade disso</p>
 
       <ul class="pricing-features">
@@ -1119,21 +911,22 @@ section { position:relative; z-index:1; padding:90px 0 }
         <li><span class="pf-check">✓</span> PIX direto na sua conta — sem taxas</li>
         <li><span class="pf-check">✓</span> Dashboard financeiro completo</li>
         <li><span class="pf-check">✓</span> Freepik Premium+ incluso (vale R$180/mês)</li>
-        <li><span class="pf-check">✓</span> Nano Banana 2 ilimitado</li>
-        <li><span class="pf-check">✓</span> Flux 2 Pro ilimitado</li>
-        <li><span class="pf-check">✓</span> Seedream 4.5 ilimitado</li>
         <li><span class="pf-check">✓</span> Kling 2.5 ilimitado (vídeos à vontade)</li>
+        <li><span class="pf-check">✓</span> 30+ modelos de IA sem consumir créditos</li>
         <li><span class="pf-check">✓</span> 45.000 créditos/mês</li>
         <li><span class="pf-check">✓</span> Calls ao vivo com novidades e dicas</li>
         <li><span class="pf-check">✓</span> Grupo exclusivo de assinantes</li>
       </ul>
 
-      <a href="https://pay.kiwify.com.br/AMiL1fs?afid=gyFzqgzd" class="pricing-cta" id="main-cta">🎂 Assinar agora por R$47/mês →</a>
+      <!-- id="main-cta" para rastreamento de conversão -->
+      <a href="https://pay.kiwify.com.br/aR5G5IF?afid=hqY5Byg5" class="pricing-cta" id="main-cta">Assinar agora por R$67/mês →</a>
     </div>
   </div>
 </section>
 
-<!-- ── FAQ ── -->
+<!-- ============================================================
+     FAQ — ACCORDION
+     ============================================================ -->
 <section>
   <div class="container">
     <div class="reveal" style="text-align:center">
@@ -1143,18 +936,18 @@ section { position:relative; z-index:1; padding:90px 0 }
     <div class="faq-list" style="margin-top:44px">
 
       <div class="faq-item reveal">
-        <button class="faq-question"><span>Realmente manterei R$47 pra sempre se assinar hoje?</span><span class="faq-icon">+</span></button>
-        <div class="faq-answer"><div class="faq-answer-inner">Sim. Quem assinar hoje, 28/04, no aniversário do Gil, pagará R$47/mês nas renovações enquanto mantiver a assinatura ativa. Cancele e assine de novo futuramente? O preço volta ao regular (R$67/mês). Mas enquanto a assinatura não for cancelada, é R$47 garantido.</div></div>
-      </div>
-
-      <div class="faq-item reveal">
         <button class="faq-question"><span>Sou iniciante, o FotoSaaS é pra mim?</span><span class="faq-icon">+</span></button>
         <div class="faq-answer"><div class="faq-answer-inner">Melhor ainda. O FotoSaaS foi criado pensando em quem está começando. Você não precisa de câmera, estúdio ou experiência. Só precisa da foto do rosto do cliente e bons prompts.</div></div>
       </div>
 
       <div class="faq-item reveal">
+        <button class="faq-question"><span>Não sei usar IA, vou conseguir?</span><span class="faq-icon">+</span></button>
+        <div class="faq-answer"><div class="faq-answer-inner">Sim. O processo é simples: você sobe a foto do rosto, escolhe o prompt e a IA gera as fotos.</div></div>
+      </div>
+
+      <div class="faq-item reveal">
         <button class="faq-question"><span>Como funciona o acesso ao Freepik Premium+?</span><span class="faq-icon">+</span></button>
-        <div class="faq-answer"><div class="faq-answer-inner">Ao assinar o FotoSaaS, você recebe acesso à conta Freepik Premium+ (que normalmente custa R$180/mês). Lá dentro estão todos os modelos de IA: Nano Banana 2, Flux 2 Pro, Seedream 4.5, Kling 2.5 e muito mais — com 45.000 créditos/mês e geração ilimitada nos modelos selecionados.</div></div>
+        <div class="faq-answer"><div class="faq-answer-inner">Ao assinar o FotoSaaS, você recebe acesso à conta Freepik Premium+ (que normalmente custa R$180/mês). Lá dentro estão todos os modelos de IA: Nano Banana, GPT Image, Kling 2.5 e muito mais — com 45.000 créditos/mês e geração ilimitada nos modelos selecionados.</div></div>
       </div>
 
       <div class="faq-item reveal">
@@ -1164,7 +957,7 @@ section { position:relative; z-index:1; padding:90px 0 }
 
       <div class="faq-item reveal">
         <button class="faq-question"><span>Os vídeos com Kling 2.5 são realmente ilimitados?</span><span class="faq-icon">+</span></button>
-        <div class="faq-answer"><div class="faq-answer-inner">Sim. Diferente do Gemini Pro que limita a 3 vídeos por dia, com o Kling 2.5 incluso no Freepik Premium+ você gera vídeos à vontade. Sem limites diários.</div></div>
+        <div class="faq-answer"><div class="faq-answer-inner">Sim. Diferente do Gemini Pro que limita a 3 vídeos por dia, com o Kling 2.5 incluso no Freepik Premium+ você gera vídeos à vontade. Tire suas ideias da cabeça e traga para a realidade usando IA, sem limites.</div></div>
       </div>
 
       <div class="faq-item reveal">
@@ -1176,26 +969,33 @@ section { position:relative; z-index:1; padding:90px 0 }
   </div>
 </section>
 
-<!-- ── CTA FINAL ── -->
+<!-- ============================================================
+     CTA FINAL
+     ============================================================ -->
 <section class="final-cta">
   <div class="container">
     <div class="reveal">
-      <h2>🎂 Presente do <span class="text-party">Gil</span> pra você:<br><span class="text-gradient">R$47/mês</span> — só hoje</h2>
-      <p>Quem assinar hoje mantém esse preço para sempre nas renovações. Não perca — amanhã volta pra R$67.</p>
-      <a href="https://pay.kiwify.com.br/AMiL1fs?afid=gyFzqgzd" class="btn-primary" style="display:inline-flex">🎉 Assinar por R$47/mês agora →</a>
+      <h2>Quem tem <span class="text-gradient">IA ilimitada</span> produz mais,<br>testa mais e por isso vende mais.</h2>
+      <p>Pare de travar em créditos. Use Nano Banana, GPT Image e Kling 2.5 sem limite — e entregue mais em cada cliente.</p>
+      <a href="https://pay.kiwify.com.br/aR5G5IF?afid=hqY5Byg5" class="btn-primary" style="display:inline-flex">Quero IA ilimitada por R$67/mês →</a>
     </div>
   </div>
 </section>
 
 <footer class="footer">
   <div class="container">
-    <p style="margin-bottom:6px"><strong style="color:var(--text-secondary)">Foto<span style="color:var(--gold)">SaaS</span></strong></p>
+    <p style="margin-bottom:6px"><strong style="color:var(--text-secondary)">Foto<span style="color:var(--accent)">SaaS</span></strong></p>
     <p>© 2026 FotoSaaS. Todos os direitos reservados.</p>
     <p style="margin-top:6px"><a href="#">Termos</a> · <a href="#">Privacidade</a> · <a href="#">Suporte</a></p>
   </div>
 </footer>
 
-<!-- WhatsApp -->
+<!-- ============================================================
+     BOTÃO FLUTUANTE DO WHATSAPP
+     wa.me/[código do país][DDD][número] = abre chat direto.
+     ?text= = mensagem pré-preenchida (codificada em URI).
+     NÃO edite os valores numéricos do path SVG.
+     ============================================================ -->
 <a href="https://wa.me/5514998951657?text=oi%20VICTOR%2C%20tenho%20duvida%20sobre%20o%20fotosaas%2C%20quero%20saber%20sobre%3A"
    target="_blank" class="whatsapp-btn" aria-label="WhatsApp">
   <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -1203,31 +1003,49 @@ section { position:relative; z-index:1; padding:90px 0 }
   </svg>
 </a>
 
+<!-- ============================================================
+     JAVASCRIPT — INTERAÇÕES DA PÁGINA
+     Posicionado no final do <body>:
+     - Não bloqueia o carregamento do HTML/CSS
+     - Todos os elementos já existem no DOM quando o JS roda
+     ============================================================ -->
 <script>
-// ── NAV SCROLL ──
+// ============================================================
+// 1. EFEITO DE SCROLL NA NAVEGAÇÃO
+// classList.toggle(classe, condicao): adiciona se true, remove se false.
+// window.scrollY = pixels rolados desde o topo.
+// Resultado: nav fica mais opaca após 50px de scroll.
+// ============================================================
 const nav = document.getElementById('nav');
 window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 50);
 });
 
-// ── AJUSTA TOP DA NAV (faixa fixa no topo) ──
-const banner = document.getElementById('birthdayBanner');
-function adjustNav() {
-  nav.style.top = banner ? banner.offsetHeight + 'px' : '0';
-}
-adjustNav();
-window.addEventListener('resize', adjustNav);
-
-// ── REVEAL SCROLL ──
+// ============================================================
+// 2. ANIMAÇÃO DE REVEAL NO SCROLL (IntersectionObserver API)
+// threshold: 0.1 = dispara quando 10% do elemento está visível
+// rootMargin: bottom -40px = zona de detecção reduzida 40px abaixo
+// Quando isIntersecting = true: adicionamos .visible ao elemento.
+// ============================================================
 const reveals = document.querySelectorAll('.reveal');
 const ro = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
-    if (entry.isIntersecting) entry.target.classList.add('visible');
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      // ro.unobserve(entry.target); // descomente para animar só uma vez
+    }
   });
 }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
 reveals.forEach(el => ro.observe(el));
 
-// ── FAQ ACCORDION ──
+// ============================================================
+// 3. FAQ ACCORDION
+// 1. wasOpen = verifica se o item JÁ estava aberto
+// 2. Remove .open de todos (fecha tudo)
+// 3. Se wasOpen era false → abre o clicado
+//    Se wasOpen era true → permanece fechado
+// ============================================================
 document.querySelectorAll('.faq-question').forEach(btn => {
   btn.addEventListener('click', () => {
     const item = btn.parentElement;
@@ -1237,57 +1055,20 @@ document.querySelectorAll('.faq-question').forEach(btn => {
   });
 });
 
-// ── SMOOTH SCROLL ──
+// ============================================================
+// 4. SMOOTH SCROLL para links âncora internos (#secao)
+// preventDefault() = cancela o pulo instantâneo padrão
+// scrollIntoView({ behavior: 'smooth' }) = rolagem suave nativa
+// ============================================================
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
     e.preventDefault();
     const target = document.querySelector(a.getAttribute('href'));
-    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   });
 });
-
-// ── COUNTDOWN até meia-noite ──
-function updateCountdown() {
-  const now = new Date();
-  const midnight = new Date();
-  midnight.setHours(23, 59, 59, 999);
-  const diff = midnight - now;
-  if (diff <= 0) {
-    document.getElementById('cdHours').textContent   = '00';
-    document.getElementById('cdMinutes').textContent = '00';
-    document.getElementById('cdSeconds').textContent = '00';
-    return;
-  }
-  const h = Math.floor(diff / 3600000);
-  const m = Math.floor((diff % 3600000) / 60000);
-  const s = Math.floor((diff % 60000) / 1000);
-  document.getElementById('cdHours').textContent   = String(h).padStart(2,'0');
-  document.getElementById('cdMinutes').textContent = String(m).padStart(2,'0');
-  document.getElementById('cdSeconds').textContent = String(s).padStart(2,'0');
-}
-updateCountdown();
-setInterval(updateCountdown, 1000);
-
-// ── CONFETE ──
-(function spawnConfetti() {
-  const wrap = document.getElementById('confettiWrap');
-  const colors = ['#D4A843','#F0C75A','#E83A5A','#FF6B8A','#fff','#F7DFA0','#C42040'];
-  for (let i = 0; i < 40; i++) {
-    const el = document.createElement('div');
-    el.className = 'confetti-piece';
-    el.style.left = Math.random() * 100 + 'vw';
-    el.style.background = colors[Math.floor(Math.random() * colors.length)];
-    el.style.width  = (6 + Math.random() * 8) + 'px';
-    el.style.height = (10 + Math.random() * 10) + 'px';
-    el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
-    const dur = 4 + Math.random() * 6;
-    const delay = Math.random() * 8;
-    el.style.animationDuration = dur + 's';
-    el.style.animationDelay    = delay + 's';
-    el.style.opacity = 0;
-    wrap.appendChild(el);
-  }
-})();
 </script>
 
 </body>
