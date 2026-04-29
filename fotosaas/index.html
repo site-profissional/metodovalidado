@@ -7,10 +7,9 @@
      initial-scale=1.0: impede zoom automático no carregamento. -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Title: aparece na aba do navegador e nos resultados do Google (SEO) -->
-<title>FotoSaaS — IA Ilimitada + Mais Vendas + Ticket Maior</title>
-<!-- Meta description: snippet exibido nos resultados de busca.
-     Ideal entre 150-160 caracteres para não ser cortado pelo Google. -->
-<meta name="description" content="Use Nano Banana, GPT Image e Kling 2.5 sem limites. Produza mais rápido, entregue melhor e aumente seu faturamento com fotos feitas por IA.">
+<title>FotoSaaS</title>
+<!-- noindex: página exclusiva para alunos do Diego, não deve aparecer em buscas -->
+<meta name="robots" content="noindex, nofollow">
 <style>
 /* ============================================================
    VARIÁVEIS CSS (Custom Properties)
@@ -283,8 +282,10 @@ section{position:relative;z-index:1;padding:90px 0}
 .bonus-details p{color:var(--text-secondary);font-size:.88rem;line-height:1.7}
 .bonus-details strong{color:var(--text-primary)}
 
-/* Grid 3x3 dos modelos de IA disponíveis */
-.bonus-models{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;position:relative;z-index:1}
+/* Grid 4 colunas dos modelos de IA disponíveis — categorias separadas */
+.bonus-models{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;position:relative;z-index:1}
+/* Label de categoria dos modelos (Google, Flux, Mystic, etc.) */
+.model-category{grid-column:1/-1;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--accent);padding:8px 0 4px;border-bottom:1px solid var(--border-accent);margin-top:8px}
 .model-item{display:flex;align-items:center;gap:10px;padding:12px 16px;background:rgba(255,255,255,.015);border:1px solid var(--border);border-radius:var(--radius-sm);transition:all .2s}
 .model-item:hover{background:rgba(212,168,67,.04);border-color:var(--border-accent)}
 .model-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex-shrink:0}
@@ -400,7 +401,7 @@ section{position:relative;z-index:1;padding:90px 0}
 .faq-item.open .faq-icon{transform:rotate(45deg);background:var(--accent);color:#0A0A0A}
 /* max-height: 0 = fechado | max-height: 300px = aberto */
 .faq-answer{max-height:0;overflow:hidden;transition:max-height .4s ease}
-.faq-item.open .faq-answer{max-height:300px}
+.faq-item.open .faq-answer{max-height:600px}
 .faq-answer-inner{padding:0 0 22px;color:var(--text-secondary);font-size:.92rem;line-height:1.7}
 
 /* ============================================================
@@ -429,14 +430,7 @@ section{position:relative;z-index:1;padding:90px 0}
 .cta-break p{color:var(--text-muted);font-size:.82rem;margin-top:12px}
 
 /* ============================================================
-   BOTÃO FLUTUANTE DO WHATSAPP
-   - position: fixed = sempre visível no canto inferior direito
-   - z-index: 999 = acima do conteúdo, abaixo da nav (1000)
-   NÃO edite os valores numéricos do path SVG.
    ============================================================ */
-.whatsapp-btn{position:fixed;bottom:24px;right:24px;z-index:999;width:56px;height:56px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,.35);transition:all .3s;text-decoration:none}
-.whatsapp-btn:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(37,211,102,.45)}
-.whatsapp-btn svg{width:28px;height:28px;fill:#fff}
 
 /* ============================================================
    ANIMAÇÕES DE ENTRADA
@@ -471,7 +465,7 @@ section{position:relative;z-index:1;padding:90px 0}
   .feature-card.featured{grid-template-columns:1fr}
   .bonus-card{padding:28px 20px}
   .bonus-header{flex-direction:column;align-items:flex-start}
-  .bonus-models{grid-template-columns:1fr}
+  .bonus-models{grid-template-columns:repeat(2,1fr)}
   .pricing-card{padding:28px 20px}
   .pricing-amount .value{font-size:2.8rem}
   .comparison-table{display:block;overflow-x:auto}
@@ -521,7 +515,7 @@ section{position:relative;z-index:1;padding:90px 0}
 <nav class="nav" id="nav">
   <div class="container nav-inner">
     <div class="nav-logo">Foto<span>SaaS</span></div>
-    <a href="https://pay.kiwify.com.br/aR5G5IF?afid=hqY5Byg5" class="nav-cta">Assinar por R$67/mês →</a>
+    <a href="https://pay.kiwify.com.br/v42FQCK?afid=gyFzqgzd" class="nav-cta">Assinar por R$67/mês →</a>
   </div>
 </nav>
 
@@ -535,7 +529,7 @@ section{position:relative;z-index:1;padding:90px 0}
 
     <div class="hero-badge">
       <span class="dot"></span>
-      Nano Banana · GPT Image · Kling 2.5 — sem limite de geração
+      Nano Banana 2 · Kling 2.5 — sem limite de geração
     </div>
 
     <h1>
@@ -544,13 +538,13 @@ section{position:relative;z-index:1;padding:90px 0}
     </h1>
 
     <p class="sub">
-      Use Nano Banana, Nano Banana Pro, Nano Banana 2, GPT Image e Kling 2.5 sem travar em créditos —
+      Use Nano Banana 2, Flux.2 Pro e Kling 2.5 sem travar em créditos —
       produza mais rápido, entregue com mais qualidade e cobre mais caro por cliente.
     </p>
 
     <div class="hero-cta-group">
       <!-- PREÇO ESPECIAL ALUNOS DO DIEGO: R$97 → R$67 -->
-      <a href="https://pay.kiwify.com.br/aR5G5IF?afid=hqY5Byg5" class="btn-primary">Quero IA ilimitada por R$67/mês →</a>
+      <a href="https://pay.kiwify.com.br/v42FQCK?afid=gyFzqgzd" class="btn-primary">Quero IA ilimitada por R$67/mês →</a>
       <a href="#funcionalidades" class="btn-secondary">↓ Ver o que está incluso</a>
     </div>
 
@@ -605,7 +599,7 @@ section{position:relative;z-index:1;padding:90px 0}
 
 <div class="cta-break">
   <div class="container">
-    <a href="https://pay.kiwify.com.br/aR5G5IF?afid=hqY5Byg5" class="btn-primary">Assinar agora por R$67/mês →</a>
+    <a href="https://pay.kiwify.com.br/v42FQCK?afid=gyFzqgzd" class="btn-primary">Assinar agora por R$67/mês →</a>
     <p>Freepik Premium+ (R$180/mês) incluso · Preço especial para alunos do Diego</p>
   </div>
 </div>
@@ -674,7 +668,7 @@ section{position:relative;z-index:1;padding:90px 0}
 
 <div class="cta-break">
   <div class="container">
-    <a href="https://pay.kiwify.com.br/aR5G5IF?afid=hqY5Byg5" class="btn-primary">Quero assinar o FotoSaaS →</a>
+    <a href="https://pay.kiwify.com.br/v42FQCK?afid=gyFzqgzd" class="btn-primary">Quero assinar o FotoSaaS →</a>
     <p>Kling 2.5 ilimitado + sistema de vendas · R$67/mês para alunos do Diego</p>
   </div>
 </div>
@@ -708,16 +702,58 @@ section{position:relative;z-index:1;padding:90px 0}
         <p><strong>45.000 créditos/mês</strong> com uso ilimitado em modelos selecionados. Acesso a todos os modelos de imagem, vídeo e áudio. Ferramentas de edição profissionais. Geração de música, voz e efeitos sonoros. Licença comercial de IA + direitos musicais. Treine a IA para criar estilos, personagens e produtos. Mais de 200 milhões de fotos, vídeos, vetores e PSD. A decisão mais inteligente para quem está no começo da jornada.</p>
       </div>
 
+      <!-- Grid completo de modelos ilimitados — organizados por categoria -->
       <div class="bonus-models">
+
+        <!-- Google -->
+        <div class="model-category">Google</div>
         <div class="model-item"><div class="model-dot"></div><span>Nano Banana 2</span><small>Ilimitado</small></div>
-        <div class="model-item"><div class="model-dot"></div><span>Nano Banana Pro</span><small>Ilimitado</small></div>
-        <div class="model-item"><div class="model-dot"></div><span>Nano Banana</span><small>Ilimitado</small></div>
-        <div class="model-item"><div class="model-dot"></div><span>GPT Image 1.5</span><small>Ilimitado</small></div>
+        <div class="model-item"><div class="model-dot"></div><span>Imagen 3</span><small>Ilimitado</small></div>
+        <div class="model-item"><div class="model-dot"></div><span>Imagen 4 Fast</span><small>Ilimitado</small></div>
+        <div class="model-item"><div class="model-dot"></div><span>Imagen 4</span><small>Ilimitado</small></div>
+        <div class="model-item"><div class="model-dot"></div><span>Imagen 4 Ultra</span><small>Ilimitado</small></div>
+
+        <!-- Flux -->
+        <div class="model-category">Flux</div>
+        <div class="model-item"><div class="model-dot"></div><span>Flux 1 Fast</span><small>Ilimitado</small></div>
+        <div class="model-item"><div class="model-dot"></div><span>Flux.1</span><small>Ilimitado</small></div>
+        <div class="model-item"><div class="model-dot"></div><span>Flux.1.1</span><small>Ilimitado</small></div>
+        <div class="model-item"><div class="model-dot"></div><span>Flux.1 Realism</span><small>Ilimitado</small></div>
+        <div class="model-item"><div class="model-dot"></div><span>Flux.1 Kontext Max</span><small>Ilimitado</small></div>
+        <div class="model-item"><div class="model-dot"></div><span>Flux.1 Kontext Pro</span><small>Ilimitado</small></div>
+        <div class="model-item"><div class="model-dot"></div><span>Flux.2 Klein</span><small>Ilimitado</small></div>
+        <div class="model-item"><div class="model-dot"></div><span>Flux 2 Pro</span><small>Ilimitado</small></div>
+
+        <!-- Mystic -->
+        <div class="model-category">Mystic</div>
+        <div class="model-item"><div class="model-dot"></div><span>Mystic 1.0</span><small>Ilimitado</small></div>
+        <div class="model-item"><div class="model-dot"></div><span>Mystic 2.5</span><small>Ilimitado</small></div>
+        <div class="model-item"><div class="model-dot"></div><span>Mystic 2.5 Flexible</span><small>Ilimitado</small></div>
+        <div class="model-item"><div class="model-dot"></div><span>Mystic 2.5 Fluid</span><small>Ilimitado</small></div>
+
+        <!-- Seedream -->
+        <div class="model-category">Seedream</div>
+        <div class="model-item"><div class="model-dot"></div><span>Seedream 4</span><small>Ilimitado</small></div>
+        <div class="model-item"><div class="model-dot"></div><span>Seedream 4 4K</span><small>Ilimitado</small></div>
         <div class="model-item"><div class="model-dot"></div><span>Seedream 4.5</span><small>Ilimitado</small></div>
-        <div class="model-item"><div class="model-dot"></div><span>Flux.2 Max</span><small>Ilimitado</small></div>
+        <div class="model-item"><div class="model-dot"></div><span>Seedream 5 Lite</span><small>Ilimitado</small></div>
+
+        <!-- Outros -->
+        <div class="model-category">Outros</div>
+        <div class="model-item"><div class="model-dot"></div><span>Ideogram</span><small>Ilimitado</small></div>
+        <div class="model-item"><div class="model-dot"></div><span>Recraft V4</span><small>Ilimitado</small></div>
+        <div class="model-item"><div class="model-dot"></div><span>Classic</span><small>Ilimitado</small></div>
+        <div class="model-item"><div class="model-dot"></div><span>Classic Fast</span><small>Ilimitado</small></div>
+        <div class="model-item"><div class="model-dot"></div><span>Z-Image</span><small>Ilimitado</small></div>
+        <div class="model-item"><div class="model-dot"></div><span>Qwen</span><small>Ilimitado</small></div>
+        <div class="model-item"><div class="model-dot"></div><span>Grok</span><small>Ilimitado</small></div>
+
+        <!-- Kling (vídeo) + info de créditos -->
+        <div class="model-category">Vídeo + Créditos</div>
         <div class="model-item"><div class="model-dot"></div><span>Kling 2.5</span><small>Ilimitado</small></div>
         <div class="model-item"><div class="model-dot"></div><span>+200M recursos</span><small>Premium</small></div>
         <div class="model-item"><div class="model-dot"></div><span>+45.000 créditos</span><small>/mês</small></div>
+
       </div>
 
       <div class="bonus-footer">
@@ -762,7 +798,7 @@ section{position:relative;z-index:1;padding:90px 0}
 
 <div class="cta-break">
   <div class="container">
-    <a href="https://pay.kiwify.com.br/aR5G5IF?afid=hqY5Byg5" class="btn-primary">Assinar o FotoSaaS por R$67/mês →</a>
+    <a href="https://pay.kiwify.com.br/v42FQCK?afid=gyFzqgzd" class="btn-primary">Assinar o FotoSaaS por R$67/mês →</a>
     <p>Mais barato que o Gemini Pro. Infinitamente mais completo. Preço especial para alunos do Diego.</p>
   </div>
 </div>
@@ -835,7 +871,7 @@ section{position:relative;z-index:1;padding:90px 0}
 
       <div class="testimonial-card reveal reveal-delay-1">
         <div class="testimonial-stars">★★★★★</div>
-        <blockquote>"O GPT Image dentro do Freepik é outro nível. A qualidade das fotos melhorou absurdamente e meus clientes percebem a diferença na hora."</blockquote>
+        <blockquote>"O Nano Banana 2 dentro do Freepik é outro nível. A qualidade das fotos melhorou absurdamente e meus clientes percebem a diferença na hora."</blockquote>
         <div class="testimonial-author"><div class="testimonial-avatar">TH</div><div><div class="testimonial-name">Thiago</div><div class="testimonial-role">Assinante FotoSaaS</div></div></div>
       </div>
 
@@ -919,7 +955,7 @@ section{position:relative;z-index:1;padding:90px 0}
       </ul>
 
       <!-- id="main-cta" para rastreamento de conversão -->
-      <a href="https://pay.kiwify.com.br/aR5G5IF?afid=hqY5Byg5" class="pricing-cta" id="main-cta">Assinar agora por R$67/mês →</a>
+      <a href="https://pay.kiwify.com.br/v42FQCK?afid=gyFzqgzd" class="pricing-cta" id="main-cta">Assinar agora por R$67/mês →</a>
     </div>
   </div>
 </section>
@@ -947,7 +983,7 @@ section{position:relative;z-index:1;padding:90px 0}
 
       <div class="faq-item reveal">
         <button class="faq-question"><span>Como funciona o acesso ao Freepik Premium+?</span><span class="faq-icon">+</span></button>
-        <div class="faq-answer"><div class="faq-answer-inner">Ao assinar o FotoSaaS, você recebe acesso à conta Freepik Premium+ (que normalmente custa R$180/mês). Lá dentro estão todos os modelos de IA: Nano Banana, GPT Image, Kling 2.5 e muito mais — com 45.000 créditos/mês e geração ilimitada nos modelos selecionados.</div></div>
+        <div class="faq-answer"><div class="faq-answer-inner">Ao assinar o FotoSaaS, você recebe acesso à conta Freepik Premium+ (que normalmente custa R$180/mês). Lá dentro estão todos os modelos de IA: Nano Banana 2, Flux.2 Pro, Kling 2.5 e muito mais — com 45.000 créditos/mês e geração ilimitada nos modelos selecionados.</div></div>
       </div>
 
       <div class="faq-item reveal">
@@ -965,6 +1001,28 @@ section{position:relative;z-index:1;padding:90px 0}
         <div class="faq-answer"><div class="faq-answer-inner">Use a IA para criar um portfólio impressionante. Com fotos de alta qualidade geradas por IA, você pode começar a divulgar nas redes sociais e atrair seus primeiros clientes rapidamente, com zero investimento em equipamento.</div></div>
       </div>
 
+      <!-- Nova FAQ: lista completa dos modelos de imagem ilimitados -->
+      <div class="faq-item reveal">
+        <button class="faq-question"><span>Quais modelos de geração de imagem são ilimitados?</span><span class="faq-icon">+</span></button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            Todos os modelos abaixo estão disponíveis sem consumir créditos quando selecionados corretamente dentro do Freepik Premium+:
+            <br><br>
+            <strong style="color:var(--text-primary)">Google:</strong> Nano Banana 2, Imagen 3, Imagen 4 Fast, Imagen 4, Imagen 4 Ultra
+            <br><br>
+            <strong style="color:var(--text-primary)">Flux:</strong> Flux 1 Fast, Flux.1, Flux.1.1, Flux.1 Realism, Flux.1 Kontext Max, Flux.1 Kontext Pro, Flux.2 Klein, Flux 2 Pro
+            <br><br>
+            <strong style="color:var(--text-primary)">Mystic:</strong> Mystic 1.0, Mystic 2.5, Mystic 2.5 Flexible, Mystic 2.5 Fluid
+            <br><br>
+            <strong style="color:var(--text-primary)">Seedream:</strong> Seedream 4, Seedream 4 4K, Seedream 4.5, Seedream 5 Lite
+            <br><br>
+            <strong style="color:var(--text-primary)">Outros:</strong> Ideogram, Recraft V4, Qwen, Grok, Z-Image, Classic, Classic Fast
+            <br><br>
+            São mais de 30 modelos disponíveis. A seleção do modelo certo para cada estilo de foto faz toda a diferença no resultado final.
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -976,8 +1034,8 @@ section{position:relative;z-index:1;padding:90px 0}
   <div class="container">
     <div class="reveal">
       <h2>Quem tem <span class="text-gradient">IA ilimitada</span> produz mais,<br>testa mais e por isso vende mais.</h2>
-      <p>Pare de travar em créditos. Use Nano Banana, GPT Image e Kling 2.5 sem limite — e entregue mais em cada cliente.</p>
-      <a href="https://pay.kiwify.com.br/aR5G5IF?afid=hqY5Byg5" class="btn-primary" style="display:inline-flex">Quero IA ilimitada por R$67/mês →</a>
+      <p>Pare de travar em créditos. Use Nano Banana 2, Flux.2 Pro e Kling 2.5 sem limite — e entregue mais em cada cliente.</p>
+      <a href="https://pay.kiwify.com.br/v42FQCK?afid=gyFzqgzd" class="btn-primary" style="display:inline-flex">Quero IA ilimitada por R$67/mês →</a>
     </div>
   </div>
 </section>
@@ -989,19 +1047,6 @@ section{position:relative;z-index:1;padding:90px 0}
     <p style="margin-top:6px"><a href="#">Termos</a> · <a href="#">Privacidade</a> · <a href="#">Suporte</a></p>
   </div>
 </footer>
-
-<!-- ============================================================
-     BOTÃO FLUTUANTE DO WHATSAPP
-     wa.me/[código do país][DDD][número] = abre chat direto.
-     ?text= = mensagem pré-preenchida (codificada em URI).
-     NÃO edite os valores numéricos do path SVG.
-     ============================================================ -->
-<a href="https://wa.me/5514998951657?text=oi%20VICTOR%2C%20tenho%20duvida%20sobre%20o%20fotosaas%2C%20quero%20saber%20sobre%3A"
-   target="_blank" class="whatsapp-btn" aria-label="WhatsApp">
-  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-  </svg>
-</a>
 
 <!-- ============================================================
      JAVASCRIPT — INTERAÇÕES DA PÁGINA
