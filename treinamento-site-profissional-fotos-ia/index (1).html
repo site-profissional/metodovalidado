@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Site Pro para Fotógrafos — Credibilidade que Vende</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #00ff41;
+    --green-dim: #00cc33;
+    --green-dark: #005519;
+    --green-glow: rgba(0,255,65,0.3);
+    --green-faint: rgba(0,255,65,0.06);
+    --bg: #020b05;
+    --bg2: #050f07;
+    --text: #c8ffd4;
+    --text-dim: #4a8a56;
+    --border: rgba(0,255,65,0.18);
+    --red: rgba(255,60,60,1);
+    --mono: 'Share Tech Mono', monospace;
+    --display: 'Orbitron', monospace;
+    --body: 'Rajdhani', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--body);
+    font-size: 17px;
+    line-height: 1.7;
+    overflow-x: hidden;
+    cursor: crosshair;
+  }
+
+  /* ── MATRIX CANVAS ── */
+  #matrix-canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+    opacity: 0.07;
+    pointer-events: none;
+  }
+
+  /* ── SCANLINES ── */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent, transparent 2px,
+      rgba(0,0,0,0.07) 2px, rgba(0,0,0,0.07) 4px
+    );
+    pointer-events: none;
+    z-index: 9999;
+    animation: flicker 9s infinite;
+  }
+
+  @keyframes flicker {
+    0%,93%,100% { opacity: 1; }
+    94% { opacity: 0.82; }
+    96% { opacity: 0.93; }
+    98% { opacity: 0.86; }
+  }
+
+  /* ── WRAPPER ── */
+  .wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  /* ── TOP BAR ── */
+  .top-bar {
+    background: rgba(0,255,65,0.05);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 0;
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--green-dim);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    animation: blink-bar 4s infinite;
+  }
+
+  @keyframes blink-bar {
+    0%,82%,100% { opacity: 1; }
+    85% { opacity: 0.3; }
+  }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 80px 0 60px;
+    text-align: center;
+    position: relative;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 620px; height: 620px;
+    background: radial-gradient(circle, rgba(0,255,65,0.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .tag-classified {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--green);
+    border: 1px solid var(--green);
+    padding: 4px 14px;
+    margin-bottom: 32px;
+    position: relative;
+    animation: pulse-border 2s infinite;
+  }
+
+  @keyframes pulse-border {
+    0%,100% { box-shadow: 0 0 6px var(--green-glow); }
+    50% { box-shadow: 0 0 20px var(--green-glow), 0 0 44px rgba(0,255,65,0.1); }
+  }
+
+  .tag-classified::before,
+  .tag-classified::after { content: '//'; color: var(--text-dim); margin: 0 6px; font-size: 10px; }
+
+  h1 {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: clamp(24px, 5vw, 44px);
+    line-height: 1.15;
+    color: #fff;
+    text-shadow: 0 0 30px rgba(0,255,65,0.35);
+    margin-bottom: 20px;
+  }
+
+  h1 .accent {
+    color: var(--green);
+    display: block;
+    font-size: clamp(28px, 6vw, 52px);
+    text-shadow: 0 0 40px var(--green), 0 0 80px rgba(0,255,65,0.25);
+  }
+
+  .subtitle {
+    font-family: var(--body);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-dim);
+    max-width: 600px;
+    margin: 0 auto 40px;
+    padding: 0 10px;
+  }
+
+  /* ── TERMINAL ── */
+  .terminal {
+    background: rgba(0,0,0,0.65);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 20px 24px;
+    font-family: var(--mono);
+    font-size: 13px;
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 48px;
+  }
+
+  .terminal::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--green), transparent);
+    animation: scan-line 3s linear infinite;
+  }
+
+  @keyframes scan-line {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  .terminal-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot-r { background: #ff5f57; }
+  .dot-y { background: #ffbd2e; }
+  .dot-g { background: #28ca41; }
+  .terminal-title { font-size: 11px; color: var(--text-dim); margin-left: auto; letter-spacing: 2px; }
+
+  .term-line { margin: 5px 0; }
+  .term-prompt { color: var(--green); }
+  .term-cmd { color: #fff; }
+  .term-out { color: var(--text-dim); padding-left: 16px; }
+  .term-out.ok { color: var(--green); font-weight: bold; }
+  .term-out.warn { color: #ffcc44; }
+  .cursor { display: inline-block; width: 8px; height: 14px; background: var(--green); animation: blink 1s step-end infinite; vertical-align: middle; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* ── SECTIONS ── */
+  section { padding: 60px 0; position: relative; }
+  section + section { border-top: 1px solid var(--border); }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--green);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border), transparent);
+  }
+
+  h2 {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(20px, 3.5vw, 32px);
+    line-height: 1.2;
+    color: #fff;
+    margin-bottom: 20px;
+    text-shadow: 0 0 20px rgba(0,255,65,0.2);
+  }
+
+  p { color: var(--text); margin-bottom: 16px; font-size: 16px; }
+  p strong { color: var(--green); font-weight: 700; }
+
+  /* ── LISTS ── */
+  .spy-list { list-style: none; display: flex; flex-direction: column; gap: 12px; margin: 20px 0; }
+
+  .spy-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 18px;
+    background: var(--green-faint);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--green);
+    font-size: 15px;
+    transition: all 0.2s;
+  }
+
+  .spy-list li:hover {
+    background: rgba(0,255,65,0.1);
+    transform: translateX(4px);
+  }
+
+  .spy-list li::before {
+    content: '▶';
+    color: var(--green);
+    font-size: 11px;
+    margin-top: 3px;
+    flex-shrink: 0;
+  }
+
+  /* ── PROBLEM BOX ── */
+  .problem-box {
+    background: rgba(255,0,0,0.04);
+    border: 1px solid rgba(255,60,60,0.25);
+    border-left: 4px solid #ff3c3c;
+    padding: 24px;
+    margin: 24px 0;
+    font-size: 15px;
+    color: #ffaaaa;
+  }
+
+  .problem-box strong { color: #ff5555; }
+
+  /* ── HIGHLIGHT BOX ── */
+  .highlight-box {
+    background: rgba(0,255,65,0.04);
+    border: 1px solid var(--green-dim);
+    padding: 28px;
+    margin: 24px 0;
+    position: relative;
+  }
+
+  .highlight-box[data-label]::before {
+    content: attr(data-label);
+    position: absolute;
+    top: -10px; left: 20px;
+    background: var(--bg);
+    padding: 0 10px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--green);
+    letter-spacing: 2px;
+  }
+
+  /* ── FEATURE GRID ── */
+  .feature-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 28px 0;
+  }
+
+  @media (max-width: 560px) { .feature-grid { grid-template-columns: 1fr; } }
+
+  .feature-card {
+    background: rgba(0,0,0,0.5);
+    border: 1px solid var(--border);
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.25s;
+  }
+
+  .feature-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(0,255,65,0.05) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+
+  .feature-card:hover { border-color: var(--green-dim); transform: translateY(-2px); }
+  .feature-card:hover::after { opacity: 1; }
+
+  .feature-icon { font-size: 22px; margin-bottom: 10px; }
+  .feature-num { font-family: var(--mono); font-size: 11px; color: var(--green); margin-bottom: 8px; letter-spacing: 2px; }
+  .feature-title { font-family: var(--display); font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+  .feature-desc { font-size: 13px; color: var(--text-dim); line-height: 1.5; }
+
+  /* ── PRICE SECTION ── */
+  .price-section {
+    text-align: center;
+    padding: 70px 0;
+    position: relative;
+  }
+
+  .price-section::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px; height: 400px;
+    background: radial-gradient(ellipse, rgba(0,255,65,0.06), transparent 70%);
+    pointer-events: none;
+  }
+
+  .price-label {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-dim);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .price-tag {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: clamp(60px, 14vw, 100px);
+    color: var(--green);
+    line-height: 1;
+    text-shadow: 0 0 40px var(--green), 0 0 80px rgba(0,255,65,0.3);
+    margin: 10px 0;
+    display: block;
+  }
+
+  .price-cents { font-size: 0.35em; vertical-align: top; margin-top: 18px; }
+
+  .price-context { font-family: var(--body); font-size: 15px; color: var(--text-dim); margin-top: 10px; }
+
+  /* ── STACK BOX ── */
+  .stack-box {
+    background: rgba(0,0,0,0.5);
+    border: 1px solid var(--border);
+    margin: 28px 0;
+    overflow: hidden;
+  }
+
+  .stack-header {
+    background: rgba(0,255,65,0.06);
+    padding: 12px 20px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--green);
+    letter-spacing: 2px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .stack-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .stack-item:last-child { border-bottom: none; }
+  .stack-name { font-size: 14px; color: var(--text); flex: 1; }
+  .stack-val { font-family: var(--mono); font-size: 13px; color: var(--text-dim); }
+  .stack-val.free { color: var(--green); }
+
+  /* ── CTA BUTTON ── */
+  .cta-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: var(--green);
+    color: #000;
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: clamp(14px, 2.5vw, 17px);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 18px 44px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.2s;
+    clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+    box-shadow: 0 0 30px rgba(0,255,65,0.4), 0 4px 20px rgba(0,0,0,0.5);
+    max-width: 520px;
+    width: 100%;
+  }
+
+  .cta-btn::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.4s;
+  }
+
+  .cta-btn:hover {
+    background: #00ff55;
+    box-shadow: 0 0 55px rgba(0,255,65,0.65), 0 0 100px rgba(0,255,65,0.2);
+    transform: translateY(-2px) scale(1.01);
+  }
+
+  .cta-btn:hover::before { left: 100%; }
+
+  .cta-wrapper { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .cta-sub { font-family: var(--mono); font-size: 11px; color: var(--text-dim); letter-spacing: 2px; }
+
+  /* ── CHOICE GRID ── */
+  .choice-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    margin: 28px 0;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  @media (max-width: 480px) { .choice-grid { grid-template-columns: 1fr; } }
+
+  .choice-col { padding: 24px; }
+  .choice-col.bad { background: rgba(255,0,0,0.04); border-right: 1px solid var(--border); }
+  .choice-col.good { background: rgba(0,255,65,0.04); }
+
+  .choice-head {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .choice-col.bad .choice-head { color: #ff5555; }
+  .choice-col.good .choice-head { color: var(--green); }
+
+  .choice-list { list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 14px; }
+  .choice-col.bad .choice-list li::before { content: '✕  '; color: #ff5555; }
+  .choice-col.good .choice-list li::before { content: '✓  '; color: var(--green); }
+
+  /* ── INSTRUCTOR CARD ── */
+  .instructor-card {
+    background: rgba(0,0,0,0.55);
+    border: 1px solid var(--border);
+    padding: 28px 24px;
+    margin: 28px 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .instructor-card::before {
+    content: '[ PERFIL DO INSTRUTOR ]';
+    position: absolute;
+    top: -10px; left: 20px;
+    background: var(--bg);
+    padding: 0 10px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--green);
+    letter-spacing: 2px;
+  }
+
+  .instructor-name {
+    font-family: var(--display);
+    font-size: clamp(22px, 5vw, 30px);
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+    text-shadow: 0 0 20px rgba(0,255,65,0.3);
+  }
+
+  .instructor-role {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--green);
+    letter-spacing: 2px;
+    margin-bottom: 22px;
+  }
+
+  .instructor-creds { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+
+  .instructor-creds li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--text);
+    padding: 10px 14px;
+    background: var(--green-faint);
+    border-left: 2px solid var(--green-dim);
+  }
+
+  .cred-icon { color: var(--green); font-size: 14px; flex-shrink: 0; margin-top: 2px; }
+
+  /* ── URGENCY ── */
+  .urgency-bar {
+    background: linear-gradient(90deg, rgba(255,50,50,0.08), rgba(255,100,0,0.08));
+    border: 1px solid rgba(255,80,0,0.3);
+    border-left: 4px solid #ff4400;
+    padding: 18px 24px;
+    margin: 30px 0;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: #ffaa77;
+  }
+
+  /* ── PREVIEW MOCKUP ── */
+  .mockup-box {
+    background: rgba(0,0,0,0.7);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    margin: 28px 0;
+    position: relative;
+  }
+
+  .mockup-bar {
+    background: rgba(0,255,65,0.06);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+
+  .mockup-dots { display: flex; gap: 6px; }
+
+  .mockup-url {
+    background: rgba(0,255,65,0.05);
+    border: 1px solid var(--border);
+    padding: 4px 12px;
+    border-radius: 100px;
+    color: var(--green);
+    font-size: 11px;
+    flex: 1;
+    text-align: center;
+    letter-spacing: 1px;
+  }
+
+  .mockup-body {
+    padding: 24px;
+    font-family: var(--mono);
+    font-size: 12px;
+  }
+
+  .mockup-photo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin: 16px 0;
+  }
+
+  .mockup-photo {
+    aspect-ratio: 1;
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+    background: rgba(0,255,65,0.03);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+  }
+
+  .mockup-photo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(0,255,65,0.04), transparent);
+  }
+
+  .mockup-reaction {
+    font-size: 14px;
+    color: var(--green);
+    text-align: center;
+    padding: 12px;
+    border-top: 1px solid var(--border);
+    background: rgba(0,255,65,0.04);
+    font-weight: 700;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 20px 0;
+    color: var(--text-dim);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 2px;
+  }
+
+  .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* ── FADE IN ── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.6s ease forwards;
+  }
+
+  @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+  .fade-in:nth-child(1) { animation-delay: 0.1s; }
+  .fade-in:nth-child(2) { animation-delay: 0.25s; }
+  .fade-in:nth-child(3) { animation-delay: 0.4s; }
+  .fade-in:nth-child(4) { animation-delay: 0.55s; }
+
+  /* ── GLITCH ── */
+  .glitch { position: relative; display: inline-block; }
+  .glitch:hover { animation: glitch 0.3s steps(2) infinite; }
+
+  @keyframes glitch {
+    0%   { text-shadow: 2px 0 var(--green), -2px 0 #ff00ff; }
+    25%  { text-shadow: -2px 0 var(--green), 2px 0 #00ffff; }
+    50%  { text-shadow: 2px 2px var(--green), -2px -2px #ff00ff; }
+    75%  { text-shadow: -1px 0 #00ffff, 1px 0 var(--green); }
+    100% { text-shadow: 2px 0 var(--green), -2px 0 #ff00ff; }
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 40px 0;
+    border-top: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 1px;
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--green-dark); }
+  ::-webkit-scrollbar-thumb:hover { background: var(--green-dim); }
+
+  /* ── MOBILE ── */
+  @media (max-width: 600px) {
+    body { font-size: 15px; cursor: auto; }
+    .wrapper { padding: 0 14px; }
+    .hero { padding: 48px 0 36px; }
+    h1 { font-size: clamp(22px, 7vw, 32px); }
+    h1 .accent { font-size: clamp(24px, 8vw, 38px); }
+    .subtitle { font-size: 15px; }
+    .terminal { padding: 14px; font-size: 11px; }
+    .terminal-title { display: none; }
+    .cta-btn { padding: 16px 20px; font-size: 13px; clip-path: none; }
+    section { padding: 40px 0; }
+    .feature-grid { grid-template-columns: 1fr; }
+    .price-tag { font-size: clamp(56px, 18vw, 80px); }
+    .choice-grid { grid-template-columns: 1fr; }
+    .choice-col.bad { border-right: none; border-bottom: 1px solid var(--border); }
+    .mockup-photo-grid { grid-template-columns: repeat(3, 1fr); }
+    .top-bar { font-size: 9px; letter-spacing: 1px; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="matrix-canvas"></canvas>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  📸 SISTEMA DE CREDIBILIDADE ONLINE &nbsp;|&nbsp; ACESSO POR APENAS R$30 &nbsp;|&nbsp; FOTÓGRAFO COM SITE FECHA MAIS
+</div>
+
+<div class="wrapper">
+
+  <!-- ── HERO ── -->
+  <section class="hero">
+    <div class="fade-in">
+      <div class="tag-classified">FOTÓGRAFO PRO // UPGRADE DIGITAL</div>
+    </div>
+
+    <div class="fade-in">
+      <h1>
+        O cliente não paga mais porque você é bom…
+        <span class="accent glitch">ELE PAGA PELO QUE VÊ PRIMEIRO</span>
+      </h1>
+    </div>
+
+    <div class="fade-in">
+      <p class="subtitle">
+        Aprenda a criar um site profissional + catálogo digital com IA — mesmo sem saber programar — e faça o cliente falar "nossa, ela tem site!" antes de te contratar
+      </p>
+    </div>
+
+    <!-- TERMINAL -->
+    <div class="terminal fade-in">
+      <div class="terminal-header">
+        <span class="dot dot-r"></span>
+        <span class="dot dot-y"></span>
+        <span class="dot dot-g"></span>
+        <span class="terminal-title">DEPLOY_SITE_FOTOGRAFO — MODO PROFISSIONAL</span>
+      </div>
+      <div class="term-line"><span class="term-prompt">$</span> <span class="term-cmd">deploy --site="seunome.com.br" --portfolio --catalogo</span></div>
+      <div class="term-line"><span class="term-out">→ Gerando site profissional com IA...</span></div>
+      <div class="term-line"><span class="term-out">→ Subindo portfolio com fotos selecionadas...</span></div>
+      <div class="term-line"><span class="term-out warn">→ Hospedagem: GRATUITA (macete de programador ativado)</span></div>
+      <div class="term-line"><span class="term-out ok">→ STATUS: SITE NO AR · CLIENTES VÃO DIRETO ✓</span></div>
+      <div class="term-line"><span class="term-prompt">$</span> <span class="cursor"></span></div>
+    </div>
+
+    <div class="cta-wrapper fade-in">
+      <a href="https://go.perfectpay.com.br/PPU38CQ7RP5" class="cta-btn">
+        📸 QUERO MEU SITE PROFISSIONAL — R$30
+      </a>
+      <span class="cta-sub">// acesso imediato · pagamento seguro</span>
+    </div>
+  </section>
+
+  <!-- ── PROBLEMA ── -->
+  <section>
+    <div class="section-label">// ANÁLISE DO PROBLEMA</div>
+    <h2>Por que fotógrafos talentosos perdem clientes para fotógrafos mediocres?</h2>
+
+    <p>Você tira fotos incríveis. Tem olhar de artista. Dedica horas a cada trabalho.</p>
+    <p>Mas na hora de fechar um cliente novo… ele some depois do orçamento. Pede desconto. Compara você com alguém que "faz mais barato".</p>
+    <p><strong>A verdade que dói:</strong> cliente não compra foto — compra confiança. E confiança começa antes de você abrir a boca.</p>
+
+    <div class="problem-box">
+      <strong>⚠ O QUE O CLIENTE VÊ ANTES DE TE CONTRATAR:</strong>
+      <ul class="spy-list" style="margin-top:14px;">
+        <li style="color:#ffaaaa;">Sua bio no Instagram leva para… o próprio feed. Zero autoridade.</li>
+        <li style="color:#ffaaaa;">Você manda fotos soltas no WhatsApp. Parece amador.</li>
+        <li style="color:#ffaaaa;">Sem domínio, sem site, sem portfólio organizado. Nada que diga "sou profissional".</li>
+      </ul>
+    </div>
+
+    <p>E o pior? O outro fotógrafo que fechou o cliente <strong>tirava fotos piores que as suas.</strong></p>
+    <p>Mas ele tinha site. Tinha catálogo. Parecia profissional.</p>
+  </section>
+
+  <!-- ── MOCKUP VISUAL ── -->
+  <section>
+    <div class="section-label">// SIMULAÇÃO DE IMPACTO</div>
+    <h2>O que acontece quando o cliente abre o link do seu site</h2>
+
+    <div class="mockup-box">
+      <div class="mockup-bar">
+        <div class="mockup-dots">
+          <span class="dot dot-r"></span>
+          <span class="dot dot-y"></span>
+          <span class="dot dot-g"></span>
+        </div>
+        <div class="mockup-url">www.mariafotografia.com.br</div>
+        <span style="color:var(--green); font-size:12px;">🔒 seguro</span>
+      </div>
+      <div class="mockup-body">
+        <div style="color:var(--green); font-size:13px; font-weight:700; margin-bottom:12px; letter-spacing:1px;">📍 MARIA SILVA · FOTOGRAFIA PROFISSIONAL</div>
+        <div style="color:var(--text-dim); font-size:12px; margin-bottom:14px;">Ensaios · Gestante · Newborn · Família · Casamento</div>
+        <div class="mockup-photo-grid">
+          <div class="mockup-photo">🌸</div>
+          <div class="mockup-photo">👶</div>
+          <div class="mockup-photo">💍</div>
+          <div class="mockup-photo">🌿</div>
+          <div class="mockup-photo">👨‍👩‍👧</div>
+          <div class="mockup-photo">✨</div>
+        </div>
+        <div style="color:var(--text-dim); font-size:11px; letter-spacing:1px; text-align:center;">📲 Orçamento via WhatsApp · 🌐 mariafotografia.com.br</div>
+      </div>
+      <div class="mockup-reaction">
+        💬 Cliente: "Nossa, ela tem site! Que profissional... vou fechar com ela."
+      </div>
+    </div>
+
+    <div class="highlight-box" data-label="[ RESULTADO REAL ]">
+      <p style="font-size:17px; font-weight:700; color:#fff; margin:0; text-align:center;">
+        Um link com seu domínio na bio muda completamente<br>
+        <span style="color:var(--green);">como o cliente te percebe — antes de ver uma única foto.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ── SOLUÇÃO ── -->
+  <section>
+    <div class="section-label">// A SOLUÇÃO</div>
+    <h2>E se você pudesse ter um site profissional no ar hoje — sem saber programar nada?</h2>
+
+    <ul class="spy-list">
+      <li>Sem pagar mensalidade de hospedagem</li>
+      <li>Sem contratar desenvolvedor (caro e demorado)</li>
+      <li>Sem plataformas engessadas que parecem template</li>
+      <li>Com domínio próprio que passa credibilidade instantânea</li>
+      <li><strong>Usando IA para fazer o trabalho pesado por você</strong></li>
+    </ul>
+  </section>
+
+  <!-- ── MECANISMO ── -->
+  <section>
+    <div class="section-label">// O QUE VOCÊ VAI APRENDER</div>
+    <h2>Site Profissional para Fotógrafos com IA</h2>
+
+    <p>Um passo a passo completo que te leva do zero ao site no ar:</p>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🤖</div>
+        <div class="feature-num">// 01</div>
+        <div class="feature-title">SITE COM IA</div>
+        <div class="feature-desc">Como criar seu site do zero usando inteligência artificial — sem escrever uma linha de código</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🌐</div>
+        <div class="feature-num">// 02</div>
+        <div class="feature-title">DOMÍNIO PRÓPRIO</div>
+        <div class="feature-desc">Como comprar e configurar seu seunome.com.br — que custa de R$7 a R$50 por ano</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">☁️</div>
+        <div class="feature-num">// 03</div>
+        <div class="feature-title">HOSPEDAGEM GRÁTIS</div>
+        <div class="feature-desc">O macete que programadores usam para hospedar sites de graça — online 24h, sem pagar mensalidade</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📁</div>
+        <div class="feature-num">// 04</div>
+        <div class="feature-title">CATÁLOGO DIGITAL</div>
+        <div class="feature-desc">Como montar um portfólio organizado que converte visitante em cliente — sem fotos soltas no WhatsApp</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── O QUE VOCÊ RECEBE ── -->
+  <section>
+    <div class="section-label">// CONTEÚDO COMPLETO</div>
+    <h2>O que está dentro do treinamento</h2>
+
+    <ul class="spy-list">
+      <li>Como criar seu site do zero usando IA, mesmo sem experiência técnica</li>
+      <li>Como comprar e conectar um domínio profissional ao seu site</li>
+      <li><strong>O macete gratuito de programadores para hospedar seu site sem pagar nada por mês</strong></li>
+      <li>Como personalizar o visual e conteúdo do site para o seu estilo de fotografia</li>
+      <li>Como montar a estrutura do catálogo que impressiona o cliente antes do orçamento</li>
+      <li>Como usar a bio e o catálogo para fechar mais sem precisar convencer com palavras</li>
+    </ul>
+
+    <div class="divider">CUSTO REAL DO PROJETO</div>
+
+    <div class="stack-box">
+      <div class="stack-header">// RESUMO DE INVESTIMENTO</div>
+      <div class="stack-item">
+        <span class="stack-name">🎬 Treinamento completo (site + catálogo + IA)</span>
+        <span class="stack-val free">R$30</span>
+      </div>
+      <div class="stack-item">
+        <span class="stack-name">☁️ Hospedagem do site</span>
+        <span class="stack-val free">GRÁTIS</span>
+      </div>
+      <div class="stack-item">
+        <span class="stack-name">🌐 Domínio seunome.com.br (opcional)</span>
+        <span class="stack-val">R$7 a R$50 / ano</span>
+      </div>
+      <div class="stack-item">
+        <span class="stack-name">💻 Ferramenta de IA usada no treinamento</span>
+        <span class="stack-val free">GRÁTIS</span>
+      </div>
+    </div>
+
+    <div class="highlight-box" data-label="[ COMPARATIVO DE MERCADO ]">
+      <p style="font-size:15px; color:var(--text); margin:0; text-align:center;">
+        Contratar um desenvolvedor para fazer esse site custaria entre <strong style="color:#fff">R$800 e R$3.000</strong>.<br>
+        Plataformas como Wix e Squarespace cobram <strong style="color:#fff">R$50 a R$120 por mês</strong>.<br><br>
+        <span style="color:var(--green); font-size:17px; font-weight:700;">Você vai fazer o mesmo — por R$30, uma vez só.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ── COMPARAÇÃO ── -->
+  <section>
+    <div class="section-label">// COMPARAÇÃO DE REALIDADE</div>
+
+    <div class="choice-grid">
+      <div class="choice-col bad">
+        <div class="choice-head">❌ SEM O TREINAMENTO</div>
+        <ul class="choice-list">
+          <li>Bio leva pro feed</li>
+          <li>Fotos soltas no WhatsApp</li>
+          <li>Cliente pede desconto</li>
+          <li>Parece amador</li>
+          <li>Perde para quem se apresenta melhor</li>
+        </ul>
+      </div>
+      <div class="choice-col good">
+        <div class="choice-head">✅ COM O TREINAMENTO</div>
+        <ul class="choice-list">
+          <li>Domínio na bio</li>
+          <li>Catálogo profissional</li>
+          <li>Cliente já chega convencido</li>
+          <li>Passa credibilidade instantânea</li>
+          <li>Fecha mais sem precisar convencer</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="highlight-box" style="margin-top:24px;">
+      <p style="font-size:16px; font-weight:700; color:#fff; margin:0; text-align:center;">
+        O cliente vê seu site e pensa:<br>
+        <span style="color:var(--green);">"Nossa, ela tem site… deve ser séria."</span><br>
+        <span style="color:var(--text-dim); font-size:13px; font-weight:400;">Isso acontece antes de ele ver uma única foto sua.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ── PREÇO + CTA ── -->
+  <section class="price-section">
+    <div class="section-label" style="justify-content:center;">// ACESSO COMPLETO</div>
+    <div class="price-label">INVESTIMENTO ÚNICO DE APENAS</div>
+    <span class="price-tag"><span class="price-cents">R$</span>30</span>
+    <p class="price-context">
+      Menos do que uma sessão de ensaio.<br>
+      O upgrade que vai fazer os clientes te levarem a sério.
+    </p>
+
+    <div class="cta-wrapper">
+      <a href="https://go.perfectpay.com.br/PPU38CQ7RP5" class="cta-btn" style="font-size:18px; padding:22px 50px;">
+        📸 ACESSAR O TREINAMENTO — R$30
+      </a>
+      <span class="cta-sub">// pagamento seguro · acesso imediato</span>
+    </div>
+  </section>
+
+  <!-- ── INSTRUTOR ── -->
+  <section>
+    <div class="section-label">// QUEM ESTÁ POR TRÁS DO TREINAMENTO</div>
+    <h2>Conheça o instrutor</h2>
+
+    <div class="instructor-card">
+      <div class="instructor-name">VICTOR</div>
+      <div class="instructor-role">// PROFISSIONAL DE TI · DESENVOLVEDOR · ESPECIALISTA EM VENDAS DIGITAIS</div>
+
+      <ul class="instructor-creds">
+        <li>
+          <span class="cred-icon">🎓</span>
+          <span>Formado em <strong>Análise e Desenvolvimento de Sistemas</strong> e <strong>Cibersegurança</strong> — cursando Engenharia de Software</span>
+        </li>
+        <li>
+          <span class="cred-icon">🏅</span>
+          <span>Profissional de TI e Cibersegurança <strong>certificado pela Google</strong></span>
+        </li>
+        <li>
+          <span class="cred-icon">💻</span>
+          <span>Mais de <strong>100 projetos entregues</strong> — sabe exatamente como criar sites profissionais que funcionam</span>
+        </li>
+        <li>
+          <span class="cred-icon">💰</span>
+          <span>Mais de <strong>R$50.000 investidos</strong> em treinamentos e mentorias de vendas online</span>
+        </li>
+        <li>
+          <span class="cred-icon">📅</span>
+          <span>Estudando e aplicando vendas digitais <strong>desde 2019</strong> — anos de testes reais no mercado</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="highlight-box" data-label="[ POR QUE CONFIAR ]">
+      <p style="font-size:15px; color:var(--text); margin:0;">
+        Não é teoria. Victor <strong style="color:#fff;">já criou dezenas de sites</strong> e domina os macetes técnicos que programadores usam no dia a dia —
+        e agora ensina isso de forma <span style="color:var(--green);">simples, prática e sem enrolação</span> para quem não tem background técnico.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── URGÊNCIA ── -->
+  <section>
+    <div class="urgency-bar">
+      ⚠ ATENÇÃO: Valor de R$30 exclusivo para esse lançamento. A decisão é simples:
+    </div>
+
+    <div class="choice-grid">
+      <div class="choice-col bad">
+        <div class="choice-head">CAMINHO 1</div>
+        <p style="font-size:14px; color:#ffaaaa;">Continuar mandando fotos no WhatsApp, sem domínio, sem site — enquanto outros fotógrafos fecham os clientes que deveriam ser seus.</p>
+      </div>
+      <div class="choice-col good">
+        <div class="choice-head">CAMINHO 2</div>
+        <p style="font-size:14px; color:var(--text);">Ter seu site com domínio próprio no ar em menos de 1 dia — e fazer o cliente dizer "uau" antes mesmo de ver seu preço.</p>
+      </div>
+    </div>
+
+    <div class="cta-wrapper" style="margin-top:40px;">
+      <a href="https://go.perfectpay.com.br/PPU38CQ7RP5" class="cta-btn">
+        ✅ QUERO MEU SITE PROFISSIONAL AGORA
+      </a>
+      <span class="cta-sub">// clique e acesse em segundos · R$30 pagamento único</span>
+    </div>
+  </section>
+
+</div><!-- end wrapper -->
+
+<footer>
+  <p>© 2026 · Site Pro para Fotógrafos com IA · Todos os direitos reservados</p>
+  <p style="margin-top:8px; opacity:0.5;">// sistema ativo · acesso imediato após confirmação de pagamento</p>
+</footer>
+
+<script>
+  /* ── MATRIX RAIN ── */
+  const canvas = document.getElementById('matrix-canvas');
+  const ctx = canvas.getContext('2d');
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const chars = 'アイウエオカキクケコ0123456789ABCDEF$#<>{}|/\\SITEPROFESSIONALFOTOGRAFOIAHACKDEV';
+  const fontSize = 13;
+  let cols = Math.floor(canvas.width / fontSize);
+  let drops = Array(cols).fill(0).map(() => Math.random() * -100);
+
+  function draw() {
+    ctx.fillStyle = 'rgba(2,11,5,0.05)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#00ff41';
+    ctx.font = fontSize + 'px Share Tech Mono, monospace';
+
+    cols = Math.floor(canvas.width / fontSize);
+    if (drops.length < cols) drops.push(...Array(cols - drops.length).fill(0));
+
+    for (let i = 0; i < cols; i++) {
+      const char = chars[Math.floor(Math.random() * chars.length)];
+      ctx.globalAlpha = Math.random() * 0.5 + 0.3;
+      ctx.fillText(char, i * fontSize, drops[i] * fontSize);
+      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+      drops[i]++;
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  setInterval(draw, 45);
+
+  /* ── SCROLL REVEAL ── */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('section').forEach(el => {
+    if (!el.classList.contains('hero')) {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(28px)';
+      el.style.transition = 'opacity 0.65s ease, transform 0.65s ease';
+      observer.observe(el);
+    }
+  });
+</script>
+</body>
+</html>
