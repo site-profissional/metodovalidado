@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tráfego Direto com IA · Comunidade</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0a;
+    --bg2: #111111;
+    --bg3: #181818;
+    --border: rgba(255,255,255,0.07);
+    --border-hi: rgba(255,255,255,0.14);
+    --text: #f0ede8;
+    --muted: #7a7672;
+    --muted2: #4a4744;
+    --accent: #c8ff57;
+    --accent-dim: rgba(200,255,87,0.12);
+    --accent-glow: rgba(200,255,87,0.06);
+    --red: #ff5c5c;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'Inter', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 40px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(12px);
+  }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 15px;
+    letter-spacing: 0.04em;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-cta {
+    font-size: 13px;
+    font-weight: 500;
+    padding: 9px 20px;
+    border-radius: 6px;
+    background: var(--accent);
+    color: #0a0a0a;
+    text-decoration: none;
+    transition: opacity .15s;
+  }
+  .nav-cta:hover { opacity: .85; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 120px 40px 80px;
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 28px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 28px; height: 1px;
+    background: var(--accent);
+  }
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(42px, 7vw, 80px);
+    font-weight: 800;
+    line-height: 1.04;
+    letter-spacing: -0.03em;
+    color: var(--text);
+    margin-bottom: 28px;
+  }
+  h1 em { font-style: normal; color: var(--accent); }
+  .hero-sub {
+    font-size: 18px;
+    color: var(--muted);
+    max-width: 560px;
+    line-height: 1.65;
+    margin-bottom: 44px;
+  }
+  .hero-sub strong { color: var(--text); font-weight: 500; }
+  .hero-actions { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .btn-primary {
+    display: inline-block;
+    padding: 15px 32px;
+    background: var(--accent);
+    color: #0a0a0a;
+    font-weight: 600;
+    font-size: 15px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: opacity .15s, transform .15s;
+  }
+  .btn-primary:hover { opacity: .88; transform: translateY(-1px); }
+  .hero-note { font-size: 13px; color: var(--muted); }
+  .hero-note span { color: var(--red); }
+
+  /* ── STATS ── */
+  .stats {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .stat { padding: 36px 28px; border-right: 1px solid var(--border); }
+  .stat:last-child { border-right: none; }
+  .stat-num {
+    font-family: var(--font-display);
+    font-size: 40px;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .stat-label { font-size: 12px; color: var(--muted); line-height: 1.4; }
+
+  /* ── SECTION BASE ── */
+  section { padding: 100px 40px; max-width: 900px; margin: 0 auto; }
+  .section-eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+  h2 {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+  h2 em { font-style: normal; color: var(--accent); }
+  .section-lead {
+    font-size: 17px;
+    color: var(--muted);
+    max-width: 560px;
+    line-height: 1.65;
+    margin-bottom: 60px;
+  }
+
+  /* ── MÓDULOS ── */
+  .modules { display: flex; flex-direction: column; gap: 0; }
+  .module {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    transition: border-color .2s;
+  }
+  .module:hover { border-color: var(--border-hi); }
+  .module-head {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 22px 28px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .module-tag {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--muted2);
+    min-width: 24px;
+  }
+  .module-info { flex: 1; }
+  .module-name {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 3px;
+  }
+  .module-desc { font-size: 13px; color: var(--muted); }
+  .module-badge {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .module-arrow {
+    font-size: 18px;
+    color: var(--muted2);
+    transition: transform .25s;
+    margin-left: 8px;
+  }
+  .module.open .module-arrow { transform: rotate(45deg); color: var(--accent); }
+  .module.open { border-color: rgba(200,255,87,0.2); background: rgba(200,255,87,0.02); }
+  .module.open .module-name { color: var(--accent); }
+  .module-body {
+    display: none;
+    padding: 0 28px 24px;
+    border-top: 1px solid var(--border);
+  }
+  .module.open .module-body { display: block; }
+  .checklist {
+    list-style: none;
+    padding-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 10px;
+  }
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .checklist li::before {
+    content: '✓';
+    color: var(--accent);
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .module-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    padding-top: 16px;
+    margin-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+  .mtag {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: var(--accent-dim);
+    color: var(--accent);
+    border: 1px solid rgba(200,255,87,0.15);
+  }
+  .trilha-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted2);
+    padding: 10px 0 8px;
+    margin-top: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .trilha-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── RITMO ── */
+  .ritmo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 14px;
+    margin-top: 20px;
+  }
+  .ritmo-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+  }
+  .ritmo-icon { font-size: 26px; margin-bottom: 14px; display: block; }
+  .ritmo-title {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .ritmo-desc { font-size: 13px; color: var(--muted); line-height: 1.55; }
+
+  /* ── PARA QUEM ── */
+  .pq-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 20px 24px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 15px;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+  .pq-check {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: var(--accent-dim);
+    border: 1px solid rgba(200,255,87,0.25);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  /* ── BÔNUS ── */
+  .bonus-section { padding: 100px 40px; max-width: 900px; margin: 0 auto; }
+
+  .bonus-urgency {
+    background: rgba(255,92,92,0.06);
+    border: 1px solid rgba(255,92,92,0.2);
+    border-radius: 10px;
+    padding: 14px 20px;
+    font-size: 14px;
+    color: #ff8080;
+    margin-bottom: 36px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .bonus-tier {
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .bonus-tier-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 24px;
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+  }
+  .bonus-tier-badge {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 4px 12px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  .badge-gold { background: rgba(200,255,87,0.15); color: var(--accent); border: 1px solid rgba(200,255,87,0.3); }
+  .badge-silver { background: rgba(255,255,255,0.06); color: #ccc; border: 1px solid rgba(255,255,255,0.12); }
+  .badge-bronze { background: rgba(255,160,80,0.1); color: #ffb060; border: 1px solid rgba(255,160,80,0.2); }
+
+  .bonus-tier-title {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+    flex: 1;
+  }
+  .bonus-tier-spots {
+    font-size: 12px;
+    color: var(--red);
+    font-weight: 500;
+  }
+  .bonus-list {
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .bonus-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .bonus-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+    margin-top: 7px;
+  }
+  .bonus-item-name {
+    font-size: 14px;
+    color: var(--text);
+    font-weight: 500;
+  }
+  .bonus-item-desc { font-size: 13px; color: var(--muted); }
+  .bonus-value {
+    margin-left: auto;
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent);
+    white-space: nowrap;
+    padding-left: 16px;
+  }
+
+  /* ── STACK DE VALOR ── */
+  .value-stack {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .value-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 24px;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+  }
+  .value-row:last-child { border-bottom: none; }
+  .value-row-name { color: var(--muted); }
+  .value-row-price {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--text);
+    font-size: 14px;
+  }
+  .value-row.total {
+    background: rgba(200,255,87,0.04);
+    border-top: 1px solid rgba(200,255,87,0.15);
+  }
+  .value-row.total .value-row-name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--text);
+    font-size: 15px;
+  }
+  .value-row.total .value-row-price {
+    font-size: 20px;
+    color: var(--accent);
+    text-decoration: line-through;
+    text-decoration-color: rgba(200,255,87,0.4);
+  }
+  .value-real {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    background: var(--accent-dim);
+    border: 2px solid rgba(200,255,87,0.3);
+    border-radius: 12px;
+    margin-top: 12px;
+  }
+  .value-real-label { font-size: 14px; color: var(--accent); font-weight: 500; }
+  .value-real-price {
+    font-family: var(--font-display);
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--accent);
+  }
+
+  /* ── CTA FINAL ── */
+  .cta-block {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 64px 56px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-block::before {
+    content: '';
+    position: absolute;
+    top: -60px; left: 50%;
+    transform: translateX(-50%);
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(200,255,87,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cta-block h2 { margin-bottom: 14px; }
+  .cta-desc { font-size: 16px; color: var(--muted); max-width: 500px; margin: 0 auto 12px; }
+
+  .cta-includes {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin: 24px 0 32px;
+  }
+  .cta-include-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .cta-include-item::before {
+    content: '✓';
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .cta-price-block {
+    margin-bottom: 32px;
+  }
+  .cta-price-from {
+    font-size: 14px;
+    color: var(--muted);
+    text-decoration: line-through;
+    margin-bottom: 4px;
+  }
+  .cta-price {
+    font-family: var(--font-display);
+    font-size: 56px;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .cta-price-note {
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .cta-warning {
+    margin-top: 20px;
+    font-size: 13px;
+    color: #ff8080;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 40px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--muted2);
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .full-divider { border: none; border-top: 1px solid var(--border); }
+
+  /* ── MOBILE ── */
+  @media (max-width: 640px) {
+    nav { padding: 16px 20px; }
+    .hero { padding: 100px 20px 60px; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .stat { padding: 24px 16px; }
+    section, .bonus-section { padding: 60px 20px; }
+    .module-head { padding: 18px 20px; gap: 12px; }
+    .module-badge { display: none; }
+    .module-body { padding: 0 20px 20px; }
+    .cta-block { padding: 40px 24px; }
+    .value-real { flex-direction: column; gap: 8px; text-align: center; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="#">Diego<span>·</span>IA</a>
+  <a class="nav-cta" href="https://pay.kirvano.com/00b21ada-ad24-47b0-9f36-e7a795e147c9">Quero entrar</a>
+</nav>
+
+<!-- HERO -->
+<div style="max-width:900px;margin:0 auto">
+  <div class="hero">
+    <div class="hero-eyebrow">Comunidade exclusiva · Vagas limitadas</div>
+    <h1>De quem vende fotos<br>para quem vende <em>produtos de IA</em><br>com tráfego direto</h1>
+    <p class="hero-sub">
+      7 módulos de aulas ao vivo, checklists semanais e acompanhamento direto com Diego —
+      para quem já tem resultado com IA e quer <strong>escalar com tráfego pago de verdade.</strong>
+    </p>
+    <div class="hero-actions">
+      <a class="btn-primary" href="https://pay.kirvano.com/00b21ada-ad24-47b0-9f36-e7a795e147c9">Garantir minha vaga agora →</a>
+      <span class="hero-note"><span>●</span> Após fechar, o preço sobe para R$ 2.997</span>
+    </div>
+  </div>
+</div>
+
+<hr class="full-divider">
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat">
+    <div class="stat-num">7</div>
+    <div class="stat-label">módulos ao vivo com Diego</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">3</div>
+    <div class="stat-label">meses de acompanhamento</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">12</div>
+    <div class="stat-label">meses de acesso à comunidade</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">+7</div>
+    <div class="stat-label">cursos bônus inclusos</div>
+  </div>
+</div>
+
+<hr class="full-divider">
+
+<!-- MÓDULOS -->
+<section id="modulos">
+  <p class="section-eyebrow">O programa completo</p>
+  <h2>Tudo que você vai <em>aprender e executar</em></h2>
+  <p class="section-lead">Cada módulo tem uma aula ao vivo semanal + checklist para você acompanhar seu próprio progresso.</p>
+  <div class="modules" id="modulesContainer"></div>
+</section>
+
+<hr class="full-divider">
+
+<!-- BÔNUS -->
+<section class="bonus-section" id="bonus">
+  <p class="section-eyebrow">Bônus exclusivos</p>
+  <h2>Só para quem fechar <em>hoje na live</em></h2>
+  <p class="section-lead">Bônus com escassez real — quanto mais cedo você fechar, mais você leva.</p>
+
+  <div class="bonus-urgency">
+    ⚡ Esses bônus existem apenas durante a live de hoje. Depois que as vagas fecharem, somem.
+  </div>
+
+  <!-- TIER 1: 10 primeiros -->
+  <div class="bonus-tier">
+    <div class="bonus-tier-header">
+      <span class="bonus-tier-badge badge-gold">10 primeiros</span>
+      <span class="bonus-tier-title">Acesso a mais de 7 cursos completos</span>
+      <span class="bonus-tier-spots">10 vagas · R$ 800 em cursos</span>
+    </div>
+    <div class="bonus-list">
+      <div class="bonus-item">
+        <div class="bonus-dot"></div>
+        <div>
+          <div class="bonus-item-name">Curso Estrutura Automática para Fotos</div>
+          <div class="bonus-item-desc">Sistema completo para automatizar a produção e entrega de fotos com IA</div>
+        </div>
+        <span class="bonus-value">incluso</span>
+      </div>
+      <div class="bonus-item">
+        <div class="bonus-dot"></div>
+        <div>
+          <div class="bonus-item-name">Curso Upsell em Vídeo</div>
+          <div class="bonus-item-desc">Como aumentar o ticket médio com upsells em vídeo no pós-compra</div>
+        </div>
+        <span class="bonus-value">incluso</span>
+      </div>
+      <div class="bonus-item">
+        <div class="bonus-dot"></div>
+        <div>
+          <div class="bonus-item-name">Curso Remarketing Agressivo</div>
+          <div class="bonus-item-desc">Estratégias de remarketing para recuperar leads e aumentar conversão</div>
+        </div>
+        <span class="bonus-value">incluso</span>
+      </div>
+      <div class="bonus-item">
+        <div class="bonus-dot"></div>
+        <div>
+          <div class="bonus-item-name">Curso de Sites para Vendas</div>
+          <div class="bonus-item-desc">Como criar páginas de vendas que convertem para produtos de IA</div>
+        </div>
+        <span class="bonus-value">incluso</span>
+      </div>
+      <div class="bonus-item">
+        <div class="bonus-dot"></div>
+        <div>
+          <div class="bonus-item-name">Curso Espionagem e Modelagem</div>
+          <div class="bonus-item-desc">Como analisar concorrentes e modelar o que está funcionando no mercado</div>
+        </div>
+        <span class="bonus-value">incluso</span>
+      </div>
+      <div class="bonus-item">
+        <div class="bonus-dot"></div>
+        <div>
+          <div class="bonus-item-name">+ Cursos de parceiros</div>
+          <div class="bonus-item-desc">Acesso a cursos complementares de parceiros selecionados</div>
+        </div>
+        <span class="bonus-value">incluso</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIER 2: 3 primeiros -->
+  <div class="bonus-tier">
+    <div class="bonus-tier-header">
+      <span class="bonus-tier-badge badge-silver">3 primeiros</span>
+      <span class="bonus-tier-title">Análise 1 a 1 com Diego</span>
+      <span class="bonus-tier-spots">3 vagas · exclusivo</span>
+    </div>
+    <div class="bonus-list">
+      <div class="bonus-item">
+        <div class="bonus-dot" style="background:#ccc"></div>
+        <div>
+          <div class="bonus-item-name">Diagnóstico individual da sua operação</div>
+          <div class="bonus-item-desc">Diego analisa o momento atual da sua empresa e te diz exatamente por onde começar e onde está o seu maior gargalo agora</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIER 3: 1 primeiro -->
+  <div class="bonus-tier">
+    <div class="bonus-tier-header">
+      <span class="bonus-tier-badge badge-bronze">1º lugar</span>
+      <span class="bonus-tier-title">Gravação completa da 1ª turma</span>
+      <span class="bonus-tier-spots">1 vaga · R$ 497 de valor</span>
+    </div>
+    <div class="bonus-list">
+      <div class="bonus-item">
+        <div class="bonus-dot" style="background:#ffb060"></div>
+        <div>
+          <div class="bonus-item-name">Acesso completo à gravação da primeira turma da comunidade</div>
+          <div class="bonus-item-desc">Esse conteúdo será vendido separadamente por R$ 497. O primeiro que fechar leva de graça, junto com todos os outros bônus.</div>
+        </div>
+        <span class="bonus-value" style="color:#ffb060">R$ 497</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="full-divider">
+
+<!-- STACK DE VALOR -->
+<section>
+  <p class="section-eyebrow">Tudo que está incluído</p>
+  <h2>O valor real do que você <em>está levando</em></h2>
+  <p class="section-lead">Some tudo que está na mesa e veja o que essa oportunidade vale de verdade.</p>
+
+  <div style="background:rgba(200,255,87,0.04);border:1px solid rgba(200,255,87,0.15);border-radius:12px;padding:20px 24px;margin-bottom:16px;display:flex;align-items:flex-start;gap:14px;">
+    <div style="font-size:22px;flex-shrink:0">💡</div>
+    <div>
+      <div style="font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--accent);margin-bottom:6px;">Com uma oferta meia boca: R$ 1.000 de lucro/dia. Com uma oferta boa: R$ 10.000/dia.</div>
+      <div style="font-size:14px;color:var(--muted);line-height:1.6;">É isso que é escala com tráfego direto quando se sabe o que está fazendo. O acompanhamento ao vivo comigo, só ele, vale R$ 5.000 — porque o que vou te ensinar já gera isso e muito mais para quem executa.</div>
+    </div>
+  </div>
+
+  <div class="value-stack">
+    <div class="value-row">
+      <span class="value-row-name">🔥 Acompanhamento ao vivo com Diego · 7 semanas · 3 meses</span>
+      <span class="value-row-price">R$ 5.000</span>
+    </div>
+    <div class="value-row">
+      <span class="value-row-name">Acesso à comunidade por 12 meses + gravações</span>
+      <span class="value-row-price">R$ 2.997</span>
+    </div>
+    <div class="value-row">
+      <span class="value-row-name">Curso Estrutura Automática para Fotos</span>
+      <span class="value-row-price">R$ 497</span>
+    </div>
+    <div class="value-row">
+      <span class="value-row-name">Curso Upsell em Vídeo</span>
+      <span class="value-row-price">R$ 497</span>
+    </div>
+    <div class="value-row">
+      <span class="value-row-name">Curso Remarketing Agressivo</span>
+      <span class="value-row-price">R$ 497</span>
+    </div>
+    <div class="value-row">
+      <span class="value-row-name">Curso de Sites para Vendas</span>
+      <span class="value-row-price">R$ 297</span>
+    </div>
+    <div class="value-row">
+      <span class="value-row-name">Curso Espionagem e Modelagem</span>
+      <span class="value-row-price">R$ 297</span>
+    </div>
+    <div class="value-row">
+      <span class="value-row-name">Cursos de parceiros (2+)</span>
+      <span class="value-row-price">R$ 418</span>
+    </div>
+    <div class="value-row">
+      <span class="value-row-name">Análise 1 a 1 com Diego (3 primeiros)</span>
+      <span class="value-row-price">R$ 1.000</span>
+    </div>
+    <div class="value-row">
+      <span class="value-row-name">Gravação completa da 1ª turma (1º lugar)</span>
+      <span class="value-row-price">R$ 497</span>
+    </div>
+    <div class="value-row total">
+      <span class="value-row-name">Valor total se comprado separado</span>
+      <span class="value-row-price">R$ 10.997</span>
+    </div>
+  </div>
+
+  <div class="value-real">
+    <div>
+      <div style="font-size:12px;color:var(--accent);font-weight:500;margin-bottom:4px;letter-spacing:0.06em;text-transform:uppercase">Hoje, enquanto as vagas estão abertas</div>
+      <div style="font-size:15px;color:var(--text);font-weight:500">Plano anual · 3 meses de lives + 12 meses de acesso</div>
+    </div>
+    <div style="text-align:right">
+      <div style="font-size:13px;color:var(--muted);text-decoration:line-through;margin-bottom:2px">R$ 10.997</div>
+      <div class="value-real-price">R$ 1.997</div>
+    </div>
+  </div>
+</section>
+
+<hr class="full-divider">
+
+<!-- RITMO -->
+<section>
+  <p class="section-eyebrow">Como funciona</p>
+  <h2>Ritmo semanal da <em>comunidade</em></h2>
+  <div class="ritmo-grid">
+    <div class="ritmo-card">
+      <span class="ritmo-icon">📅</span>
+      <div class="ritmo-title">Aula ao vivo</div>
+      <div class="ritmo-desc">Toda semana um módulo novo com Diego, ao vivo, com exemplos reais e tira-dúvidas.</div>
+    </div>
+    <div class="ritmo-card">
+      <span class="ritmo-icon">✅</span>
+      <div class="ritmo-title">Checklist liberado</div>
+      <div class="ritmo-desc">Após cada aula você recebe o checklist com as tarefas exatas para executar naquela semana.</div>
+    </div>
+    <div class="ritmo-card">
+      <span class="ritmo-icon">🔁</span>
+      <div class="ritmo-title">Revisão na semana seguinte</div>
+      <div class="ritmo-desc">A aula seguinte começa revisando o que a turma executou, corrigindo o caminho em tempo real.</div>
+    </div>
+    <div class="ritmo-card">
+      <span class="ritmo-icon">💬</span>
+      <div class="ritmo-title">Comunidade ativa</div>
+      <div class="ritmo-desc">Grupo com outros membros para tirar dúvidas, compartilhar resultados e se manter em movimento.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="full-divider">
+
+<!-- PARA QUEM -->
+<section>
+  <p class="section-eyebrow">Para quem é isso</p>
+  <h2>Você está no lugar <em>certo</em> se...</h2>
+  <div style="margin-top:40px">
+    <div class="pq-item"><div class="pq-check">✓</div>Já vende fotos com IA e quer subir de nível para produtos digitais com mais margem</div>
+    <div class="pq-item"><div class="pq-check">✓</div>Quer aprender a usar tráfego pago para vender produtos de IA com demanda comprovada</div>
+    <div class="pq-item"><div class="pq-check">✓</div>Precisa de uma estrutura de vendas que funcione — funil, criativo e oferta — não só dicas soltas</div>
+    <div class="pq-item"><div class="pq-check">✓</div>Quer construir um ecossistema de produtos que gere receita recorrente, não só venda pontual</div>
+    <div class="pq-item"><div class="pq-check">✓</div>Precisa de acompanhamento real, com checklists e revisões, não só aulas para assistir</div>
+  </div>
+</section>
+
+<hr class="full-divider">
+
+<!-- CTA FINAL -->
+<section id="entrar">
+  <div class="cta-block">
+    <p class="section-eyebrow" style="text-align:center;margin-bottom:16px">Garantia de acesso</p>
+    <h2>Pronto para <em>escalar de verdade?</em></h2>
+    <p class="cta-desc">Entre agora, comece na próxima aula ao vivo e saia com um plano de execução na mão. Depois que as vagas desta turma fecharem, o valor sobe para R$ 2.997 sem nenhum bônus.</p>
+
+    <div class="cta-includes">
+      <span class="cta-include-item">3 meses de aulas ao vivo</span>
+      <span class="cta-include-item">12 meses de acesso</span>
+      <span class="cta-include-item">Gravações de todas as aulas</span>
+      <span class="cta-include-item">+7 cursos bônus</span>
+      <span class="cta-include-item">Checklist semanal</span>
+    </div>
+
+    <div class="cta-price-block">
+      <div class="cta-price-from">De R$ 10.997 em conteúdo e acompanhamento</div>
+      <div style="font-size:15px;color:var(--muted);margin-bottom:6px;">12 parcelas de</div>
+      <div class="cta-price">R$ 204<span style="font-size:32px;vertical-align:super;font-weight:700">,69</span></div>
+      <div style="display:inline-block;background:rgba(200,255,87,0.1);border:1px solid rgba(200,255,87,0.2);border-radius:8px;padding:10px 20px;margin:14px 0 10px;font-size:14px;color:var(--accent);line-height:1.55;">
+        🍕 Menos do que duas pizzas por mês<br>
+        <span style="color:var(--muted);">pelo conhecimento que faz sua oferta gerar</span><br>
+        <strong style="color:var(--text);">R$ 1.000 de lucro/dia no automático</strong> — com uma oferta mais ou menos.<br>
+        <strong style="color:var(--accent);">Com uma oferta boa: R$ 10.000/dia de lucro.</strong><br>
+        <span style="color:var(--muted);font-size:13px;">Isso é escala com tráfego direto quando se sabe o que está fazendo.</span>
+      </div>
+      <div class="cta-price-note">ou à vista por R$ 1.997 · acesso imediato após confirmação</div>
+    </div>
+
+    <a class="btn-primary" href="https://pay.kirvano.com/00b21ada-ad24-47b0-9f36-e7a795e147c9" style="display:inline-block;font-size:16px;padding:16px 44px">
+      Garantir minha vaga agora →
+    </a>
+
+    <div class="cta-warning">
+      ⚠ Após fechar esta turma, o valor sobe para R$ 2.997 sem nenhum bônus
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 Diego Tecnologia · DFG Capital Marketing Digital Ltda · <a href="https://diegotecnologia.com.br" style="color:inherit">diegotecnologia.com.br</a></p>
+</footer>
+
+<script>
+const modules = [
+  {
+    trilha: "Fundação",
+    num: "01",
+    name: "Ofertas que vendem",
+    desc: "Como estruturar uma oferta irresistível para produtos de IA",
+    badge: "Aula ao vivo · Semana 1",
+    checks: ["Definir o mecanismo único do produto","Escrever a promessa principal em 1 frase","Listar 3 objeções e criar virada para cada uma","Criar o stack de bônus complementar","Definir âncora de preço e justificativa","Testar a oferta com 5 pessoas do nicho"],
+    tags: ["copywriting","posicionamento","VSL"]
+  },
+  {
+    trilha: null,
+    num: "02",
+    name: "Demandas reprimidas",
+    desc: "Como encontrar mercados com alta demanda e baixa oferta de IA",
+    badge: "Aula ao vivo · Semana 2",
+    checks: ["Pesquisar volume de busca no Google Trends","Mapear concorrência no Meta Ads Library","Identificar comentários de 'quero isso' nos grupos","Analisar avaliações negativas de concorrentes","Validar demanda com sondagem orgânica no WhatsApp","Montar planilha de nichos ranqueados por oportunidade"],
+    tags: ["pesquisa de mercado","validação","nicho"]
+  },
+  {
+    trilha: "Operação",
+    num: "03",
+    name: "Estrutura de vendas",
+    desc: "Escolhendo o melhor funil para o seu produto de IA",
+    badge: "Aula ao vivo · Semana 3",
+    checks: ["Mapear jornada do cliente do clique à compra","Escolher estrutura: VSL, carta de vendas ou direto","Configurar página de vendas no Kiwify/Kirvano","Criar upsell e order bump","Instalar pixels e eventos no checkout","Testar o fluxo completo do funil antes de trafegar"],
+    tags: ["funil","VSL","checkout","upsell"]
+  },
+  {
+    trilha: null,
+    num: "04",
+    name: "Criativos que vendem",
+    desc: "Criação e teste de anúncios para produtos de IA",
+    badge: "Aula ao vivo · Semana 4",
+    checks: ["Gravar 3 variações de hook nos primeiros 3 segundos","Criar 1 criativo UGC, 1 antes/depois, 1 resultados reais","Escrever copies para cada criativo (dor → solução → CTA)","Subir no Meta Ads em campanha de teste CBO","Analisar CTR e CPM após 48h e pausar perdedores","Duplicar vencedor e escalar budget"],
+    tags: ["Meta Ads","UGC","hook","copy"]
+  },
+  {
+    trilha: "Escala",
+    num: "05",
+    name: "Escala intraday",
+    desc: "Método de escala com tráfego direto no mesmo dia",
+    badge: "Aula ao vivo · Semana 5",
+    checks: ["Definir janelas de análise (8h, 12h, 18h)","Criar regras de escala automática no Meta Ads","Monitorar ROAS mínimo para acionar escala","Duplicar adsets vencedores sem resetar aprendizado","Controlar frequência para não cansar o público","Registrar histórico diário em planilha de escala"],
+    tags: ["tráfego direto","ROAS","automação de regras"]
+  },
+  {
+    trilha: null,
+    num: "06",
+    name: "Automatizar com sistemas próprios",
+    desc: "Construindo automações para operar no piloto automático",
+    badge: "Aula ao vivo · Semana 6",
+    checks: ["Mapear processos manuais repetitivos na operação","Escolher stack de automação (Zapier, n8n ou próprio)","Criar bot de entrega e acompanhamento pós-compra","Automatizar follow-up de carrinho abandonado","Montar dashboard de métricas em tempo real","Testar fluxo completo e documentar cada automação"],
+    tags: ["n8n","WhatsApp","bots","sistemas"]
+  },
+  {
+    trilha: "Expansão",
+    num: "07",
+    name: "Ecossistema de produtos IA",
+    desc: "Escalando com aplicativos e construindo múltiplas fontes de receita",
+    badge: "Aula ao vivo · Semana 7",
+    checks: ["Mapear produtos que se complementam (front-end, back-end)","Criar ou integrar um SaaS/app para sua base de clientes","Estruturar recorrência: assinatura, comunidade ou SaaS","Planejar cross-sell entre produtos do ecossistema","Criar programa de indicação ou afiliados para escalar","Definir meta de MRR e plano de 90 dias para chegar lá"],
+    tags: ["SaaS","recorrência","ecossistema","MRR"]
+  }
+];
+
+const container = document.getElementById('modulesContainer');
+modules.forEach((m) => {
+  if (m.trilha) {
+    const label = document.createElement('div');
+    label.className = 'trilha-label';
+    label.textContent = m.trilha;
+    container.appendChild(label);
+  }
+  const div = document.createElement('div');
+  div.className = 'module';
+  div.innerHTML = `
+    <div class="module-head" onclick="toggleModule(this.parentElement)">
+      <span class="module-tag">${m.num}</span>
+      <div class="module-info">
+        <div class="module-name">${m.name}</div>
+        <div class="module-desc">${m.desc}</div>
+      </div>
+      <span class="module-badge">${m.badge}</span>
+      <span class="module-arrow">+</span>
+    </div>
+    <div class="module-body">
+      <ul class="checklist">${m.checks.map(c => `<li>${c}</li>`).join('')}</ul>
+      <div class="module-tags">${m.tags.map(t => `<span class="mtag">${t}</span>`).join('')}</div>
+    </div>
+  `;
+  container.appendChild(div);
+});
+
+function toggleModule(el) {
+  const isOpen = el.classList.contains('open');
+  document.querySelectorAll('.module.open').forEach(m => m.classList.remove('open'));
+  if (!isOpen) el.classList.add('open');
+}
+</script>
+</body>
+</html>
